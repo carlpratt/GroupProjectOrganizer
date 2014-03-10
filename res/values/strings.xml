@@ -10,7 +10,11 @@
     <string name="first_name">First Name:</string>
     <string name="last_name">Last Name:</string>
     <string name="retype_password">Retype Password:</string>
-    <string name="create_account">Create</string>
+    <string name="create_account">Create Account</string>
     <string name="add_new_project">Add New Project</string>
+    <string name="login_login">LOGIN:</string>
+    <string name="login_password">PASSWORD:</string>
+    <string name="login_create">CREATE ACCOUNT</string>
+    <string name="GPO">GROUP PROJECT ORGANIZER</string>
 
 </resources>
