@@ -51,7 +51,7 @@ public final class R {
         public static final int textView7=0x7f08000f;
     }
     public static final class layout {
-        public static final int create_account=0x7f030000;
+        public static final int register =0x7f030000;
         public static final int createnew=0x7f030001;
         public static final int editprofile=0x7f030002;
         public static final int login=0x7f030003;
