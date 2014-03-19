@@ -4,5 +4,17 @@
     <string name="app_name">Group Project Organizer</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="username">Username:</string>
+    <string name="password">Password:</string>
+    <string name="email">Email:</string>
+    <string name="first_name">First Name:</string>
+    <string name="last_name">Last Name:</string>
+    <string name="retype_password">Retype Password:</string>
+    <string name="create_account">Create Account</string>
+    <string name="add_new_project">Add New Project</string>
+    <string name="login_login">LOGIN:</string>
+    <string name="login_password">PASSWORD:</string>
+    <string name="login_create">CREATE ACCOUNT</string>
+    <string name="GPO">GROUP PROJECT ORGANIZER</string>
 
 </resources>

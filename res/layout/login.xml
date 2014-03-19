@@ -12,15 +12,12 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GROUP PROJECT ORGANIZER" android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" android:textSize="25dp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="LOGIN:"
-            android:id="@+id/textView" android:layout_below="@+id/textView1" android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" android:layout_marginTop="135dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/GPO"
+        android:textColor="#00ff00"
+        android:textSize="20sp" />
+
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="PASSWORD:"
+            android:text="@string/login_password"
             android:id="@+id/textView2" android:layout_below="@+id/textView" android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" android:layout_marginTop="74dp"/>
     <EditText
@@ -45,14 +42,31 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LOGIN"
-            android:id="@+id/button" android:layout_alignParentBottom="true" android:layout_alignLeft="@+id/textView1"
-            android:layout_alignStart="@+id/textView1"/>
+            android:text="@string/login_login"
+            android:id="@+id/login_login" 
+            android:layout_alignParentBottom="true" 
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_alignStart="@+id/textView1"
+            android:onClick="onButtonClick"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CREATE"
-            android:id="@+id/button2" android:layout_alignTop="@+id/button" android:layout_alignRight="@+id/editText"
-            android:layout_alignEnd="@+id/editText"/>
+            android:text="@string/login_create"
+            android:id="@+id/login_create" 
+            android:layout_alignTop="@+id/login_login" 
+            android:layout_alignRight="@+id/editText"
+            android:layout_alignEnd="@+id/editText"
+            android:onClick="onButtonClick"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="68dp"
+        android:text="@string/login_login"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
