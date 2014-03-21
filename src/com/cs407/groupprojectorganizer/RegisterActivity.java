@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -42,19 +43,16 @@ public class RegisterActivity extends Activity {
         inputName = (EditText) findViewById(R.id.registerName);
         inputEmail = (EditText) findViewById(R.id.registerEmail);
         inputPassword = (EditText) findViewById(R.id.registerPassword);
+    }
 
-        // Create button
-        Button btnCreateUser = (Button) findViewById(R.id.btnRegister);
+    public void onButtonClick(View v){
 
-        // button click event
-        btnCreateUser.setOnClickListener(new View.OnClickListener() {
+        switch (v.getId()){
 
-            @Override
-            public void onClick(View view) {
-                // creating new user in background thread
+            case R.id.btnRegister:
                 new CreateNewUser().execute();
-            }
-        });
+                break;
+        }
     }
 
     /**
@@ -69,7 +67,7 @@ public class RegisterActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(RegisterActivity.this);
-            pDialog.setMessage("Creating User...");
+            pDialog.setMessage("Creating Account...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -109,6 +107,13 @@ public class RegisterActivity extends Activity {
                     finish();
                 } else {
                     // failed to create user
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Registration unsuccessful",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

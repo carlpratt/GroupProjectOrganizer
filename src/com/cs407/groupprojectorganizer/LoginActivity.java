@@ -41,19 +41,21 @@ public class LoginActivity extends Activity {
         // Edit Text
         inputEmail = (EditText) findViewById(R.id.loginEmail);
         inputPassword = (EditText) findViewById(R.id.loginPassword);
+    }
 
-        // Create button
-        Button btnLogin = (Button) findViewById(R.id.btnLogin);
+    public void onButtonClick(View v){
 
-        // button click event
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        switch (v.getId()){
 
-            @Override
-            public void onClick(View view) {
-                // creating new user in background thread
+            case R.id.btnLogin:
                 new PerformLogin().execute();
-            }
-        });
+                break;
+
+            case R.id.btnLinkToRegisterScreen:
+                Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(i);
+                break;
+        }
     }
 
     /**
@@ -106,6 +108,13 @@ public class LoginActivity extends Activity {
                     finish();
                 } else {
                     // failed to log in user
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Incorrect email and password",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -4,13 +4,14 @@
     android:layout_height="match_parent" >
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btnAddNewProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="@string/add_new_project" />
+        android:text="@string/add_new_project"
+        android:onClick="onButtonClick" />
 
     <ListView
         android:id="@+id/listView1"
