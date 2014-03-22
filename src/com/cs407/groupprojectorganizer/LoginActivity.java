@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,15 +35,43 @@ public class LoginActivity extends Activity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
+    private static final String TAG_USER = "user";
+    private static final String TAG_UID = "uid";
+    private static final String TAG_EMAIL = "email";
+
+    public SessionManager session;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Checking if user is logged in before preparing activity.
+        session = new SessionManager(getApplicationContext());
+
+        if (session.isLoggedIn()){
+            Toast.makeText(getApplicationContext(), "User already logged in", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
+            startActivity(i);
+        } else {
+            Toast.makeText(getApplicationContext(), "User NOT already logged in", Toast.LENGTH_LONG).show();
+        }
+
         setContentView(R.layout.login);
 
         // Edit Text
         inputEmail = (EditText) findViewById(R.id.loginEmail);
         inputPassword = (EditText) findViewById(R.id.loginPassword);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+
+            case R.id.action_logout:
+                session.logoutUser();
+                return true;
+        }
+        return false;
     }
 
     public void onButtonClick(View v){
@@ -100,7 +131,17 @@ public class LoginActivity extends Activity {
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-                    // successfully logged in user
+                    // successfully logged in user, store session info
+                    //session.createLoginSession("carl", json.getString(""));
+
+                    // Selects the user data
+                    JSONArray userArray = json.getJSONArray(TAG_USER);
+                    JSONObject user = userArray.getJSONObject(0);
+
+                    // Store the session data.
+                    session.createLoginSession(user.getString(TAG_UID), user.getString(TAG_EMAIL));
+
+                    // Open user's projects list page
                     Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
                     startActivity(i);
 

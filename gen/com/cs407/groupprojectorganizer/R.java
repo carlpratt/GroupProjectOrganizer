@@ -55,7 +55,7 @@ public final class R {
         public static final int create_new_project =0x7f030001;
         public static final int edit_profile =0x7f030002;
         public static final int login=0x7f030003;
-        public static final int projects=0x7f030004;
+        public static final int projects_list =0x7f030004;
         public static final int settings=0x7f030005;
     }
     public static final class menu {

@@ -15,6 +15,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1eb1a65b-96f6-4418-9685-fc67a48bc116" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/SessionManager.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/res/layout/projects.xml" afterPath="$PROJECT_DIR$/res/layout/projects_list.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java" afterPath="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gen/com/cs407/groupprojectorganizer/R.java" afterPath="$PROJECT_DIR$/gen/com/cs407/groupprojectorganizer/R.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java" afterPath="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/menu/main.xml" afterPath="$PROJECT_DIR$/res/menu/main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="GroupProjectOrganizer.iws" />
@@ -79,10 +85,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="register.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/register.xml">
+      <file leaf-file-name="login.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="19" selection-start="3164" selection-end="3164" vertical-scroll-proportion="0.0" vertical-offset="1422" max-vertical-offset="1566">
+            <state line="69" column="49" selection-start="2777" selection-end="2777" vertical-scroll-proportion="-12.310345" vertical-offset="885" max-vertical-offset="1404">
               <folding />
             </state>
           </provider>
@@ -103,7 +109,27 @@
       <file leaf-file-name="LoginActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="31" selection-start="1361" selection-end="1361" vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="2538">
+            <state line="64" column="0" selection-start="2060" selection-end="2060" vertical-scroll-proportion="0.0" vertical-offset="494" max-vertical-offset="2880">
+              <folding>
+                <element signature="e#3566#3581#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/menu/main.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="32" selection-start="225" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SessionManager.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/SessionManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="87" column="20" selection-start="2320" selection-end="2320" vertical-scroll-proportion="0.0" vertical-offset="674" max-vertical-offset="2286">
               <folding />
             </state>
           </provider>
@@ -113,15 +139,6 @@
         <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/RegisterActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="74" column="0" selection-start="2126" selection-end="2126" vertical-scroll-proportion="0.0" vertical-offset="414" max-vertical-offset="2178">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="workspace.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="16" selection-start="255" selection-end="255" vertical-scroll-proportion="0.45378152" vertical-offset="0" max-vertical-offset="16722">
               <folding />
             </state>
           </provider>
@@ -151,22 +168,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="projects.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/layout/projects.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="43" selection-start="295" selection-end="296" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="558">
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ShowProjectsActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ShowProjectsActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="38" selection-start="409" selection-end="409" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="522">
+            <state line="27" column="5" selection-start="785" selection-end="785" vertical-scroll-proportion="0.7297297" vertical-offset="108" max-vertical-offset="864">
               <folding />
             </state>
           </provider>
@@ -206,11 +211,13 @@
         <option value="$PROJECT_DIR$/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/res/layout/login.xml" />
         <option value="$PROJECT_DIR$/res/layout/register.xml" />
-        <option value="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java" />
         <option value="$PROJECT_DIR$/res/layout/projects.xml" />
         <option value="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
+        <option value="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/SessionManager.java" />
+        <option value="$PROJECT_DIR$/res/menu/main.xml" />
+        <option value="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java" />
+        <option value="$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java" />
       </list>
     </option>
   </component>
@@ -294,6 +301,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupProjectOrganizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="GroupProjectOrganizer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="menu" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -537,6 +562,11 @@
     </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
+  <component name="SliceManager">
+    <option name="analysisUIOptions">
+      <AnalysisUIOptions />
+    </option>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="1eb1a65b-96f6-4418-9685-fc67a48bc116" name="Default" comment="" />
@@ -547,11 +577,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1303" height="773" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289777" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -561,18 +592,17 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935917" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935917" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935917" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24980783" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24980783" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32935917" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3289777" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -628,7 +658,9 @@
     <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="49" column="31" selection-start="1361" selection-end="1361" vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="2538">
-          <folding />
+          <folding>
+            <element signature="e#3566#3581#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -656,16 +688,6 @@
         </state>
       </provider>
       <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/projects.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="43" selection-start="295" selection-end="296" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="558">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
         <state />
       </provider>
     </entry>
@@ -720,7 +742,9 @@
     <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="107" column="44" selection-start="3398" selection-end="3398" vertical-scroll-proportion="0.0" vertical-offset="1027" max-vertical-offset="2376">
-          <folding />
+          <folding>
+            <element signature="e#3566#3581#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -854,23 +878,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="49" selection-start="2777" selection-end="2777" vertical-scroll-proportion="0.0" vertical-offset="885" max-vertical-offset="1404">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="31" selection-start="1361" selection-end="1361" vertical-scroll-proportion="0.0" vertical-offset="692" max-vertical-offset="2538">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/res/layout/create_new_project.xml">
       <provider editor-type-id="text-editor">
         <state line="28" column="19" selection-start="1047" selection-end="1047" vertical-scroll-proportion="0.0" vertical-offset="282" max-vertical-offset="1188">
@@ -881,28 +888,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="38" selection-start="409" selection-end="409" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="468">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/CreateProjectActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="52" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="342">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/layout/projects.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="43" selection-start="295" selection-end="296" vertical-scroll-proportion="0.0" vertical-offset="126" max-vertical-offset="558">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/RegisterActivity.java">
@@ -914,7 +904,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="16" selection-start="255" selection-end="255" vertical-scroll-proportion="0.45378152" vertical-offset="0" max-vertical-offset="16722">
+        <state line="106" column="13" selection-start="5555" selection-end="5555" vertical-scroll-proportion="4.9947643" vertical-offset="0" max-vertical-offset="16254">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/menu/main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="32" selection-start="225" selection-end="225" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/layout/login.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="49" selection-start="2777" selection-end="2777" vertical-scroll-proportion="-12.310345" vertical-offset="885" max-vertical-offset="1404">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/SessionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="20" selection-start="2320" selection-end="2320" vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="2286">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="0" selection-start="2060" selection-end="2060" vertical-scroll-proportion="0.0" vertical-offset="494" max-vertical-offset="2880">
+          <folding>
+            <element signature="e#3566#3581#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/cs407/groupprojectorganizer/ShowProjectsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="5" selection-start="785" selection-end="785" vertical-scroll-proportion="0.7297297" vertical-offset="108" max-vertical-offset="864">
           <folding />
         </state>
       </provider>
