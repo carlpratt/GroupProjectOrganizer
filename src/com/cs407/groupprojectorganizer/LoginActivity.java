@@ -63,17 +63,6 @@ public class LoginActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.loginPassword);
     }
 
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId()){
-
-            case R.id.action_logout:
-                session.logoutUser();
-                return true;
-        }
-        return false;
-    }
-
     public void onButtonClick(View v){
 
         switch (v.getId()){
