@@ -1,16 +1,12 @@
 <?php
 echo "INDEX";
-mysql_connect("sql3.freemysqlhosting.net","sql330658","eX8*dK8*");
-mysql_select_db("sql330658");
- 
-$q=mysql_query("SELECT * FROM gpo_users");
-//$q=mysql_query("INSERT INTO Users (Name) VALUES ('Joe')");
-while($e=mysql_fetch_assoc($q))
-        $output[]=$e;
- 
-print(json_encode($output));
-echo $e;
 
+// include db connect class
+require_once __DIR__ . '/db_connect.php';
+ 
+// connecting to db
+$db = new DB_CONNECT();
+ 
 phpinfo();
  
 mysql_close();
