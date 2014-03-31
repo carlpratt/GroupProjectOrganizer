@@ -43,6 +43,12 @@ public class ShowProjectsActivity extends Activity {
             case R.id.btnAddNewProject:
                 Intent i = new Intent(getApplicationContext(), CreateProjectActivity.class);
                 startActivity(i);
+                break;
+
+            case R.id.btnEditProfile:
+                Intent editProfileIntent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                startActivity(editProfileIntent);
+                break;
         }
     }
 }
