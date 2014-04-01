@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import org.apache.http.NameValuePair;
@@ -20,19 +19,16 @@ import java.util.List;
 
 public class RegisterActivity extends Activity {
 
-    // Progress Dialog
-    private ProgressDialog pDialog;
-
+    // JSON Node names
+    private static final String TAG_SUCCESS = "success";
+    // url to create new user
+    private static String url_create_user = "http://group-project-organizer.herokuapp.com/register.php";
     JSONParser jsonParser = new JSONParser();
     EditText inputName;
     EditText inputEmail;
     EditText inputPassword;
-
-    // url to create new user
-    private static String url_create_user = "http://group-project-organizer.herokuapp.com/register.php";
-
-    // JSON Node names
-    private static final String TAG_SUCCESS = "success";
+    // Progress Dialog
+    private ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,9 +41,9 @@ public class RegisterActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.registerPassword);
     }
 
-    public void onButtonClick(View v){
+    public void onButtonClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnRegister:
                 new CreateNewUser().execute();
@@ -57,12 +53,12 @@ public class RegisterActivity extends Activity {
 
     /**
      * Background Async Task to Create new user
-     * */
+     */
     class CreateNewUser extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -75,7 +71,7 @@ public class RegisterActivity extends Activity {
 
         /**
          * Creating user
-         * */
+         */
         protected String doInBackground(String... args) {
             String name = inputName.getText().toString();
             String email = inputEmail.getText().toString();
@@ -124,7 +120,8 @@ public class RegisterActivity extends Activity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
             pDialog.dismiss();

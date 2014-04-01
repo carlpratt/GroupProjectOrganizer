@@ -16,5 +16,16 @@
     <string name="login_password">PASSWORD:</string>
     <string name="login_create">CREATE ACCOUNT</string>
     <string name="GPO">GROUP PROJECT ORGANIZER</string>
+    <string-array name="menu_array">
+            <item>Projects List</item>
+            <item>Create New</item>
+            <item>Edit Profile</item>
+            <item>Options</item>
+            <item>Settings</item>
+            <item>About</item>
+    </string-array>
+    <string name="drawer_open">Menu</string>
+    <string name = "drawer_close">Projects List</string>
+    <string name="app_not_available">Sorry, there\'s no web browser available</string>
 
 </resources>

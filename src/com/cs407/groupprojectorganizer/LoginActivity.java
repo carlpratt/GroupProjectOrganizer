@@ -24,23 +24,19 @@ import java.util.List;
 
 public class LoginActivity extends Activity {
 
-    // Progress Dialog
-    private ProgressDialog pDialog;
-
-    JSONParser jsonParser = new JSONParser();
-    EditText inputEmail;
-    EditText inputPassword;
-
-    // url to log in a user
-    private static String url_login = "http://group-project-organizer.herokuapp.com/login.php";
-
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_USER = "user";
     private static final String TAG_UID = "uid";
     private static final String TAG_EMAIL = "email";
-
+    // url to log in a user
+    private static String url_login = "http://group-project-organizer.herokuapp.com/login.php";
     public SessionManager session;
+    JSONParser jsonParser = new JSONParser();
+    EditText inputEmail;
+    EditText inputPassword;
+    // Progress Dialog
+    private ProgressDialog pDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,9 +45,9 @@ public class LoginActivity extends Activity {
         // Checking if user is logged in before preparing activity.
         session = new SessionManager(getApplicationContext());
 
-        if (session.isLoggedIn()){
+        if (session.isLoggedIn()) {
             Toast.makeText(getApplicationContext(), "User already logged in", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
+            Intent i = new Intent(getApplicationContext(), NavDrawerActivity.class);
             startActivity(i);
         } else {
             Toast.makeText(getApplicationContext(), "User NOT already logged in", Toast.LENGTH_LONG).show();
@@ -64,9 +60,9 @@ public class LoginActivity extends Activity {
         inputPassword = (EditText) findViewById(R.id.loginPassword);
     }
 
-    public void onButtonClick(View v){
+    public void onButtonClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnLogin:
                 new PerformLogin().execute();
@@ -81,12 +77,12 @@ public class LoginActivity extends Activity {
 
     /**
      * Background Async Task to execute the login
-     * */
+     */
     class PerformLogin extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
-         * */
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -99,7 +95,7 @@ public class LoginActivity extends Activity {
 
         /**
          * Performing login
-         * */
+         */
         protected String doInBackground(String... args) {
             String email = inputEmail.getText().toString();
             String password = inputPassword.getText().toString();
@@ -132,7 +128,7 @@ public class LoginActivity extends Activity {
                     session.createLoginSession(user.getString(TAG_UID), user.getString(TAG_EMAIL));
 
                     // Open user's projects list page
-                    Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
+                    Intent i = new Intent(getApplicationContext(), NavDrawerActivity.class);
                     startActivity(i);
 
                     // closing this screen
@@ -156,7 +152,8 @@ public class LoginActivity extends Activity {
 
         /**
          * After completing background task Dismiss the progress dialog
-         * **/
+         * *
+         */
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
             pDialog.dismiss();
