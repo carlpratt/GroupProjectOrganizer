@@ -25,7 +25,7 @@
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".ShowProjectsActivity"></activity>
         <activity android:name=".CreateProjectActivity"></activity>
-
+        <activity android:name=".EditProfileActivity"></activity>
     </application>
 
 </manifest>

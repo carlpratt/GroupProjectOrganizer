@@ -80,7 +80,7 @@ public class RegisterActivity extends Activity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("name", name));
-            params.add(new BasicNameValuePair("email", email));
+            params.add(new BasicNameValuePair("inputEmail", email));
             params.add(new BasicNameValuePair("password", password));
 
             // getting JSON Object

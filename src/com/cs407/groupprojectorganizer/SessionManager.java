@@ -25,6 +25,7 @@ public class SessionManager {
     // Shared pref mode
     int PRIVATE_MODE = 0;
 
+
     // Constructor
     public SessionManager(Context context) {
         this._context = context;
@@ -42,7 +43,7 @@ public class SessionManager {
         // Storing name in pref
         editor.putString(KEY_UID, uid);
 
-        // Storing email in pref
+        // Storing inputEmail in pref
         editor.putString(KEY_EMAIL, email);
 
         // commit changes
@@ -80,7 +81,7 @@ public class SessionManager {
         // user name
         user.put(KEY_UID, pref.getString(KEY_UID, null));
 
-        // user email id
+        // user inputEmail id
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
 
         // return user
