@@ -38,7 +38,7 @@ public class LoginActivity extends Activity {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_USER = "user";
     private static final String TAG_UID = "uid";
-    private static final String TAG_EMAIL = "inputEmail";
+    private static final String TAG_EMAIL = "email";
 
     public SessionManager session;
 
@@ -106,7 +106,7 @@ public class LoginActivity extends Activity {
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("inputEmail", email));
+            params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("password", password));
 
             // getting JSON Object
