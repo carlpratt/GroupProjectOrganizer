@@ -35,16 +35,11 @@ public class EditProfileActivity extends Activity {
     private static String url_update_profile = "http://group-project-organizer.herokuapp.com/update_profile.php";
 
     public SessionManager session;
+    HashMap<String, String> userDetails;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_USER = "user";
-    private static final String TAG_UID = "uid";
-    private static final String TAG_NAME = "name";
-    private static final String TAG_EMAIL = "email";
-    private static final String TAG_PHONE = "phone";
-    private static final String TAG_FACEBOOK = "facebook";
-    private static final String TAG_GOOGLE = "google";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +47,7 @@ public class EditProfileActivity extends Activity {
         setContentView(R.layout.edit_profile);
 
         session = new SessionManager(getApplicationContext());
-        HashMap<String, String> userDetails = session.getUserDetails();
+        userDetails = session.getUserDetails();
 
         // Edit Text Fields
         inputName = (EditText) findViewById(R.id.nameEditText);
@@ -68,13 +63,29 @@ public class EditProfileActivity extends Activity {
         inputGoogle.setText(userDetails.get(SessionManager.KEY_GOOGLE));
     }
 
+    // Makes sure program doesn't crash from pDialog not being dismissed during
+    // the background async task
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (pDialog != null){
+            pDialog.dismiss();
+        }
+
+        pDialog = null;
+    }
+
     public void onButtonClick(View v){
 
         switch (v.getId()){
 
             case R.id.btnUpdateProfile:
                 new UpdateProfile().execute();
+
+                Toast.makeText(getApplicationContext(), "Profile successfully updated", Toast.LENGTH_SHORT).show();
                 finish();
+
                 break;
         }
     }
@@ -101,6 +112,7 @@ public class EditProfileActivity extends Activity {
          * Performing login
          * */
         protected String doInBackground(String... args) {
+            String uid = userDetails.get(SessionManager.KEY_UID);
             String name = inputName.getText().toString();
             String email = inputEmail.getText().toString();
             String phone = inputPhone.getText().toString();
@@ -109,6 +121,7 @@ public class EditProfileActivity extends Activity {
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("uid", uid));
             params.add(new BasicNameValuePair("name", name));
             params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("phone", phone));
@@ -128,16 +141,9 @@ public class EditProfileActivity extends Activity {
 
                 if (success == 1) {
 
-                    // Selects the user data
-                    JSONArray userArray = json.getJSONArray(TAG_USER);
-                    JSONObject user = userArray.getJSONObject(0);
+                    // Update the session information
+                    session.createSession(uid, name, email, phone, facebook, google);
 
-                    // Open user's projects list page
-                    Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
-                    startActivity(i);
-
-                    // closing this screen
-                    finish();
                 } else {
                     // failed to log in user
                     runOnUiThread(new Runnable() {
@@ -160,7 +166,9 @@ public class EditProfileActivity extends Activity {
          * **/
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
-            pDialog.dismiss();
+            if (pDialog != null) {
+                pDialog.dismiss();
+            }
         }
 
     }
