@@ -26,11 +26,13 @@ public class SessionManager {
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
-    // User name (make variable public to access from outside)
+    // User access keys (make variables public to access from outside)
     public static final String KEY_UID = "uid";
-
-    // Email address (make variable public to access from outside)
-    public static final String KEY_EMAIL = "inputEmail";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_EMAIL = "email";
+    public static final String KEY_PHONE = "phone";
+    public static final String KEY_FACEBOOK = "facebook";
+    public static final String KEY_GOOGLE = "google";
 
     // Constructor
     public SessionManager(Context context){
@@ -42,15 +44,17 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String uid, String email){
+    public void createSession(String uid, String name, String email, String phone, String facebook, String google){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
-        // Storing name in pref
+        // Storing user information in pref
         editor.putString(KEY_UID, uid);
-
-        // Storing inputEmail in pref
+        editor.putString(KEY_NAME, name);
         editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_PHONE, phone);
+        editor.putString(KEY_FACEBOOK, facebook);
+        editor.putString(KEY_GOOGLE, google);
 
         // commit changes
         editor.commit();
@@ -85,11 +89,13 @@ public class SessionManager {
      * */
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
-        // user name
+        // user details
         user.put(KEY_UID, pref.getString(KEY_UID, null));
-
-        // user inputEmail id
-        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
+        user.put(KEY_NAME, pref.getString(KEY_NAME, "No name provided"));
+        user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, "No email provided"));
+        user.put(KEY_PHONE, pref.getString(KEY_PHONE, "No phone number provided"));
+        user.put(KEY_FACEBOOK, pref.getString(KEY_FACEBOOK, "No facebook profile link provided"));
+        user.put(KEY_GOOGLE, pref.getString(KEY_GOOGLE, "No google profile link provided"));
 
         // return user
         return user;

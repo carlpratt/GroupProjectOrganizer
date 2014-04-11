@@ -28,13 +28,18 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
  
             $result = mysql_fetch_array($result);
  
+	    // Return all user information to store in session manager
             $user = array();
             $user["uid"] = $result["uid"];
             $user["name"] = $result["name"];
             $user["email"] = $result["email"];
             $user["password"] = $result["password"];
+	    $user["phone"] = $result["phone"];
+	    $user["facebook"] = $result["facebook"];
+	    $user["google"] = $result["google"];
             $user["created_at"] = $result["created_at"];
             $user["updated_at"] = $result["updated_at"];
+
             // success
             $response["success"] = 1;
  

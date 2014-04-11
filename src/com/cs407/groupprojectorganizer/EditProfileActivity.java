@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EditProfileActivity extends Activity {
@@ -31,26 +32,40 @@ public class EditProfileActivity extends Activity {
     EditText inputGoogle;
 
     // url to log in a user
-    private static String url_login = "http://group-project-organizer.herokuapp.com/update_profile.php";
+    private static String url_update_profile = "http://group-project-organizer.herokuapp.com/update_profile.php";
+
+    public SessionManager session;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_USER = "user";
     private static final String TAG_UID = "uid";
-    private static final String TAG_EMAIL = "inputEmail";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_EMAIL = "email";
+    private static final String TAG_PHONE = "phone";
+    private static final String TAG_FACEBOOK = "facebook";
+    private static final String TAG_GOOGLE = "google";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_profile);
 
+        session = new SessionManager(getApplicationContext());
+        HashMap<String, String> userDetails = session.getUserDetails();
 
         // Edit Text Fields
-        inputEmail = (EditText) findViewById(R.id.emailEditText);
         inputName = (EditText) findViewById(R.id.nameEditText);
+        inputEmail = (EditText) findViewById(R.id.emailEditText);
         inputPhone = (EditText) findViewById(R.id.phoneEditText);
         inputFacebook = (EditText) findViewById(R.id.facebookEditText);
         inputGoogle = (EditText) findViewById(R.id.googleEditText);
+
+        inputName.setText(userDetails.get(SessionManager.KEY_NAME));
+        inputEmail.setText(userDetails.get(SessionManager.KEY_EMAIL));
+        inputPhone.setText(userDetails.get(SessionManager.KEY_PHONE));
+        inputFacebook.setText(userDetails.get(SessionManager.KEY_FACEBOOK));
+        inputGoogle.setText(userDetails.get(SessionManager.KEY_GOOGLE));
     }
 
     public void onButtonClick(View v){
@@ -86,22 +101,22 @@ public class EditProfileActivity extends Activity {
          * Performing login
          * */
         protected String doInBackground(String... args) {
-            String email = inputEmail.getText().toString();
             String name = inputName.getText().toString();
+            String email = inputEmail.getText().toString();
             String phone = inputPhone.getText().toString();
             String facebook = inputFacebook.getText().toString();
             String google = inputGoogle.getText().toString();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("name", name));
+            params.add(new BasicNameValuePair("email", email));
             params.add(new BasicNameValuePair("phone", phone));
             params.add(new BasicNameValuePair("facebook", facebook));
             params.add(new BasicNameValuePair("google", google));
 
             // getting JSON Object
-            JSONObject json = jsonParser.makeHttpRequest(url_login,
+            JSONObject json = jsonParser.makeHttpRequest(url_update_profile,
                     "POST", params);
 
             // check log cat for response

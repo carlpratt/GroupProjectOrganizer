@@ -38,7 +38,11 @@ public class LoginActivity extends Activity {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_USER = "user";
     private static final String TAG_UID = "uid";
+    private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
+    private static final String TAG_PHONE = "phone";
+    private static final String TAG_FACEBOOK = "facebook";
+    private static final String TAG_GOOGLE = "google";
 
     public SessionManager session;
 
@@ -121,15 +125,15 @@ public class LoginActivity extends Activity {
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-                    // successfully logged in user, store session info
-                    //session.createLoginSession("carl", json.getString(""));
 
                     // Selects the user data
                     JSONArray userArray = json.getJSONArray(TAG_USER);
                     JSONObject user = userArray.getJSONObject(0);
 
                     // Store the session data.
-                    session.createLoginSession(user.getString(TAG_UID), user.getString(TAG_EMAIL));
+                    session.createSession(user.getString(TAG_UID), user.getString(TAG_NAME),
+                            user.getString(TAG_EMAIL), user.getString(TAG_PHONE),
+                            user.getString(TAG_FACEBOOK), user.getString(TAG_GOOGLE));
 
                     // Open user's projects list page
                     Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
