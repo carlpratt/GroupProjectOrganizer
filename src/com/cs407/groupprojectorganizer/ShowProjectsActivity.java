@@ -31,6 +31,11 @@ public class ShowProjectsActivity extends Activity {
     {
         switch (item.getItemId()){
 
+            case R.id.action_edit_profile:
+                Intent editProfileIntent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                startActivity(editProfileIntent);
+                return true;
+
             case R.id.action_logout:
                 session.logoutUser();
                 return true;
