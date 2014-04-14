@@ -15,6 +15,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,10 +26,14 @@ public class RegisterActivity extends Activity {
     // Progress Dialog
     private ProgressDialog pDialog;
 
-    JSONParser jsonParser = new JSONParser();
-    EditText inputName;
-    EditText inputEmail;
-    EditText inputPassword;
+    private JSONParser jsonParser = new JSONParser();
+    private EditText inputName;
+    private EditText inputEmail;
+    private EditText inputPassword;
+
+    private String name;
+    private String email;
+    private String password;
 
     // url to create new user
     private static String url_create_user = "http://group-project-organizer.herokuapp.com/register.php";
@@ -50,9 +57,45 @@ public class RegisterActivity extends Activity {
         switch (v.getId()){
 
             case R.id.btnRegister:
+                name = inputName.getText().toString();
+                email = inputEmail.getText().toString();
+                password = encryptPassword(inputPassword.getText().toString());
+
                 new CreateNewUser().execute();
                 break;
         }
+    }
+
+    /**
+     * Handles password encryption
+     * @param password
+     * @return
+     */
+    public String encryptPassword(String password){
+
+        String hashedPassword = "";
+        try
+        {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(password.getBytes("UTF-8"));
+            hashedPassword = byteArrayToHexString(crypt.digest());
+        } catch (NoSuchAlgorithmException e){
+
+        } catch (UnsupportedEncodingException e){
+
+        }
+
+        return hashedPassword;
+    }
+
+    private static String byteArrayToHexString(byte[] b) {
+        String result = "";
+        for (int i=0; i < b.length; i++) {
+            result +=
+                    Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }
+        return result;
     }
 
     /**
@@ -77,9 +120,6 @@ public class RegisterActivity extends Activity {
          * Creating user
          * */
         protected String doInBackground(String... args) {
-            String name = inputName.getText().toString();
-            String email = inputEmail.getText().toString();
-            String password = inputPassword.getText().toString();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();

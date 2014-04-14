@@ -15,6 +15,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class LoginActivity extends Activity {
 
     public SessionManager session;
 
+    private String email;
+    private String password;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +79,9 @@ public class LoginActivity extends Activity {
         switch (v.getId()){
 
             case R.id.btnLogin:
+                email = inputEmail.getText().toString();
+                password = encryptPassword(inputPassword.getText().toString());
+
                 new PerformLogin().execute();
                 break;
 
@@ -81,6 +90,38 @@ public class LoginActivity extends Activity {
                 startActivity(i);
                 break;
         }
+    }
+
+    /**
+     * Handles password encryption
+     * @param password
+     * @return
+     */
+    public String encryptPassword(String password){
+
+        String hashedPassword = "";
+        try
+        {
+            MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+            crypt.reset();
+            crypt.update(password.getBytes("UTF-8"));
+            hashedPassword = byteArrayToHexString(crypt.digest());
+        } catch (NoSuchAlgorithmException e){
+
+        } catch (UnsupportedEncodingException e){
+
+        }
+
+        return hashedPassword;
+    }
+
+    private static String byteArrayToHexString(byte[] b) {
+        String result = "";
+        for (int i=0; i < b.length; i++) {
+            result +=
+                    Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+        }
+        return result;
     }
 
     /**
@@ -105,8 +146,6 @@ public class LoginActivity extends Activity {
          * Performing login
          * */
         protected String doInBackground(String... args) {
-            String email = inputEmail.getText().toString();
-            String password = inputPassword.getText().toString();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -146,7 +185,7 @@ public class LoginActivity extends Activity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Incorrect inputEmail and password",
+                            Toast.makeText(getApplicationContext(), "Incorrect email or password",
                                     Toast.LENGTH_LONG).show();
                         }
                     });
