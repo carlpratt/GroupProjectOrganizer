@@ -2,7 +2,10 @@ package com.cs407.groupprojectorganizer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,13 +84,33 @@ public class EditProfileActivity extends Activity {
         switch (v.getId()){
 
             case R.id.btnUpdateProfile:
-                new UpdateProfile().execute();
 
-                Toast.makeText(getApplicationContext(), "Profile successfully updated", Toast.LENGTH_SHORT).show();
-                finish();
+                // Verify user is online
+                if (isOnline()) {
+                    new UpdateProfile().execute();
+
+                    Toast.makeText(getApplicationContext(), "Profile successfully updated", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Network connection required to do this", Toast.LENGTH_SHORT).show();
+                }
 
                 break;
         }
+    }
+
+        /**
+         * Determines if android device has network access
+         */
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
     /**

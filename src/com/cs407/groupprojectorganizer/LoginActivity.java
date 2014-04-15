@@ -2,7 +2,10 @@ package com.cs407.groupprojectorganizer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -82,8 +85,14 @@ public class LoginActivity extends Activity {
                 email = inputEmail.getText().toString();
                 password = encryptPassword(inputPassword.getText().toString());
 
-                if (verifyInput(email, password)) {
-                    new PerformLogin().execute();
+                // Verify user is online
+                if (isOnline()) {
+                    if (verifyInput(email, password)) {
+                        new PerformLogin().execute();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Network connection required to do this", Toast.LENGTH_SHORT).show();
                 }
                 break;
 
@@ -92,6 +101,19 @@ public class LoginActivity extends Activity {
                 startActivity(i);
                 break;
         }
+    }
+
+    /**
+     * Determines if android device has network access
+     */
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 
     /**
