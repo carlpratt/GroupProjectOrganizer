@@ -12,17 +12,19 @@
         android:layout_marginLeft="44dp"
         android:layout_marginTop="42dp"
         android:text="Discoverable" 
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:checked="false"/>
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/btnSettings_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="41dp"
         android:text="Done"
-        android:textSize="25dp" />
+        android:textSize="25dp"
+        android:onClick="onButtonClick"/>
 
     <CheckBox
         android:id="@+id/checkBox2"
@@ -32,6 +34,7 @@
         android:layout_below="@+id/checkBox1"
         android:layout_marginTop="16dp"
         android:text="Prompt for Approval"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+         android:checked="false"/>
 	
 </RelativeLayout>

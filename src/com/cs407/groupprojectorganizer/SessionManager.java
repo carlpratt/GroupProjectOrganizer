@@ -34,6 +34,7 @@ public class SessionManager {
     public static final String KEY_FACEBOOK = "facebook";
     public static final String KEY_GOOGLE = "google";
 
+
     // Constructor
     public SessionManager(Context context){
         this._context = context;
@@ -55,6 +56,8 @@ public class SessionManager {
         editor.putString(KEY_PHONE, phone);
         editor.putString(KEY_FACEBOOK, facebook);
         editor.putString(KEY_GOOGLE, google);
+
+
 
         // commit changes
         editor.commit();

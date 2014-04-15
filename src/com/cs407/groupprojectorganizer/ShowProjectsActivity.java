@@ -39,6 +39,11 @@ public class ShowProjectsActivity extends Activity {
             case R.id.action_logout:
                 session.logoutUser();
                 return true;
+
+            case R.id.action_settings:
+               Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
         }
         return false;
     }
@@ -54,6 +59,8 @@ public class ShowProjectsActivity extends Activity {
                 Intent editProfileIntent = new Intent(getApplicationContext(), EditProfileActivity.class);
                 startActivity(editProfileIntent);
                 break;
+
+
         }
     }
 }
