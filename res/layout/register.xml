@@ -18,13 +18,14 @@
                 android:textStyle="bold" />
         <!-- Image -->
         <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/appIconImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/ic_launcher" android:layout_gravity="center_horizontal"/>
+                android:src="@drawable/ic_launcher"
+                android:layout_gravity="center_horizontal"/>
         <!--  Name Label -->
         <TextView
                 android:layout_width="fill_parent"
@@ -34,7 +35,8 @@
         <EditText
                 android:id="@+id/registerName"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"/>
 
         <!--  Email Label -->
         <TextView
@@ -45,7 +47,8 @@
         <EditText
                 android:id="@+id/registerEmail"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
 
         <!--  Password Label -->
         <TextView

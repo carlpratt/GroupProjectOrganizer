@@ -82,7 +82,9 @@ public class LoginActivity extends Activity {
                 email = inputEmail.getText().toString();
                 password = encryptPassword(inputPassword.getText().toString());
 
-                new PerformLogin().execute();
+                if (verifyInput(email, password)) {
+                    new PerformLogin().execute();
+                }
                 break;
 
             case R.id.btnLinkToRegisterScreen:
@@ -93,11 +95,38 @@ public class LoginActivity extends Activity {
     }
 
     /**
+     * Verifies user input to protect against null values and sql injection attacks.
+     * @param email
+     * @param password
+     * @return
+     */
+    private boolean verifyInput(String email, String password){
+
+        if (email == null || email.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Email can not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (password == null || password.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Password can not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!email.contains("@")){
+            Toast.makeText(getApplicationContext(), "Email must contain a '@'", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (email.contains(";") || password.contains(";")){
+            Toast.makeText(getApplicationContext(), "No field may contain a ';'", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Handles password encryption
      * @param password
      * @return
      */
-    public String encryptPassword(String password){
+    private String encryptPassword(String password){
 
         String hashedPassword = "";
         try

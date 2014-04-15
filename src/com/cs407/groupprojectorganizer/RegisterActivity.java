@@ -61,17 +61,50 @@ public class RegisterActivity extends Activity {
                 email = inputEmail.getText().toString();
                 password = encryptPassword(inputPassword.getText().toString());
 
-                new CreateNewUser().execute();
+                if (verifyInput(name, email, password)) {
+                    new CreateNewUser().execute();
+                }
                 break;
         }
     }
 
     /**
+     * Verifies user input to protect against null values and sql injection attacks.
+     * @param name
+     * @param email
+     * @param password
+     * @return
+     */
+    private boolean verifyInput(String name, String email, String password){
+
+        if (name == null || name.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Name can not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (email == null || email.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Email can not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (password == null || password.isEmpty()){
+            Toast.makeText(getApplicationContext(), "Password can not be empty", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!email.contains("@")){
+            Toast.makeText(getApplicationContext(), "Email must contain a '@'", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (name.contains(";") || email.contains(";") || password.contains(";")){
+            Toast.makeText(getApplicationContext(), "No field may contain a ';'", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+    /**
      * Handles password encryption
      * @param password
      * @return
      */
-    public String encryptPassword(String password){
+    private String encryptPassword(String password){
 
         String hashedPassword = "";
         try
