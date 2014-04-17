@@ -33,7 +33,8 @@ public class SessionManager {
     public static final String KEY_PHONE = "phone";
     public static final String KEY_FACEBOOK = "facebook";
     public static final String KEY_GOOGLE = "google";
-
+    public static final String KEY_DISCOVER = "discoverable";
+    public static final String KEY_PROMPT = "prompt_approval";
 
     // Constructor
     public SessionManager(Context context){
@@ -56,6 +57,18 @@ public class SessionManager {
         editor.putString(KEY_PHONE, phone);
         editor.putString(KEY_FACEBOOK, facebook);
         editor.putString(KEY_GOOGLE, google);
+
+       // commit changes
+        editor.commit();
+    }
+
+    public void settingsSession( String discoverable, String prompt_approval){
+        // Storing login value as TRUE
+        editor.putBoolean(IS_LOGIN, true);
+
+        // Storing user information in pref
+        editor.putString(KEY_DISCOVER, discoverable);
+        editor.putString(KEY_PROMPT, prompt_approval);
 
 
 
@@ -99,7 +112,8 @@ public class SessionManager {
         user.put(KEY_PHONE, pref.getString(KEY_PHONE, "No phone number provided"));
         user.put(KEY_FACEBOOK, pref.getString(KEY_FACEBOOK, "No facebook profile link provided"));
         user.put(KEY_GOOGLE, pref.getString(KEY_GOOGLE, "No google profile link provided"));
-
+        user.put(KEY_DISCOVER, pref.getString(KEY_DISCOVER, "No discoverable link provided"));
+        user.put(KEY_PROMPT, pref.getString(KEY_PROMPT, "No prompt_approval link provided"));
         // return user
         return user;
     }

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -28,8 +29,9 @@ public class SettingsActivity extends Activity {
     JSONParser jsonParser = new JSONParser();
     CheckBox inputDiscover;
     CheckBox inputPrompt;
-    boolean discover;
-    boolean prompt;
+    private boolean discover;
+    private boolean prompt;
+    private boolean settingsChanged = false;
     // url to log in a user
     private static String url_settings_push = "http://group-project-organizer.herokuapp.com/settings_push.php";
 
@@ -48,6 +50,21 @@ public class SettingsActivity extends Activity {
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
+
+        inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
+        inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
+
+        if(userDetails.get(SessionManager.KEY_DISCOVER).equals("1")){
+            inputDiscover.setChecked(true);
+        }else{
+            inputDiscover.setChecked(false);
+        }
+
+        if(userDetails.get((SessionManager.KEY_PROMPT)).equals("1")){
+            inputPrompt.setChecked(true);
+        }else{
+            inputPrompt.setChecked(false);
+        }
 
 
 
@@ -75,20 +92,32 @@ public class SettingsActivity extends Activity {
 
 
                 //Edit the integer fields
-                inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
-                inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
+                //inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
+                //inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
 
-                if(inputPrompt.isChecked() == true){
-                    discover = true;
-                }
-                if(inputDiscover.isChecked() == true ){
+                if(inputPrompt.isChecked()){
                     prompt = true;
                 }
-                
-                new SettingsPush().execute();
+                if(inputDiscover.isChecked()){
+                    discover = true;
+                }
+                if(discover  && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && prompt  && userDetails.get(SessionManager.KEY_PROMPT).equals("1")){
+                    //do nothing
+                }else if(!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals(("0")) && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0") ){
+                    //do nothing
+                }else if(discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0")){
+                    //do nothing
+                }else if(!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("0") && prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("1")){
 
+                }else{
+                    //write to database if there was setting changes
+                    new SettingsPush().execute();
+                    settingsChanged = true;
+                }
 
-
+                if(!settingsChanged){
+                    Toast.makeText(getApplicationContext(), "Settings have not changed", Toast.LENGTH_SHORT).show();
+                }
                 finish();
 
                 break;
@@ -118,22 +147,26 @@ public class SettingsActivity extends Activity {
          * */
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
-
+            String discoverable = "0";
+            String prompt_approval = "0";
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             if(discover == true){
-                params.add(new BasicNameValuePair("discoverable","1"));
+                discoverable = "1";
+                params.add(new BasicNameValuePair("discoverable",discoverable));
                 Log.d("discoverable checked",params.toString());
             }else{
-                params.add(new BasicNameValuePair("discoverable","0"));
+
+                params.add(new BasicNameValuePair("discoverable",discoverable));
                 Log.d("discoverable not checked", params.toString());
             }
             if(prompt == true){
-                params.add(new BasicNameValuePair("prompt_approval","1"));
+                prompt_approval = "1";
+                params.add(new BasicNameValuePair("prompt_approval",prompt_approval));
                 Log.d("prompt_approval is checked", params.toString());
             }else{
-                params.add(new BasicNameValuePair("prompt_approval", "0"));
+                params.add(new BasicNameValuePair("prompt_approval", prompt_approval));
                 Log.d("prompt_approval is not checked", params.toString());
             }
             params.add(new BasicNameValuePair("uid", uid));
@@ -151,15 +184,8 @@ public class SettingsActivity extends Activity {
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-
+                    session.settingsSession(discoverable, prompt_approval);
                     // Update the session information
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "heyheyhey",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
 
                 } else {
                     // failed to log in user
@@ -183,7 +209,12 @@ public class SettingsActivity extends Activity {
          * **/
         protected void onPostExecute(String file_url) {
             // dismiss the dialog once done
-            Toast.makeText(getApplicationContext(), "Profile successfully updated", Toast.LENGTH_SHORT).show();
+            if(settingsChanged){
+                Toast.makeText(getApplicationContext(), "Settings successfully updated", Toast.LENGTH_SHORT).show();
+            }
+
+
+
             if (pDialog != null) {
                 pDialog.dismiss();
             }
