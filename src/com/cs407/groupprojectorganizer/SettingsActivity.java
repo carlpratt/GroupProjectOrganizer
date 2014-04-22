@@ -2,7 +2,10 @@ package com.cs407.groupprojectorganizer;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.service.textservice.SpellCheckerService;
@@ -94,36 +97,48 @@ public class SettingsActivity extends Activity {
                 //Edit the integer fields
                 //inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
                 //inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
+                if(isOnline()) {
+                    if (inputPrompt.isChecked()) {
+                        prompt = true;
+                    }
+                    if (inputDiscover.isChecked()) {
+                        discover = true;
+                    }
+                    if (discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("1")) {
+                        //do nothing
+                    } else if (!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals(("0")) && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0")) {
+                        //do nothing
+                    } else if (discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0")) {
+                        //do nothing
+                    } else if (!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("0") && prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("1")) {
 
-                if(inputPrompt.isChecked()){
-                    prompt = true;
-                }
-                if(inputDiscover.isChecked()){
-                    discover = true;
-                }
-                if(discover  && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && prompt  && userDetails.get(SessionManager.KEY_PROMPT).equals("1")){
-                    //do nothing
-                }else if(!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals(("0")) && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0") ){
-                    //do nothing
-                }else if(discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0")){
-                    //do nothing
-                }else if(!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("0") && prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("1")){
+                    } else {
+                        //write to database if there was setting changes
+                        new SettingsPush().execute();
+                        settingsChanged = true;
+                    }
 
-                }else{
-                    //write to database if there was setting changes
-                    new SettingsPush().execute();
-                    settingsChanged = true;
+                    if (!settingsChanged) {
+                        Toast.makeText(getApplicationContext(), "Settings have not changed", Toast.LENGTH_SHORT).show();
+                    }
+                    finish();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Network connection required to do this", Toast.LENGTH_SHORT).show();
                 }
-
-                if(!settingsChanged){
-                    Toast.makeText(getApplicationContext(), "Settings have not changed", Toast.LENGTH_SHORT).show();
-                }
-                finish();
 
                 break;
         }
     }
 
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
     /**
      * Background Async Task to execute the login
      * */
