@@ -58,7 +58,7 @@ public class SessionManager {
         editor.putString(KEY_FACEBOOK, facebook);
         editor.putString(KEY_GOOGLE, google);
 
-       // commit changes
+        // commit changes
         editor.commit();
     }
 
@@ -69,8 +69,6 @@ public class SessionManager {
         // Storing user information in pref
         editor.putString(KEY_DISCOVER, discoverable);
         editor.putString(KEY_PROMPT, prompt_approval);
-
-
 
         // commit changes
         editor.commit();
