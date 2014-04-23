@@ -32,7 +32,7 @@ public class CreateProjectActivity extends Activity {
     EditText inputPname;
     EditText inputPdisc;
 
-    // url to log in a user
+    // url to create a new project
     private static String url_create_project = "http://group-project-organizer.herokuapp.com/create_project.php";
 
     public SessionManager session;
@@ -56,8 +56,7 @@ public class CreateProjectActivity extends Activity {
 
     }
 
-    // Makes sure program doesn't crash from pDialog not being dismissed during
-    // the background async task
+
     @Override
     public void onPause(){
         super.onPause();
@@ -121,13 +120,17 @@ public class CreateProjectActivity extends Activity {
             pDialog.show();
         }
 
-        /**
-         * Performing login
-         * */
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
             String projectTitle = inputPname.getText().toString();
             String projectDescription = inputPdisc.getText().toString();
+
+            projectTitle = projectTitle.replace("'","''");
+            projectDescription = projectDescription.replace("'","''");
+            Log.d("thiskid",projectTitle);
+            Log.d("thiskid", projectDescription);
+
+
 
 
             // Building Parameters
@@ -150,11 +153,10 @@ public class CreateProjectActivity extends Activity {
 
                 if (success == 1) {
 
-                    // Update the session information
 
 
                 } else {
-                    // failed to log in user
+                    // failed to create new user
 
                     runOnUiThread(new Runnable() {
                         @Override

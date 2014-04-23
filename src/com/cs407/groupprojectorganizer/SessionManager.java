@@ -35,6 +35,7 @@ public class SessionManager {
     public static final String KEY_GOOGLE = "google";
     public static final String KEY_DISCOVER = "discoverable";
     public static final String KEY_PROMPT = "prompt_approval";
+    //public static final String[] KEY_PROJECTS = "projects_list";
 
     // Constructor
     public SessionManager(Context context){
@@ -75,6 +76,12 @@ public class SessionManager {
         // commit changes
         editor.commit();
     }
+
+    /*public void projectsSession( String[] projects){
+        for(int i = 0; i < projects.length;i++){
+            editor.putString()
+        }
+    }*/
 
     /**
      * Check login method wil check user login status

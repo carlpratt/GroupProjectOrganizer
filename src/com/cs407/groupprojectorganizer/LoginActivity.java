@@ -98,6 +98,7 @@ public class LoginActivity extends Activity {
 
             case R.id.btnLinkToRegisterScreen:
                 Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+
                 startActivity(i);
                 break;
         }
