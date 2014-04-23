@@ -3,7 +3,6 @@ package com.cs407.groupprojectorganizer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,8 +27,8 @@ public class CreateProjectActivity extends Activity {
 
     JSONParser jsonParser = new JSONParser();
 
-    EditText inputPname;
-    EditText inputPdisc;
+    EditText inputProjectName;
+    EditText inputProjectDescription;
 
     // url to create a new project
     private static String url_create_project = "http://group-project-organizer.herokuapp.com/create_project.php";
@@ -51,8 +49,8 @@ public class CreateProjectActivity extends Activity {
         userDetails = session.getUserDetails();
 
         // Edit Text Fields
-        inputPname = (EditText) findViewById(R.id.projectTitleEditText);
-        inputPdisc = (EditText) findViewById(R.id.projectDescriptionEditText);
+        inputProjectName = (EditText) findViewById(R.id.projectTitleEditText);
+        inputProjectDescription = (EditText) findViewById(R.id.projectDescriptionEditText);
 
     }
 
@@ -122,8 +120,8 @@ public class CreateProjectActivity extends Activity {
 
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
-            String projectTitle = inputPname.getText().toString();
-            String projectDescription = inputPdisc.getText().toString();
+            String projectTitle = inputProjectName.getText().toString();
+            String projectDescription = inputProjectDescription.getText().toString();
 
             projectTitle = projectTitle.replace("'","''");
             projectDescription = projectDescription.replace("'","''");
