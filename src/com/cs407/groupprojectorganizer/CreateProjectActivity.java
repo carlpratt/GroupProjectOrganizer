@@ -125,12 +125,7 @@ public class CreateProjectActivity extends Activity {
 
             projectTitle = projectTitle.replace("'","''");
             projectDescription = projectDescription.replace("'","''");
-            Log.d("thiskid",projectTitle);
-            Log.d("thiskid", projectDescription);
-
-
-
-
+            
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("project_title", projectTitle));
