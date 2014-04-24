@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ShowProjectsActivity extends Activity {
 
-   public static ArrayList<String> valuesTitles = new ArrayList<String>();
+    public static ArrayList<String> valuesTitles = new ArrayList<String>();
     public SessionManager session;
 
     @Override
@@ -34,6 +34,7 @@ public class ShowProjectsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.projects_list);
 
+        session =  new SessionManager(getApplicationContext());
         //get stuff from the data base
         ListView projectList = (ListView)findViewById(R.id.listView);
 
@@ -76,7 +77,7 @@ public class ShowProjectsActivity extends Activity {
                 return true;
 
             case R.id.action_settings:
-               Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
         }
