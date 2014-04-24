@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -187,6 +188,7 @@ public class ShowProjectsActivity extends Activity {
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop, R.id.titleLine, valuesTitles);
             projectList.setAdapter(adapter);
+
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

@@ -19,5 +19,6 @@
     <string name="project_name_textview">Project Name</string>
     <string name="project_description_edit_text">Project Description</string>
     <string name="btnAddTeamMember">Add Team Member</string>
+    <color name="BlackColor">#000000</color>
 
 </resources>
