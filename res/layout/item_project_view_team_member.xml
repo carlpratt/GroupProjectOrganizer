@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+    <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:id="@+id/team_member_picture"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_launcher"
+            android:layout_alignParentEnd="false"
+            android:layout_margin="10dp"
+            android:clickable="true"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:text="Team Member Name"
+            android:ems="10"
+            android:id="@+id/team_member_name"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/team_member_picture"/>
+
+
+</RelativeLayout>

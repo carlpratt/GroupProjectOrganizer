@@ -100,9 +100,9 @@ public class EditProfileActivity extends Activity {
         }
     }
 
-        /**
-         * Determines if android device has network access
-         */
+    /**
+     * Determines if android device has network access
+     */
     private boolean isOnline() {
         ConnectivityManager cm =
                 (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
