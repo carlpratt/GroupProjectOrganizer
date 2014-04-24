@@ -96,7 +96,7 @@ public class ShowProjectsActivity extends Activity {
 
                 // ListView Clicked item value
                 //String itemValue = (String) projectList.getItemAtPosition(position);
-                //when the user clicks on one of the list items.
+               //when the user clicks on one of the list items.
 
 
 
@@ -135,7 +135,7 @@ public class ShowProjectsActivity extends Activity {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("uid", uid));
-            Log.d("checking", params.toString());
+           Log.d("checking", params.toString());
 
             // getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_get_projects,
@@ -164,10 +164,10 @@ public class ShowProjectsActivity extends Activity {
 
                     Log.d("hereiam","coolcool");
 
-                    // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.listpop, R.id.titleLine, valuesTitles);
+                   // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.listpop, R.id.titleLine, valuesTitles);
 
                     // Assign adapter to ListView
-                    // projectList.setAdapter(adapter);
+                   // projectList.setAdapter(adapter);
 
                     // Update the session information
                     //session.createSession(uid, name, email, phone, facebook, google);
@@ -229,7 +229,7 @@ public class ShowProjectsActivity extends Activity {
                 return true;
 
             case R.id.action_settings:
-                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+               Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
         }
