@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
         session = new SessionManager(getApplicationContext());
 
         if (session.isLoggedIn()){
-            Intent i = new Intent(getApplicationContext(), Startup.class);
+            Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
             startActivity(i);
         }
 
@@ -224,7 +224,7 @@ public class LoginActivity extends Activity {
                             user.getString(TAG_FACEBOOK), user.getString(TAG_GOOGLE));
 
                     // Open user's projects list page
-                    Intent i = new Intent(getApplicationContext(), Startup.class);
+                    Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
                     startActivity(i);
 
                     // closing this screen
@@ -253,6 +253,5 @@ public class LoginActivity extends Activity {
             // dismiss the dialog once done
             pDialog.dismiss();
         }
-
     }
 }
