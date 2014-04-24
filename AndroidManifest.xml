@@ -33,7 +33,7 @@
                   android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".Startup"></activity>
-        <activity android:name=".ProjectView"></activity>
+        <activity android:name=".ProjectViewActivity"></activity>
 
     </application>
 

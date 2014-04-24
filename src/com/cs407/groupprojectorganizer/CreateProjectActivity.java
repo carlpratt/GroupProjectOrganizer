@@ -162,10 +162,9 @@ public class CreateProjectActivity extends Activity {
                 pDialog.dismiss();
             }
 
-            Intent in = new Intent(getApplicationContext(),ShowProjectsActivity.class);
-            in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(in);
+            Intent intent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
-
     }
 }
