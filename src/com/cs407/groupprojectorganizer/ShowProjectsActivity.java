@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -126,8 +125,8 @@ public class ShowProjectsActivity extends Activity {
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
             ShowProjectsActivity.valuesTitles.clear();
-            ProjectView.project_title.clear();
-            ProjectView.project_desc.clear();
+            ProjectViewActivity.project_title.clear();
+            ProjectViewActivity.project_desc.clear();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -154,6 +153,7 @@ public class ShowProjectsActivity extends Activity {
                         ProjectView.pids.add(user.getString(TAG_PID));
                         ProjectView.project_desc.add(user.getString(TAG_DESC));
                         ProjectView.project_title.add(user.getString(TAG_TITLE));
+
                     }
                 } else {
                     // Failed to get anything from database
@@ -194,8 +194,8 @@ public class ShowProjectsActivity extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                    ProjectView.position = position;
-                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectView.class);
+                    ProjectViewActivity.position = position;
+                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
 
                     startActivity(intent);
                 }

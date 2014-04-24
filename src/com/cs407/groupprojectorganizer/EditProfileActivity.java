@@ -88,9 +88,6 @@ public class EditProfileActivity extends Activity {
                 // Verify user is online
                 if (isOnline()) {
                     new UpdateProfile().execute();
-
-                    Toast.makeText(getApplicationContext(), "Profile successfully updated", Toast.LENGTH_SHORT).show();
-                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
@@ -192,6 +189,10 @@ public class EditProfileActivity extends Activity {
             if (pDialog != null) {
                 pDialog.dismiss();
             }
+
+            Intent intent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
     }

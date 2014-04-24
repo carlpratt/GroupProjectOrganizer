@@ -40,13 +40,21 @@
             android:layout_marginBottom="5dp"
             android:clickable="true"
             android:typeface="sans"/>
+
+    <Button android:id="@+id/btnDeleteProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete Project"
+            android:onClick="onButtonClick"
+            android:layout_marginTop="36dp"
+            android:layout_below="@id/btnAddTeamMember"
+            android:layout_centerHorizontal="true"/>
     <ListView
-            android:layout_below="@id/projectDescriptionEditText"
+            android:layout_below="@id/btnDeleteProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@android:id/list"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"/>
+            android:layout_centerHorizontal="true"/>
 
 
 
