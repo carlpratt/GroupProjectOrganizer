@@ -66,7 +66,7 @@ public class LoginActivity extends Activity {
             Intent i = new Intent(getApplicationContext(), Startup.class);
             startActivity(i);
         }
-        
+
         setContentView(R.layout.login);
 
         // Edit Text

@@ -63,8 +63,6 @@ import java.util.List;
                 Intent in = new Intent(getApplicationContext(),ShowProjectsActivity.class);
                 startActivity(in);
             }
-
-
         }
 
 
@@ -80,11 +78,18 @@ import java.util.List;
             return false;
         }
 
-
-
-
         public class getData extends AsyncTask<String, String, String> {
 
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                pDialog = new ProgressDialog(Startup.this);
+                pDialog.setMessage("Getting your projects...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
 
             /**
              * Performing login
