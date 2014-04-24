@@ -145,13 +145,13 @@ public class ShowProjectsActivity extends Activity {
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-                    ArrayList<String> pids = new ArrayList<String>();
+
                     JSONArray userArray = json.getJSONArray(TAG_USER);
 
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
                         ShowProjectsActivity.valuesTitles.add(user.getString(TAG_TITLE));
-                        pids.add(user.getString(TAG_PID));
+                        ProjectView.pids.add(user.getString(TAG_PID));
                         ProjectView.project_desc.add(user.getString(TAG_DESC));
                         ProjectView.project_title.add(user.getString(TAG_TITLE));
                     }

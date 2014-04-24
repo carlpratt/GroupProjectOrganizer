@@ -17,6 +17,7 @@ public class ProjectView extends Activity {
     public static int position;
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
+    public static ArrayList<String> pids = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class ProjectView extends Activity {
 
         proj.setText(project_title.get(position));
         desc.setText(project_desc.get(position));
-
+        String pid = pids.get(position);
 
 
     }
