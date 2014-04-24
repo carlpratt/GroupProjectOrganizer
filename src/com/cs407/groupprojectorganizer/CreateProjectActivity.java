@@ -3,6 +3,7 @@ package com.cs407.groupprojectorganizer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -50,6 +51,7 @@ public class CreateProjectActivity extends Activity {
 
         // Edit Text Fields
         inputProjectName = (EditText) findViewById(R.id.projectTitleEditText);
+
         inputProjectDescription = (EditText) findViewById(R.id.projectDescriptionEditText);
 
     }
@@ -125,7 +127,7 @@ public class CreateProjectActivity extends Activity {
 
             projectTitle = projectTitle.replace("'","''");
             projectDescription = projectDescription.replace("'","''");
-            
+
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("project_title", projectTitle));
@@ -146,7 +148,8 @@ public class CreateProjectActivity extends Activity {
 
                 if (success == 1) {
 
-
+                    Intent in = new Intent(getApplicationContext(),Startup.class);
+                    startActivity(in);
 
                 } else {
                     // failed to create new user

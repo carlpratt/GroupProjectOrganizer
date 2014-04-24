@@ -64,7 +64,7 @@ public class LoginActivity extends Activity {
 
         if (session.isLoggedIn()){
             Toast.makeText(getApplicationContext(), "User already logged in", Toast.LENGTH_LONG).show();
-            Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
+            Intent i = new Intent(getApplicationContext(), Startup.class);
             startActivity(i);
         } else {
             Toast.makeText(getApplicationContext(), "User NOT already logged in", Toast.LENGTH_LONG).show();
@@ -227,7 +227,7 @@ public class LoginActivity extends Activity {
                             user.getString(TAG_FACEBOOK), user.getString(TAG_GOOGLE));
 
                     // Open user's projects list page
-                    Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
+                    Intent i = new Intent(getApplicationContext(), Startup.class);
                     startActivity(i);
 
                     // closing this screen

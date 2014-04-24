@@ -6,12 +6,12 @@
     <TextView
             android:id="@+id/titleLine"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_alignWithParentIfMissing="true"
             android:gravity="center_vertical"
             android:text="Example application"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
 </RelativeLayout> 

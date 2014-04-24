@@ -32,6 +32,8 @@
         <activity android:name=".EditProfileActivity"
                   android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".Startup"></activity>
+        <activity android:name=".ProjectView"></activity>
 
     </application>
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SessionManager {
@@ -75,9 +76,9 @@ public class SessionManager {
         editor.commit();
     }
 
-    /*public void projectsSession( String[] projects){
-        for(int i = 0; i < projects.length;i++){
-            editor.putString()
+   /* public void projectsSession( ArrayList<String> pids){
+        for(int i = 0; i < pids.size();i++){
+            editor.
         }
     }*/
 

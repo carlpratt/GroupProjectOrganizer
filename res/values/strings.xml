@@ -16,5 +16,8 @@
     <string name="login_password">PASSWORD:</string>
     <string name="login_create">CREATE ACCOUNT</string>
     <string name="GPO">GROUP PROJECT ORGANIZER</string>
+    <string name="project_name_textview">Project Name</string>
+    <string name="project_description_edit_text">Project Description</string>
+    <string name="btnAddTeamMember">Add Team Member</string>
 
 </resources>
