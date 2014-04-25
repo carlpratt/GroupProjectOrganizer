@@ -111,7 +111,7 @@ public class EditProfileActivity extends Activity {
     }
 
     /**
-     * Background Async Task to execute the login
+     * Background Async Task to execute the profile update
      * */
     class UpdateProfile extends AsyncTask<String, String, String> {
 
@@ -129,7 +129,7 @@ public class EditProfileActivity extends Activity {
         }
 
         /**
-         * Performing login
+         * Performing update to profile
          * */
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
@@ -164,15 +164,6 @@ public class EditProfileActivity extends Activity {
                     // Update the session information
                     session.createSession(uid, name, email, phone, facebook, google);
 
-                } else {
-                    // failed to log in user
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "Incorrect inputEmail and password",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

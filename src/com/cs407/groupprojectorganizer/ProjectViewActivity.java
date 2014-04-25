@@ -18,21 +18,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jmetzler on 4/23/2014.
- */
-
 public class ProjectViewActivity extends Activity {
 
     public static int position;
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
+    public static ArrayList<String> pids = new ArrayList<String>();
 
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
 
     SessionManager session;
+
+    String pid;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +45,7 @@ public class ProjectViewActivity extends Activity {
 
         proj.setText(project_title.get(position));
         desc.setText(project_desc.get(position));
+        pid = pids.get(position);
     }
 
     public void onButtonClick(View view){
@@ -53,6 +53,10 @@ public class ProjectViewActivity extends Activity {
         switch (view.getId()){
             case R.id.btnDeleteProject:
 
+                if (isOnline()){
+                    new DeleteProject().execute();
+                }
+                break;
         }
     }
 
@@ -72,7 +76,7 @@ public class ProjectViewActivity extends Activity {
     /**
      * Background Async Task to delete a project
      * */
-    class Delete extends AsyncTask<String, String, String> {
+    class DeleteProject extends AsyncTask<String, String, String> {
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -88,11 +92,12 @@ public class ProjectViewActivity extends Activity {
         }
 
         protected String doInBackground(String... args) {
-            String pid = "";
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("pid", pid));
+
+            Log.d("pid", pid);
 
             // getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_delete_project,

@@ -150,9 +150,9 @@ public class ShowProjectsActivity extends Activity {
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
                         ShowProjectsActivity.valuesTitles.add(user.getString(TAG_TITLE));
-                        ProjectView.pids.add(user.getString(TAG_PID));
-                        ProjectView.project_desc.add(user.getString(TAG_DESC));
-                        ProjectView.project_title.add(user.getString(TAG_TITLE));
+                        ProjectViewActivity.pids.add(user.getString(TAG_PID));
+                        ProjectViewActivity.project_desc.add(user.getString(TAG_DESC));
+                        ProjectViewActivity.project_title.add(user.getString(TAG_TITLE));
 
                     }
                 } else {
