@@ -46,6 +46,8 @@ public class ProjectViewActivity extends Activity {
         proj.setText(project_title.get(position));
         desc.setText(project_desc.get(position));
         pid = pids.get(position);
+
+        Log.d("pid set in onCreate", pid);
     }
 
     public void onButtonClick(View view){
@@ -97,7 +99,7 @@ public class ProjectViewActivity extends Activity {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("pid", pid));
 
-            Log.d("pid", pid);
+            Log.d("pid of deleted project", pid);
 
             // getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_delete_project,
