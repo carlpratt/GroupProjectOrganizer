@@ -13,6 +13,13 @@
             android:gravity="center_vertical"
             android:text="Example application"
             android:textSize="20sp"
-            android:textColor="@color/BlackColor"/>
-
-</RelativeLayout> 
+            android:textColor="@color/BlackColor"
+            />
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignRight="@+id/titleLine"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/BlackColor"
+            android:text="Owner"/>
+</RelativeLayout>

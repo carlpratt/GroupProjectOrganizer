@@ -14,12 +14,13 @@ import android.widget.TextView;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectViewActivity extends Activity {
-
+    public static int owner;
     public static int position;
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
@@ -42,9 +43,13 @@ public class ProjectViewActivity extends Activity {
 
         TextView proj = (TextView)findViewById(R.id.project_name_textview);
         TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
+        TextView own = (TextView)findViewById(R.id.textview_owner);
 
         proj.setText(project_title.get(position));
         desc.setText(project_desc.get(position));
+        if(owner == 1){
+            own.setText("*Owner*");
+        }
         pid = pids.get(position);
     }
 
@@ -54,7 +59,9 @@ public class ProjectViewActivity extends Activity {
             case R.id.btnDeleteProject:
 
                 if (isOnline()){
+                    
                     new DeleteProject().execute();
+
                 }
                 break;
         }
