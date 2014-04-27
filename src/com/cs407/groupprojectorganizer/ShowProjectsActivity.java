@@ -148,6 +148,7 @@ public class ShowProjectsActivity extends Activity {
                     ProjectViewActivity.pids.clear();
                     ProjectViewActivity.project_title.clear();
                     ProjectViewActivity.project_desc.clear();
+                    ProjectViewActivity.pOwner.clear();
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 
@@ -186,6 +187,7 @@ public class ShowProjectsActivity extends Activity {
 
             setContentView(R.layout.projects_list);
             ArrayList<String> items = new ArrayList<String>();
+
             for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
                 if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
                    items.add('*' + ProjectViewActivity.project_title.get(i));

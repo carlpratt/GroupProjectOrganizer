@@ -74,6 +74,7 @@ public class ProjectViewActivity extends Activity {
                     project_desc.remove(position);
                     project_title.remove(position);
                     pids.remove(position);
+                    pOwner.remove(position);
 
                 }
                 break;
