@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +27,7 @@ import java.util.List;
 
 public class ShowProjectsActivity extends Activity {
 
-    public static ArrayList<String> valuesTitles = new ArrayList<String>();
+
     public SessionManager session;
 
     private ProgressDialog pDialog;
@@ -43,6 +44,7 @@ public class ShowProjectsActivity extends Activity {
     private static final String TAG_TITLE = "project_title";
     private static final String TAG_PID = "pid";
     private static final String TAG_DESC = "project_description";
+    private static final String TAG_OWNER = "project_owner";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -124,9 +126,6 @@ public class ShowProjectsActivity extends Activity {
 
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
-            ShowProjectsActivity.valuesTitles.clear();
-            ProjectViewActivity.project_title.clear();
-            ProjectViewActivity.project_desc.clear();
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -146,10 +145,13 @@ public class ShowProjectsActivity extends Activity {
                 if (success == 1) {
 
                     JSONArray userArray = json.getJSONArray(TAG_USER);
-
+                    ProjectViewActivity.pids.clear();
+                    ProjectViewActivity.project_title.clear();
+                    ProjectViewActivity.project_desc.clear();
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
-                        ShowProjectsActivity.valuesTitles.add(user.getString(TAG_TITLE));
+
+                        ProjectViewActivity.pOwner.add(user.getString(TAG_OWNER));
                         ProjectViewActivity.pids.add(user.getString(TAG_PID));
                         ProjectViewActivity.project_desc.add(user.getString(TAG_DESC));
                         ProjectViewActivity.project_title.add(user.getString(TAG_TITLE));
@@ -183,11 +185,23 @@ public class ShowProjectsActivity extends Activity {
             }
 
             setContentView(R.layout.projects_list);
+            ArrayList<String> items = new ArrayList<String>();
+            for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
+                if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
+                   items.add('*' + ProjectViewActivity.project_title.get(i));
+                }else{
+                    items.add(ProjectViewActivity.project_title.get(i));
+                }
+
+            }
 
             ListView projectList = (ListView)findViewById(R.id.listView);
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop, R.id.titleLine, valuesTitles);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,R.id.titleLine,items);
             projectList.setAdapter(adapter);
+
+
+
 
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

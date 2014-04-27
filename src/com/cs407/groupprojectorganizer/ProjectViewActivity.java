@@ -17,14 +17,17 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProjectViewActivity extends Activity {
-    public static int owner;
+
+
     public static int position;
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
     public static ArrayList<String> pids = new ArrayList<String>();
+    public static ArrayList<String> pOwner = new ArrayList<String>();
 
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
@@ -33,6 +36,7 @@ public class ProjectViewActivity extends Activity {
     SessionManager session;
 
     String pid;
+    HashMap<String, String> userDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,14 +44,18 @@ public class ProjectViewActivity extends Activity {
         setContentView(R.layout.project_view);
 
         session = new SessionManager(getApplicationContext());
-
+        userDetails = session.getUserDetails();
         TextView proj = (TextView)findViewById(R.id.project_name_textview);
         TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
         TextView own = (TextView)findViewById(R.id.textview_owner);
 
+        Log.d("here",project_desc.toString());
+        Log.d("here",project_title.toString());
+        Log.d("here",pids.toString());
+
         proj.setText(project_title.get(position));
         desc.setText(project_desc.get(position));
-        if(owner == 1){
+        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
             own.setText("*Owner*");
         }
         pid = pids.get(position);
@@ -63,6 +71,9 @@ public class ProjectViewActivity extends Activity {
                 if (isOnline()){
                     
                     new DeleteProject().execute();
+                    project_desc.remove(position);
+                    project_title.remove(position);
+                    pids.remove(position);
 
                 }
                 break;
