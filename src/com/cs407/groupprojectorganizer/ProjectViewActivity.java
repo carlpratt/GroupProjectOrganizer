@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -49,18 +50,19 @@ public class ProjectViewActivity extends Activity {
         TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
         TextView own = (TextView)findViewById(R.id.textview_owner);
 
-        Log.d("here",project_desc.toString());
-        Log.d("here",project_title.toString());
-        Log.d("here",pids.toString());
-
         proj.setText(project_title.get(position));
         desc.setText(project_desc.get(position));
         if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
             own.setText("*Owner*");
         }
+
         pid = pids.get(position);
 
-        Log.d("pid set in onCreate", pid);
+        // Only a project owner can delete a project
+        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
+            deleteProjectButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void onButtonClick(View view){
@@ -71,11 +73,11 @@ public class ProjectViewActivity extends Activity {
                 if (isOnline()){
                     
                     new DeleteProject().execute();
+
                     project_desc.remove(position);
                     project_title.remove(position);
                     pids.remove(position);
                     pOwner.remove(position);
-
                 }
                 break;
         }
