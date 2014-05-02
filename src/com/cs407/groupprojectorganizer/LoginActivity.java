@@ -63,11 +63,8 @@ public class LoginActivity extends Activity {
         session = new SessionManager(getApplicationContext());
 
         if (session.isLoggedIn()){
-            Toast.makeText(getApplicationContext(), "User already logged in", Toast.LENGTH_LONG).show();
             Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
             startActivity(i);
-        } else {
-            Toast.makeText(getApplicationContext(), "User NOT already logged in", Toast.LENGTH_LONG).show();
         }
 
         setContentView(R.layout.login);
@@ -256,6 +253,5 @@ public class LoginActivity extends Activity {
             // dismiss the dialog once done
             pDialog.dismiss();
         }
-
     }
 }

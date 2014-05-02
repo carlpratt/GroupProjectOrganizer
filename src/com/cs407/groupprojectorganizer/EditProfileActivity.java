@@ -88,9 +88,6 @@ public class EditProfileActivity extends Activity {
                 // Verify user is online
                 if (isOnline()) {
                     new UpdateProfile().execute();
-
-                    Toast.makeText(getApplicationContext(), "Profile successfully updated", Toast.LENGTH_SHORT).show();
-                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
@@ -114,7 +111,7 @@ public class EditProfileActivity extends Activity {
     }
 
     /**
-     * Background Async Task to execute the login
+     * Background Async Task to execute the profile update
      * */
     class UpdateProfile extends AsyncTask<String, String, String> {
 
@@ -132,7 +129,7 @@ public class EditProfileActivity extends Activity {
         }
 
         /**
-         * Performing login
+         * Performing update to profile
          * */
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
@@ -167,15 +164,6 @@ public class EditProfileActivity extends Activity {
                     // Update the session information
                     session.createSession(uid, name, email, phone, facebook, google);
 
-                } else {
-                    // failed to log in user
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "Incorrect inputEmail and password",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -192,6 +180,10 @@ public class EditProfileActivity extends Activity {
             if (pDialog != null) {
                 pDialog.dismiss();
             }
+
+            Intent intent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
     }

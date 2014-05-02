@@ -8,14 +8,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -29,17 +27,14 @@ import java.util.List;
 
 public class ShowProjectsActivity extends Activity {
 
+
+    public SessionManager session;
+
     private ProgressDialog pDialog;
 
     JSONParser jsonParser = new JSONParser();
 
-
-    private ArrayList<String> valuesTitles = new ArrayList<String>();
-
-
-
     private static String url_get_projects = "http://group-project-organizer.herokuapp.com/get_projects.php";
-    SessionManager session;
 
     HashMap<String, String> userDetails;
 
@@ -47,164 +42,21 @@ public class ShowProjectsActivity extends Activity {
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_USER = "user";
     private static final String TAG_TITLE = "project_title";
-
-
+    private static final String TAG_PID = "pid";
+    private static final String TAG_DESC = "project_description";
+    private static final String TAG_OWNER = "project_owner";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
-        setContentView(R.layout.projects_list);
-
-
-        session = new SessionManager(getApplicationContext());
+        session =  new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
 
-
-        //get stuff from the data base
-        ListView projectList = (ListView)findViewById(R.id.listView);
-
-        //doInBackground();
-        Log.d("mymy","here");
-
-        new getData().execute();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.listpop, R.id.titleLine);
-        // Assign adapter to ListView
-        projectList.setAdapter(adapter);
-
-
-
-
-        for(int y = 0; y < valuesTitles.size();y++) {
-            Log.d("should", valuesTitles.get(y).toString());
-        }
-        adapter.addAll(valuesTitles);
-
-
-
-        projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-
-                // ListView Clicked item value
-                //String itemValue = (String) projectList.getItemAtPosition(position);
-               //when the user clicks on one of the list items.
-
-
-
-            }
-
-        });
-    }
-
-
-
-
-    private boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
-    }
-
-
-
-
-    public class getData extends AsyncTask<String, String, String> {
-
-
-
-        /**
-         * Performing login
-         */
-        protected String doInBackground(String... args) {
-            String uid = userDetails.get(SessionManager.KEY_UID);
-
-
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("uid", uid));
-           Log.d("checking", params.toString());
-
-            // getting JSON Object
-            JSONObject json = jsonParser.makeHttpRequest(url_get_projects,
-                    "POST", params);
-
-
-
-            // check log cat for response
-            Log.d("Create Response", json.toString());
-
-            // check for success tag
-            try {
-                int success = json.getInt(TAG_SUCCESS);
-                Log.d("thishouse","jjj");
-                if (success == 1) {
-
-                    JSONArray userArray = json.getJSONArray(TAG_USER);
-
-                    for(int i = 0; i < userArray.length();i++) {
-                        JSONObject user = userArray.getJSONObject(i);
-                        Log.d("ggggg",userArray.getString(i));
-                        valuesTitles.add(user.getString(TAG_TITLE));
-
-                        //Log.d("heyo", valuesTitles.get(i));
-                    }
-
-                    Log.d("hereiam","coolcool");
-
-                   // ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.listpop, R.id.titleLine, valuesTitles);
-
-                    // Assign adapter to ListView
-                   // projectList.setAdapter(adapter);
-
-                    // Update the session information
-                    //session.createSession(uid, name, email, phone, facebook, google);
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                } else {
-                    // failed to log in user
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "No projects were found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-        protected void onPostExecute(String file_url) {
-
-            if (pDialog != null) {
-                pDialog.dismiss();
-            }
+        if (isOnline()) {
+            new GetProjects().execute();
         }
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -212,8 +64,6 @@ public class ShowProjectsActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
-
 
     public boolean onOptionsItemSelected(MenuItem item)
     {
@@ -229,7 +79,7 @@ public class ShowProjectsActivity extends Activity {
                 return true;
 
             case R.id.action_settings:
-               Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
         }
@@ -242,13 +92,130 @@ public class ShowProjectsActivity extends Activity {
                 Intent i = new Intent(getApplicationContext(), CreateProjectActivity.class);
                 startActivity(i);
                 break;
+        }
+    }
 
-            case R.id.btnEditProfile:
-                Intent editProfileIntent = new Intent(getApplicationContext(), EditProfileActivity.class);
-                startActivity(editProfileIntent);
-                break;
+    /**
+     * Determines if android device has network access
+     */
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * This AsyncTask gets all projects associated with the current user when
+     *  the ShowProjectsActivity is started
+     */
+    class GetProjects extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ShowProjectsActivity.this);
+            pDialog.setMessage("Getting your projects...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args) {
+            String uid = userDetails.get(SessionManager.KEY_UID);
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("uid", uid));
+
+            // getting JSON Object
+            JSONObject json = jsonParser.makeHttpRequest(url_get_projects,
+                    "POST", params);
+
+            // check log cat for response
+            Log.d("Create Response", json.toString());
+
+            // check for success tag
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+
+                    JSONArray userArray = json.getJSONArray(TAG_USER);
+                    ProjectViewActivity.pids.clear();
+                    ProjectViewActivity.project_title.clear();
+                    ProjectViewActivity.project_desc.clear();
+                    ProjectViewActivity.pOwner.clear();
+                    for (int i = 0; i < userArray.length(); i++) {
+                        JSONObject user = userArray.getJSONObject(i);
+
+                        ProjectViewActivity.pOwner.add(user.getString(TAG_OWNER));
+                        ProjectViewActivity.pids.add(user.getString(TAG_PID));
+                        ProjectViewActivity.project_desc.add(user.getString(TAG_DESC));
+                        ProjectViewActivity.project_title.add(user.getString(TAG_TITLE));
+
+                    }
+                } else {
+                    // Failed to get anything from database
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "No projects were found",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /**
+         * Once the network operations are complete, this method
+         *  populates the listview
+         */
+        protected void onPostExecute(String file_url) {
+
+            if (pDialog != null) {
+                pDialog.dismiss();
+            }
+
+            setContentView(R.layout.projects_list);
+            ArrayList<String> items = new ArrayList<String>();
+
+            for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
+                if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
+                    items.add('*' + ProjectViewActivity.project_title.get(i));
+                }else{
+                    items.add(ProjectViewActivity.project_title.get(i));
+                }
+
+            }
+
+            ListView projectList = (ListView)findViewById(R.id.listView);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,R.id.titleLine,items);
+            projectList.setAdapter(adapter);
 
 
+
+
+
+            projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    ProjectViewActivity.position = position;
+                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
+
+                    startActivity(intent);
+                }
+            });
         }
     }
 }

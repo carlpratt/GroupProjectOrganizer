@@ -27,7 +27,8 @@
         <EditText
                 android:id="@+id/projectTitleEditText"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:maxLength="50"/>
 
         <TextView
                 android:id="@+id/projectDescriptionTextView"
@@ -39,6 +40,7 @@
                 android:id="@+id/projectDescriptionEditText"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:maxLength="500"
                 />
 
         <Button

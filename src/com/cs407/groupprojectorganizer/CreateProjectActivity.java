@@ -3,6 +3,7 @@ package com.cs407.groupprojectorganizer;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -50,10 +51,10 @@ public class CreateProjectActivity extends Activity {
 
         // Edit Text Fields
         inputProjectName = (EditText) findViewById(R.id.projectTitleEditText);
+
         inputProjectDescription = (EditText) findViewById(R.id.projectDescriptionEditText);
 
     }
-
 
     @Override
     public void onPause(){
@@ -75,14 +76,10 @@ public class CreateProjectActivity extends Activity {
                 // Verify user is online
                 if (isOnline()) {
                     new CreateProject().execute();
-
-                    Toast.makeText(getApplicationContext(), "Project has been created", Toast.LENGTH_SHORT).show();
-                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
                 }
-
                 break;
         }
     }
@@ -101,7 +98,7 @@ public class CreateProjectActivity extends Activity {
     }
 
     /**
-     * Background Async Task to execute the login
+     * Background Async Task to create a new project
      * */
     class CreateProject extends AsyncTask<String, String, String> {
 
@@ -125,7 +122,7 @@ public class CreateProjectActivity extends Activity {
 
             projectTitle = projectTitle.replace("'","''");
             projectDescription = projectDescription.replace("'","''");
-            
+
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("project_title", projectTitle));
@@ -146,18 +143,8 @@ public class CreateProjectActivity extends Activity {
 
                 if (success == 1) {
 
-
-
                 } else {
-                    // failed to create new user
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "Incorrect inputEmail and password",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    Toast.makeText(getApplicationContext(), "Project was not created", Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -174,7 +161,10 @@ public class CreateProjectActivity extends Activity {
             if (pDialog != null) {
                 pDialog.dismiss();
             }
-        }
 
+            Intent intent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 }
