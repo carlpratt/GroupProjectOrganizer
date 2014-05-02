@@ -40,7 +40,7 @@ public class ShowProjectsActivity extends Activity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_USER = "user";
+    private static final String TAG_USER = "users";
     private static final String TAG_TITLE = "project_title";
     private static final String TAG_PID = "pid";
     private static final String TAG_DESC = "project_description";
