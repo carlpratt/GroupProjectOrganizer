@@ -233,14 +233,17 @@ public class ProjectViewActivity extends ListActivity {
 
                     HashMap<String, String> map = new HashMap<String, String>();
 
-                    map.put(TAG_UID, user.get(TAG_UID).toString());
-                    map.put(TAG_NAME, user.get(TAG_NAME).toString());
-                    map.put(TAG_EMAIL, user.get(TAG_EMAIL).toString());
-                    map.put(TAG_PHONE, user.get(TAG_PHONE).toString());
-                    map.put(TAG_FACEBOOK, user.get(TAG_FACEBOOK).toString());
-                    map.put(TAG_GOOGLE, user.get(TAG_GOOGLE).toString());
+                    // If user is not us, add them to the display list
+                    if (!user.get(TAG_UID).toString().equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+                        map.put(TAG_UID, user.get(TAG_UID).toString());
+                        map.put(TAG_NAME, user.get(TAG_NAME).toString());
+                        map.put(TAG_EMAIL, user.get(TAG_EMAIL).toString());
+                        map.put(TAG_PHONE, user.get(TAG_PHONE).toString());
+                        map.put(TAG_FACEBOOK, user.get(TAG_FACEBOOK).toString());
+                        map.put(TAG_GOOGLE, user.get(TAG_GOOGLE).toString());
 
-                    usersList.add(map);
+                        usersList.add(map);
+                    }
                 }
             }
             catch (JSONException e){

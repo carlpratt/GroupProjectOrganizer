@@ -3,6 +3,7 @@ package com.cs407.groupprojectorganizer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.widget.TextView;
 
 public class ViewUserInProjectActivity extends Activity{
@@ -37,5 +38,8 @@ public class ViewUserInProjectActivity extends Activity{
         phone.setText(intent.getStringExtra(TAG_PHONE));
         facebook.setText(intent.getStringExtra(TAG_FACEBOOK));
         google.setText(intent.getStringExtra(TAG_GOOGLE));
+
+        Linkify.addLinks(facebook, Linkify.ALL);
+        Linkify.addLinks(google, Linkify.ALL);
     }
 }
