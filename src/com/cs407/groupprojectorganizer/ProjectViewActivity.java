@@ -1,6 +1,6 @@
 package com.cs407.groupprojectorganizer;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -10,18 +10,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProjectViewActivity extends Activity {
+public class ProjectViewActivity extends ListActivity {
 
 
     public static int position;
@@ -30,10 +29,22 @@ public class ProjectViewActivity extends Activity {
     public static ArrayList<String> pids = new ArrayList<String>();
     public static ArrayList<String> pOwner = new ArrayList<String>();
 
+    private static final String TAG_USERS = "users";
+    private static final String TAG_UID = "uid";
+    private static final String TAG_NAME = "name";
+    private static final String TAG_EMAIL = "email";
+    private static final String TAG_PHONE = "phone";
+    private static final String TAG_FACEBOOK = "facebook";
+    private static final String TAG_GOOGLE = "google";
+
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
+    private static String url_get_users_in_project = "http://group-project-organizer.herokuapp.com/get_users_in_project.php";
 
+    private ArrayList<HashMap<String, String>> usersList = new ArrayList<HashMap<String, String>>(); // Users for adapter
+
+    private ListAdapter adapter; // List adapter
     SessionManager session;
 
     String pid;
@@ -62,6 +73,11 @@ public class ProjectViewActivity extends Activity {
         if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
             Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
             deleteProjectButton.setVisibility(View.INVISIBLE);
+        }
+
+        // Grab all of the users in the project so we can populate the list
+        if (isOnline()) {
+            new GetUsersInProject().execute();
         }
     }
 
@@ -94,6 +110,29 @@ public class ProjectViewActivity extends Activity {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Shows the users in this project in a list
+     */
+    private void setUsersListAdapter(){
+
+        adapter = new SimpleAdapter(ProjectViewActivity.this, usersList, R.layout.user_in_project_list,
+                new String[] {TAG_UID, TAG_NAME},
+                new int[] {R.id.userInProjectUid, R.id.userInProjectName});
+
+        setListAdapter(adapter);
+
+        ListView usersInProjectListView = getListView();
+        usersInProjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id)
+            {
+
+            }
+        });
     }
 
     /**
@@ -141,6 +180,72 @@ public class ProjectViewActivity extends Activity {
             Intent intent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
+        }
+    }
+
+
+    /**
+     * Background Async Task to fetch all users in a project
+     * */
+    class GetUsersInProject extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ProjectViewActivity.this);
+            pDialog.setMessage("Fetching Project Info...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args) {
+
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("pid", pid));
+
+            // getting JSON Object
+            JSONObject json = jsonParser.makeHttpRequest(url_get_users_in_project,
+                    "POST", params);
+
+            Log.d("pid of selected project", pid);
+
+            try{
+                // check log cat for response
+                Log.d("Create Response", json.toString());
+
+                JSONArray userArray = json.getJSONArray(TAG_USERS);
+
+                for (int i = 0; i < userArray.length(); i++) {
+
+                    JSONObject user = userArray.getJSONObject(i);
+
+                    HashMap<String, String> map = new HashMap<String, String>();
+
+                    map.put(TAG_UID, user.get(TAG_UID).toString());
+                    map.put(TAG_NAME, user.get(TAG_NAME).toString());
+
+                    usersList.add(map);
+                }
+            }
+            catch (JSONException e){
+
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
+            // dismiss the dialog once done
+            if (pDialog != null) {
+                pDialog.dismiss();
+            }
+
+            setUsersListAdapter();
         }
     }
 }
