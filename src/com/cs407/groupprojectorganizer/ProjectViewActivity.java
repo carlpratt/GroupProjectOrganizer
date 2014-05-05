@@ -118,8 +118,8 @@ public class ProjectViewActivity extends ListActivity {
     private void setUsersListAdapter(){
 
         adapter = new SimpleAdapter(ProjectViewActivity.this, usersList, R.layout.user_in_project_list,
-                new String[] {TAG_UID, TAG_NAME},
-                new int[] {R.id.userInProjectUid, R.id.userInProjectName});
+                new String[] {TAG_NAME},
+                new int[] {R.id.userInProjectName});
 
         setListAdapter(adapter);
 
@@ -130,7 +130,14 @@ public class ProjectViewActivity extends ListActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id)
             {
+                Intent intent = new Intent(getApplicationContext(), ViewUserInProjectActivity.class);
+                intent.putExtra(TAG_NAME, usersList.get(position).get(TAG_NAME));
+                intent.putExtra(TAG_EMAIL, usersList.get(position).get(TAG_EMAIL));
+                intent.putExtra(TAG_PHONE, usersList.get(position).get(TAG_PHONE));
+                intent.putExtra(TAG_FACEBOOK, usersList.get(position).get(TAG_FACEBOOK));
+                intent.putExtra(TAG_GOOGLE, usersList.get(position).get(TAG_GOOGLE));
 
+                startActivity(intent);
             }
         });
     }
@@ -228,6 +235,10 @@ public class ProjectViewActivity extends ListActivity {
 
                     map.put(TAG_UID, user.get(TAG_UID).toString());
                     map.put(TAG_NAME, user.get(TAG_NAME).toString());
+                    map.put(TAG_EMAIL, user.get(TAG_EMAIL).toString());
+                    map.put(TAG_PHONE, user.get(TAG_PHONE).toString());
+                    map.put(TAG_FACEBOOK, user.get(TAG_FACEBOOK).toString());
+                    map.put(TAG_GOOGLE, user.get(TAG_GOOGLE).toString());
 
                     usersList.add(map);
                 }

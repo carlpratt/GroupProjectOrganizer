@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,11 +52,11 @@ public class EditProfileActivity extends Activity {
         userDetails = session.getUserDetails();
 
         // Edit Text Fields
-        inputName = (EditText) findViewById(R.id.nameEditText);
-        inputEmail = (EditText) findViewById(R.id.emailEditText);
-        inputPhone = (EditText) findViewById(R.id.phoneEditText);
-        inputFacebook = (EditText) findViewById(R.id.facebookEditText);
-        inputGoogle = (EditText) findViewById(R.id.googleEditText);
+        inputName = (EditText) findViewById(R.id.displayName);
+        inputEmail = (EditText) findViewById(R.id.displayEmail);
+        inputPhone = (EditText) findViewById(R.id.displayPhone);
+        inputFacebook = (EditText) findViewById(R.id.displayFacebook);
+        inputGoogle = (EditText) findViewById(R.id.displayGoogle);
 
         inputName.setText(userDetails.get(SessionManager.KEY_NAME));
         inputEmail.setText(userDetails.get(SessionManager.KEY_EMAIL));
