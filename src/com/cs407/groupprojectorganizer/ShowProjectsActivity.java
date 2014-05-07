@@ -215,9 +215,11 @@ public class ShowProjectsActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
                     ProjectViewActivity.position = position;
-                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
 
+                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
+                    intent.putExtra("PID",ProjectViewActivity.pids.get(position));
                     startActivity(intent);
+
                 }
             });
         }

@@ -40,6 +40,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
 
+    private static final String TAG_PROMPT = "prompt";
+
     //ArrayLists
 //    private JSONArray allAppUsers;//////////////////////////////////////////////
     private ArrayList<String> uids = new ArrayList<String>();
@@ -48,8 +50,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private ArrayList<String> phone = new ArrayList<String>();
     private ArrayList<String> facebook = new ArrayList<String>();
     private ArrayList<String> google = new ArrayList<String>();
-
+    private ArrayList<String> prompt = new ArrayList<String>();
     String uid;
+    String eee;
+    String pid;
     int pos;
 
     SessionManager session;
@@ -66,6 +70,12 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         super.onCreate(bundle);
 
         setContentView(R.layout.add_team_member);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            pid = extras.getString("PID");
+
+        }
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
@@ -103,7 +113,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         //store that user's uid
         uid = uids.get(pos);
-
+        eee = email.get(pos);
         new addTeamMember().execute();///////////////////////PHP FILE NEEDS REVISING?
 
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
@@ -197,15 +207,15 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         uids.add(temp.getString(TAG_UID));
                         name.add(temp.getString(TAG_NAME));
                         email.add(temp.getString(TAG_EMAIL));
-                        /////////////////////These lines prevent all users from being displayed
-                           if(!temp.has(TAG_PHONE)) {
-                               Log.d("hello", "hi");
-                           }
-//                        //phone.add(temp.getString(TAG_PHONE));
-//                        Log.d("phone adding arrayList", temp.getString(TAG_PHONE));
-//                        //facebook.add(temp.getString(TAG_FACEBOOK));
-//                        Log.d("facebook adding arraylist", temp.getString(TAG_FACEBOOK));
-//                        //google.add(temp.getString(TAG_GOOGLE));
+
+
+                        phone.add(temp.getString(TAG_PHONE));
+                        Log.d("phone adding arrayList", temp.getString(TAG_PHONE));
+                        facebook.add(temp.getString(TAG_FACEBOOK));
+                        Log.d("facebook adding arraylist", temp.getString(TAG_FACEBOOK));
+                        google.add(temp.getString(TAG_GOOGLE));
+                        prompt.add(temp.getString(TAG_PROMPT));
+
                     }
 
                 } else {
@@ -235,7 +245,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             //add the names
             for (int i = 0; i < name.size(); i++) {
-                items.add(name.get(i));
+
+                    items.add(name.get(i));
+
             }
 
             selection = (TextView)findViewById(R.id.selection);
@@ -267,6 +279,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             //Building parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("email",eee));
+            params.add(new BasicNameValuePair("pid", pid));
             params.add(new BasicNameValuePair("uid", uid));
 
             Log.d("uid of added user", uid);

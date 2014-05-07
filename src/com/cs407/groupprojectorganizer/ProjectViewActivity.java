@@ -58,18 +58,23 @@ public class ProjectViewActivity extends Activity {
     private static final String TAG_PHONE = "phone";
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
-
+    private String pid;
 
     SessionManager session;
 
-    String pid;
+
     HashMap<String, String> userDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.project_view);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+              pid = extras.getString("PID");
+
+        }
+        //setContentView(R.layout.project_view);
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
@@ -80,25 +85,6 @@ public class ProjectViewActivity extends Activity {
         }
 
 
-        TextView proj = (TextView)findViewById(R.id.project_name_textview);
-        TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
-        TextView own = (TextView)findViewById(R.id.textview_owner);
-
-        proj.setText(project_title.get(position));
-        desc.setText(project_desc.get(position));
-        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
-            own.setText("*Owner*");
-        }
-
-        //store the project's pid
-
-        pid = pids.get(position);
-
-        // Only a project owner can delete a project
-        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
-            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
-            deleteProjectButton.setVisibility(View.INVISIBLE);
-        }
     }
 
     public void onButtonClick(View view){
@@ -131,8 +117,9 @@ public class ProjectViewActivity extends Activity {
 
                     Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
 
+                    i.putExtra("PID",pid);
+                    startActivity(i);
                     break;
 
                 } else {
@@ -292,7 +279,7 @@ public class ProjectViewActivity extends Activity {
             if (pDialog != null) {
                 pDialog.dismiss();
             }
-
+            setContentView(R.layout.project_view);
             ArrayList<String> items = new ArrayList<String>();
 
 
@@ -306,6 +293,27 @@ public class ProjectViewActivity extends Activity {
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,
                     R.id.titleLine, items);
             usersList.setAdapter(adapter);
+
+
+            TextView proj = (TextView)findViewById(R.id.project_name_textview);
+            TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
+            TextView own = (TextView)findViewById(R.id.textview_owner);
+
+            proj.setText(project_title.get(position));
+            desc.setText(project_desc.get(position));
+            if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+                own.setText("*Owner*");
+            }
+
+            //store the project's pid
+
+            //pid = pids.get(position);
+
+            // Only a project owner can delete a project
+            if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+                Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
+                deleteProjectButton.setVisibility(View.INVISIBLE);
+            }
 
             //Handle click events on Users
             usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
