@@ -20,6 +20,6 @@
     <string name="project_description_edit_text">Project Description</string>
     <string name="btnAddTeamMember">Add Team Member</string>
     <string name="search_hint">Search Users</string>
-
+    <color name="BlackColor">#000000</color>
 
 </resources>

@@ -12,8 +12,8 @@
             android:layout_alignWithParentIfMissing="true"
             android:gravity="center_vertical"
             android:text="Example application"
-            android:textSize="20sp"/>
-            //android:textColor="@color/BlackColor"
+            android:textSize="20sp"
+            android:textColor="@color/BlackColor"
             />
 
 </RelativeLayout>

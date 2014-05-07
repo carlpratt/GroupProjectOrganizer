@@ -81,6 +81,7 @@ public class CreateProjectActivity extends Activity {
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
         }
     }
 
@@ -143,7 +144,9 @@ public class CreateProjectActivity extends Activity {
 
                 if (success == 1) {
 
-                } else {/////////////crashing
+
+                } else {
+
                     Toast.makeText(getApplicationContext(), "Project was not created", Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {

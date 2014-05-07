@@ -27,8 +27,8 @@ import java.util.List;
 
 public class ShowProjectsActivity extends Activity {
 
-
     public SessionManager session;
+
 
     private ProgressDialog pDialog;
 
@@ -147,13 +147,16 @@ public class ShowProjectsActivity extends Activity {
                 if (success == 1) {
 
                     //creates array of JSON objects representing the user's projects
+
                     JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
                     ProjectViewActivity.pids.clear();
                     ProjectViewActivity.project_title.clear();
                     ProjectViewActivity.project_desc.clear();
                     ProjectViewActivity.pOwner.clear();
+
                     //goes through each project, takes the pieces of information and adds them to the
                     //ArrayLists in the ProjectViewActivity
+
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 

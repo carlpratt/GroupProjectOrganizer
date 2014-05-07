@@ -16,8 +16,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +25,12 @@ public class ProjectViewActivity extends Activity {
 
     public static int position;
     //Project Attributes
+
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
     public static ArrayList<String> pids = new ArrayList<String>();
     public static ArrayList<String> pOwner = new ArrayList<String>();
+
     //User Attributes
     private ArrayList<String> uids = new ArrayList<String>();
     private ArrayList<String> name = new ArrayList<String>();
@@ -39,9 +39,11 @@ public class ProjectViewActivity extends Activity {
     private ArrayList<String> facebook = new ArrayList<String>();
     private ArrayList<String> google = new ArrayList<String>();
 
+
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
+
     private static String url_get_users_in_project = "http://group-project-organizer.herokuapp.com/get_users_in_project.php";
 
     public static JSONObject selected;
@@ -77,6 +79,7 @@ public class ProjectViewActivity extends Activity {
             new GetProjectUsers().execute();
         }
 
+
         TextView proj = (TextView)findViewById(R.id.project_name_textview);
         TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
         TextView own = (TextView)findViewById(R.id.textview_owner);
@@ -88,6 +91,7 @@ public class ProjectViewActivity extends Activity {
         }
 
         //store the project's pid
+
         pid = pids.get(position);
 
         // Only a project owner can delete a project
@@ -99,26 +103,26 @@ public class ProjectViewActivity extends Activity {
 
     public void onButtonClick(View view){
 
-        switch (view.getId()){
-            //Button to delete a project is pressed
+        switch (view.getId()) {
+
             case R.id.btnDeleteProject:
 
-                if (isOnline()){
 
-                    new DeleteProject().execute();
+            if (isOnline()) {
 
-                    //Remove project info from ArrayLists
-                    project_desc.remove(position);
-                    project_title.remove(position);
-                    pids.remove(position);
-                    pOwner.remove(position);
+                new DeleteProject().execute();
 
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Network connection required to do this", Toast.LENGTH_SHORT).show();
-                }
+                project_desc.remove(position);
+                project_title.remove(position);
+                pids.remove(position);
+                pOwner.remove(position);
 
-                break;
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "Network connection required to do this", Toast.LENGTH_SHORT).show();
+            }
+
+            break;
 
             //Button to add a team member is pressed
             case R.id.btnAddTeamMember:
@@ -134,6 +138,7 @@ public class ProjectViewActivity extends Activity {
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
+
                 }
                 break;
         }
@@ -323,3 +328,4 @@ public class ProjectViewActivity extends Activity {
         }
     }
 }
+
