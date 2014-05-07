@@ -46,7 +46,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:clickable="true"
-            android:typeface="sans"/>
+            android:typeface="sans"
+            android:onClick="onButtonClick"/>
 
     <Button android:id="@+id/btnDeleteProject"
             android:layout_width="wrap_content"

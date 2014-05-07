@@ -31,6 +31,7 @@ public class ProjectViewActivity extends ListActivity {
 
     private static final String TAG_USERS = "users";
     private static final String TAG_UID = "uid";
+    private static final String TAG_PID = "pid";
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
     private static final String TAG_PHONE = "phone";
@@ -96,6 +97,14 @@ public class ProjectViewActivity extends ListActivity {
                     pOwner.remove(position);
                 }
                 break;
+
+            case R.id.btnAddTeamMember:
+
+                if (isOnline()){
+                    Intent intent = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
+                    intent.putExtra(TAG_PID, pid);
+                    startActivity(intent);
+                }
         }
     }
 
@@ -164,7 +173,7 @@ public class ProjectViewActivity extends ListActivity {
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("pid", pid));
+            params.add(new BasicNameValuePair(TAG_PID, pid));
 
             Log.d("pid of deleted project", pid);
 
@@ -213,7 +222,7 @@ public class ProjectViewActivity extends ListActivity {
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("pid", pid));
+            params.add(new BasicNameValuePair(TAG_PID, pid));
 
             // getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_get_users_in_project,

@@ -34,6 +34,7 @@
         <activity android:name=".SettingsActivity"></activity>
         <activity android:name=".ProjectViewActivity"></activity>
         <activity android:name=".ViewUserInProjectActivity"></activity>
+        <activity android:name=".AddTeamMemberActivity"></activity>
 
     </application>
 

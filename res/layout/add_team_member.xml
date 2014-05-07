@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:id="@+id/addPersonName"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="127dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/addPersonEmail"
+            android:text="Email"
+            android:layout_below="@+id/addPersonName"
+            android:layout_alignLeft="@+id/addPersonName"
+            android:layout_alignStart="@+id/addPersonName"
+            android:layout_marginTop="114dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:id="@+id/textView"
+            android:layout_below="@+id/addPersonName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="53dp"/>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Group Member"
+            android:id="@+id/btnSearchAndAddGroupMember"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/addPersonEmail"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="35dp"
+            android:onClick="onButtonClick"/>
+</RelativeLayout>
+    </ScrollView>
