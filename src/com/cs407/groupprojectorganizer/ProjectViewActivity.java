@@ -119,6 +119,7 @@ public class ProjectViewActivity extends Activity {
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
 
                     i.putExtra("PID",pid);
+                    i.putExtra("UIDS",uids);
                     startActivity(i);
                     break;
 
@@ -284,18 +285,13 @@ public class ProjectViewActivity extends Activity {
                 pDialog.dismiss();
             }
             setContentView(R.layout.project_view);
-            ArrayList<String> items = new ArrayList<String>();
 
-
-            for (int i = 0; i < name.size(); i++) {
-                items.add(name.get(i));
-            }
 
             //create list of the project members and populate the ListView with them
             ListView usersList = (ListView)findViewById(R.id.list_project_members);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,
-                    R.id.titleLine, items);
+                    R.id.titleLine, name);
             usersList.setAdapter(adapter);
 
 
@@ -304,9 +300,16 @@ public class ProjectViewActivity extends Activity {
             TextView own = (TextView)findViewById(R.id.textview_owner);
 
             proj.setText(project_title.get(position));
-            desc.setText(project_desc.get(position));
-            if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+            if(project_desc.get(position).trim().length() == 0){
+                desc.setVisibility(View.GONE);
+            }else{
+                desc.setText(project_desc.get(position));
+            }
+
+            if(pOwner.get(position).equals(userDetails.get(SessionManager.KEY_UID))){
                 own.setText("*Owner*");
+            }else{
+                own.setText("Owner: " + name.get(position));
             }
 
             //store the project's pid
@@ -316,7 +319,9 @@ public class ProjectViewActivity extends Activity {
             // Only a project owner can delete a project
             if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
                 Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
-                deleteProjectButton.setVisibility(View.INVISIBLE);
+                deleteProjectButton.setVisibility(View.GONE);
+                Button addTeamMember = (Button) findViewById(R.id.btnAddTeamMember);
+                addTeamMember.setVisibility(View.GONE);
             }
 
             //Handle click events on Users

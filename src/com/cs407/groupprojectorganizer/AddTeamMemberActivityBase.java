@@ -63,6 +63,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final int SEARCH_ID = Menu.FIRST+1;
     TextView selection;
     ArrayList<String> items = new ArrayList<String>();
+    ArrayList<String> dontShow = new ArrayList<String>();
 //    ArrayList<JSONObject> allUsers;/////////////////////////////////////////////
 
     @Override
@@ -74,7 +75,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             pid = extras.getString("PID");
-
+            dontShow = extras.getStringArrayList("UIDS");
         }
 
         session = new SessionManager(getApplicationContext());
@@ -100,16 +101,16 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         String thisName = parent.getAdapter().getItem(position).toString();
         selection.setText(thisName);
-        Toast.makeText(this, "Position in this list: " + position, Toast.LENGTH_SHORT).show();//////////
+
 
         //Find the selected user's position in the entire list
         for (int i = 0; i < name.size(); i++) {
-            if (thisName == name.get(i)) {
+            if (thisName.equals(name.get(i))) {
                 pos = i;
             }
         }
 
-        Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();/////////////
+
 
         //store that user's uid
         uid = uids.get(pos);
@@ -245,9 +246,18 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                 pDialog.dismiss();
 
             //add the names
-            for (int i = 0; i < name.size(); i++) {
 
+            for (int i = 0; i < name.size(); i++) {
+               boolean addMember = true;
+               for(int k = 0; k < dontShow.size(); k++) {
+                   if(uids.get(i).equals(dontShow.get(k))){
+                       addMember = false;
+                   }
+
+               }
+                if(addMember){
                     items.add(name.get(i));
+                }
 
             }
 

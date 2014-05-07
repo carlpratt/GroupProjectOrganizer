@@ -13,14 +13,16 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/project_name_textview"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_margin="15dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textview_owner"
             android:layout_below="@id/project_name_textview"
-            android:textSize="16sp"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="14sp"
+            android:layout_centerHorizontal="true"
+            android:text="project owner"/>
     <TextView
             android:id="@+id/project_description_edit_text"
             android:layout_width="wrap_content"
@@ -33,9 +35,7 @@
             android:layout_alignParentEnd="true"
             android:textSize="20sp"
             android:typeface="sans"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_margin="10dp"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             android:layout_below="@id/project_description_edit_text"
             android:onClick="onButtonClick"
             android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"
+            android:layout_margin="15dp"
             android:clickable="true"
             android:typeface="sans"/>
 
@@ -63,7 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_project_members"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_margin="15dp"
+            />
 
 
 
