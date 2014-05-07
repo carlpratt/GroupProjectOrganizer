@@ -51,10 +51,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private ArrayList<String> facebook = new ArrayList<String>();
     private ArrayList<String> google = new ArrayList<String>();
     private ArrayList<String> prompt = new ArrayList<String>();
-    String uid;
-    String eee;
-    String pid;
-    int pos;
+    private String uid;
+    private String eee;
+    private String pid;
+    private int pos;
 
     SessionManager session;
     HashMap<String, String> userDetails;
@@ -114,9 +114,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         //store that user's uid
         uid = uids.get(pos);
         eee = email.get(pos);
-        new addTeamMember().execute();///////////////////////PHP FILE NEEDS REVISING?
+        new addTeamMember().execute();
 
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
+        intent.putExtra("PID",pid);
         startActivity(intent);
 
     }

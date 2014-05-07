@@ -50,7 +50,7 @@ public class ProjectViewActivity extends Activity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    //private static final String TAG_MESSAGE = "message";
+    private static final String TAG_MESSAGE = "message";
     private static final String TAG_USERS = "users";
     private static final String TAG_UID = "uid";
     private static final String TAG_NAME = "name";
@@ -264,6 +264,10 @@ public class ProjectViewActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
+                    Log.d("hey", pid);
+
+                    String cool = json.getString(TAG_MESSAGE);
+                    Log.d("hey", cool );
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
