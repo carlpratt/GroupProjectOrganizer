@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -197,7 +198,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         name.add(temp.getString(TAG_NAME));
                         email.add(temp.getString(TAG_EMAIL));
                         /////////////////////These lines prevent all users from being displayed
-//
+                           if(!temp.has(TAG_PHONE)) {
+                               Log.d("hello", "hi");
+                           }
 //                        //phone.add(temp.getString(TAG_PHONE));
 //                        Log.d("phone adding arrayList", temp.getString(TAG_PHONE));
 //                        //facebook.add(temp.getString(TAG_FACEBOOK));
