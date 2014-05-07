@@ -41,7 +41,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final String TAG_GOOGLE = "google";
 
     //ArrayLists
-//    private JSONArray allAppUsers;//////////////////////////////////////////////
     private ArrayList<String> uids = new ArrayList<String>();
     private ArrayList<String> name = new ArrayList<String>();
     private ArrayList<String> email = new ArrayList<String>();
@@ -61,7 +60,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final int SEARCH_ID = Menu.FIRST+1;
     TextView selection;
     ArrayList<String> items = new ArrayList<String>();
-//    ArrayList<JSONObject> allUsers;/////////////////////////////////////////////
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -69,11 +67,12 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         setContentView(R.layout.add_team_member);
 
+        //grab the pid passed in through Intent Extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             pid = extras.getString("PID");
-            //u_email = extras.getString("EMAIL");
         }
+
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
 
@@ -81,7 +80,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         if (isOnline()) {
             new getAllUsers().execute();
         }
-
     }
 
     @Override
@@ -108,6 +106,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();/////////////
 
+        u_email = email.get(pos);
         //store that user's uid
         uid = uids.get(pos);
 
@@ -204,10 +203,17 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         uids.add(temp.getString(TAG_UID));
                         name.add(temp.getString(TAG_NAME));
                         email.add(temp.getString(TAG_EMAIL));
+                        if (temp.getString(TAG_PHONE) != null)
+                            phone.add(temp.getString(TAG_PHONE));
+                        if (temp.getString(TAG_FACEBOOK) != null)
+                            facebook.add(temp.getString(TAG_FACEBOOK));
+                        if (temp.getString(TAG_GOOGLE) != null)
+                            google.add(temp.getString(TAG_GOOGLE));
+
                         /////////////////////These lines prevent all users from being displayed
-                           if(!temp.has(TAG_PHONE)) {
-                               Log.d("hello", "hi");
-                           }
+//                           if(!temp.has(TAG_PHONE)) {
+//                               Log.d("hello", "hi");
+//                           }
 //                        //phone.add(temp.getString(TAG_PHONE));
 //                        Log.d("phone adding arrayList", temp.getString(TAG_PHONE));
 //                        //facebook.add(temp.getString(TAG_FACEBOOK));
@@ -248,7 +254,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
             selection = (TextView)findViewById(R.id.selection);
             setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
             onNewIntent(getIntent());
-
         }
     }
 

@@ -70,7 +70,7 @@ public class ProjectViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.project_view);
+        //setContentView(R.layout.project_view);
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
@@ -78,17 +78,6 @@ public class ProjectViewActivity extends Activity {
         //Start the AsyncTask to populate the ListView before showing on screen
         if (isOnline()) {
             new GetProjectUsers().execute();
-        }
-
-
-        TextView proj = (TextView)findViewById(R.id.project_name_textview);
-        TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
-        TextView own = (TextView)findViewById(R.id.textview_owner);
-
-        proj.setText(project_title.get(position));
-        desc.setText(project_desc.get(position));
-        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
-            own.setText("*Owner*");
         }
 
         //store the project's pid
@@ -137,9 +126,8 @@ public class ProjectViewActivity extends Activity {
 
                     Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
                     i.putExtra("PID", pid);
-                    //i.putExtra("EMAIL", u_email);///////////////
+                    startActivity(i);
 
                     break;
 
@@ -297,8 +285,16 @@ public class ProjectViewActivity extends Activity {
          */
         protected void onPostExecute(String file_url) {
 
-            if (pDialog != null) {
-                pDialog.dismiss();
+            setContentView(R.layout.project_view);
+
+            TextView proj = (TextView)findViewById(R.id.project_name_textview);
+            TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
+            TextView own = (TextView)findViewById(R.id.textview_owner);
+
+            proj.setText(project_title.get(position));
+            desc.setText(project_desc.get(position));
+            if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+                own.setText("*Owner*");
             }
 
             ArrayList<String> items = new ArrayList<String>();
@@ -319,6 +315,10 @@ public class ProjectViewActivity extends Activity {
                     R.id.titleLine, items);
             usersList.setAdapter(adapter);
 
+            if (pDialog != null) {
+                pDialog.dismiss();
+            }
+
             //Handle click events on Users
             usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -332,6 +332,7 @@ public class ProjectViewActivity extends Activity {
                     intent.putExtra("USER_PHONE", phone.get(position));
                     intent.putExtra("USER_FACEBOOK", facebook.get(position));
                     intent.putExtra("USER_GOOGLE", google.get(position));
+
 
                     startActivity(intent);
                 }
