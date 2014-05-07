@@ -11,7 +11,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="44dp"
             android:layout_marginTop="42dp"
-            android:text="Discoverable"
+            android:text="Not-Discoverable"
             android:textSize="20dp"
             android:checked="false"/>
 
