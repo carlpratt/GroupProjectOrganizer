@@ -48,8 +48,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private ArrayList<String> facebook = new ArrayList<String>();
     private ArrayList<String> google = new ArrayList<String>();
 
-    String uid;
-    int pos;
+    private String u_email;
+    private String pid;
+    private String uid;
+    private int pos;
 
     SessionManager session;
     HashMap<String, String> userDetails;
@@ -66,6 +68,11 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         setContentView(R.layout.add_team_member);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            pid = extras.getString("PID");
+            //u_email = extras.getString("EMAIL");
+        }
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
 
@@ -103,7 +110,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         //store that user's uid
         uid = uids.get(pos);
 
-        new addTeamMember().execute();///////////////////////PHP FILE NEEDS REVISING?
+        new addTeamMember().execute();
 
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
         startActivity(intent);
@@ -264,7 +271,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             //Building parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("uid", uid));
+            params.add(new BasicNameValuePair("pid", pid));
+            params.add(new BasicNameValuePair("email", u_email));
 
             Log.d("uid of added user", uid);
 

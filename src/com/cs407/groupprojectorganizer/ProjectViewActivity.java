@@ -62,7 +62,8 @@ public class ProjectViewActivity extends Activity {
 
     SessionManager session;
 
-    String pid;
+    private String u_email;
+    private String pid;
     HashMap<String, String> userDetails;
 
     @Override
@@ -91,13 +92,18 @@ public class ProjectViewActivity extends Activity {
         }
 
         //store the project's pid
-
         pid = pids.get(position);
+        //store the user's email
+        //u_email = email.get(ViewUserActivity.position);/////////////////////////////////
+
 
         // Only a project owner can delete a project
         if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
             Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
             deleteProjectButton.setVisibility(View.INVISIBLE);
+
+            Button addTeamMemberButton = (Button) findViewById(R.id.btnAddTeamMember);
+            addTeamMemberButton.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -132,6 +138,8 @@ public class ProjectViewActivity extends Activity {
                     Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
+                    i.putExtra("PID", pid);
+                    //i.putExtra("EMAIL", u_email);///////////////
 
                     break;
 
@@ -298,6 +306,10 @@ public class ProjectViewActivity extends Activity {
 
             for (int i = 0; i < name.size(); i++) {
                 items.add(name.get(i));
+            }
+
+            for (int j = 0; j < name.size(); j++) {
+                System.out.println(name.get(j));
             }
 
             //create list of the project members and populate the ListView with them
