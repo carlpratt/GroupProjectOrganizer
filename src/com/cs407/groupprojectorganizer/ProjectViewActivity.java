@@ -58,17 +58,25 @@ public class ProjectViewActivity extends Activity {
     private static final String TAG_PHONE = "phone";
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
-
+    //private String pid;
 
     SessionManager session;
 
     private String u_email;
     private String pid;
+
     HashMap<String, String> userDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+              pid = extras.getString("PID");
+
+        }
 
         //setContentView(R.layout.project_view);
 
@@ -129,6 +137,9 @@ public class ProjectViewActivity extends Activity {
                     i.putExtra("PID", pid);
                     startActivity(i);
 
+
+                    i.putExtra("PID",pid);
+                    startActivity(i);
                     break;
 
                 } else {
@@ -296,7 +307,7 @@ public class ProjectViewActivity extends Activity {
             if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
                 own.setText("*Owner*");
             }
-
+            setContentView(R.layout.project_view);
             ArrayList<String> items = new ArrayList<String>();
 
 
@@ -317,6 +328,7 @@ public class ProjectViewActivity extends Activity {
 
             if (pDialog != null) {
                 pDialog.dismiss();
+
             }
 
             //Handle click events on Users

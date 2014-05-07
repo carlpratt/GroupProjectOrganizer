@@ -40,6 +40,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
 
+    private static final String TAG_PROMPT = "prompt";
+
     //ArrayLists
     private ArrayList<String> uids = new ArrayList<String>();
     private ArrayList<String> name = new ArrayList<String>();
@@ -48,10 +50,11 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private ArrayList<String> facebook = new ArrayList<String>();
     private ArrayList<String> google = new ArrayList<String>();
 
-    private String u_email;
-    private String pid;
-    private String uid;
-    private int pos;
+    private ArrayList<String> prompt = new ArrayList<String>();
+    String uid;
+    String eee;
+    String pid;
+    int pos;
 
     SessionManager session;
     HashMap<String, String> userDetails;
@@ -67,10 +70,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         setContentView(R.layout.add_team_member);
 
-        //grab the pid passed in through Intent Extras
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        if(extras != null){
             pid = extras.getString("PID");
+
         }
 
         session = new SessionManager(getApplicationContext());
@@ -106,11 +109,11 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();/////////////
 
-        u_email = email.get(pos);
         //store that user's uid
         uid = uids.get(pos);
 
-        new addTeamMember().execute();
+        eee = email.get(pos);
+        new addTeamMember().execute();///////////////////////PHP FILE NEEDS REVISING?
 
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
         startActivity(intent);
@@ -203,6 +206,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         uids.add(temp.getString(TAG_UID));
                         name.add(temp.getString(TAG_NAME));
                         email.add(temp.getString(TAG_EMAIL));
+
                         if (temp.getString(TAG_PHONE) != null)
                             phone.add(temp.getString(TAG_PHONE));
                         if (temp.getString(TAG_FACEBOOK) != null)
@@ -210,15 +214,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         if (temp.getString(TAG_GOOGLE) != null)
                             google.add(temp.getString(TAG_GOOGLE));
 
-                        /////////////////////These lines prevent all users from being displayed
-//                           if(!temp.has(TAG_PHONE)) {
-//                               Log.d("hello", "hi");
-//                           }
-//                        //phone.add(temp.getString(TAG_PHONE));
-//                        Log.d("phone adding arrayList", temp.getString(TAG_PHONE));
-//                        //facebook.add(temp.getString(TAG_FACEBOOK));
-//                        Log.d("facebook adding arraylist", temp.getString(TAG_FACEBOOK));
-//                        //google.add(temp.getString(TAG_GOOGLE));
                     }
 
                 } else {
@@ -248,7 +243,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             //add the names
             for (int i = 0; i < name.size(); i++) {
-                items.add(name.get(i));
+
+                    items.add(name.get(i));
+
             }
 
             selection = (TextView)findViewById(R.id.selection);
@@ -279,8 +276,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             //Building parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            params.add(new BasicNameValuePair("email",eee));
             params.add(new BasicNameValuePair("pid", pid));
-            params.add(new BasicNameValuePair("email", u_email));
+            params.add(new BasicNameValuePair("uid", uid));
 
             Log.d("uid of added user", uid);
 
