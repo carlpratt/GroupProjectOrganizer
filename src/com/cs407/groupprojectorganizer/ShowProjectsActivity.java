@@ -40,7 +40,7 @@ public class ShowProjectsActivity extends Activity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_USER = "user";
+    private static final String TAG_PROJECTS = "projects";
     private static final String TAG_TITLE = "project_title";
     private static final String TAG_PID = "pid";
     private static final String TAG_DESC = "project_description";
@@ -128,10 +128,12 @@ public class ShowProjectsActivity extends Activity {
             String uid = userDetails.get(SessionManager.KEY_UID);
 
             // Building Parameters
+            //Puts the user by his 'id' in this list- only has 1 element- the current user
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("uid", uid));
 
             // getting JSON Object
+            //php request for database
             JSONObject json = jsonParser.makeHttpRequest(url_get_projects,
                     "POST", params);
 
@@ -144,11 +146,14 @@ public class ShowProjectsActivity extends Activity {
 
                 if (success == 1) {
 
-                    JSONArray userArray = json.getJSONArray(TAG_USER);
+                    //creates array of JSON objects representing the user's projects
+                    JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
                     ProjectViewActivity.pids.clear();
                     ProjectViewActivity.project_title.clear();
                     ProjectViewActivity.project_desc.clear();
                     ProjectViewActivity.pOwner.clear();
+                    //goes through each project, takes the pieces of information and adds them to the
+                    //ArrayLists in the ProjectViewActivity
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 
@@ -198,12 +203,8 @@ public class ShowProjectsActivity extends Activity {
             }
 
             ListView projectList = (ListView)findViewById(R.id.listView);
-
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,R.id.titleLine,items);
             projectList.setAdapter(adapter);
-
-
-
 
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

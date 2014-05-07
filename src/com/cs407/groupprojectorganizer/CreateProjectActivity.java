@@ -100,7 +100,7 @@ public class CreateProjectActivity extends Activity {
     /**
      * Background Async Task to create a new project
      * */
-    class CreateProject extends AsyncTask<String, String, String> {
+    class CreateProject extends AsyncTask<String, String, String> {////////crashing
 
         /**
          * Before starting background thread Show Progress Dialog
@@ -143,7 +143,7 @@ public class CreateProjectActivity extends Activity {
 
                 if (success == 1) {
 
-                } else {
+                } else {/////////////crashing
                     Toast.makeText(getApplicationContext(), "Project was not created", Toast.LENGTH_LONG).show();
                 }
             } catch (JSONException e) {

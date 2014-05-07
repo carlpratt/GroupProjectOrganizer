@@ -1,33 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent">
 
     <TextView
-            android:id="@+id/add_team_member_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Add Team Member"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp" android:typeface="normal"/>
-    <SearchView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchViewTeamMembers"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/add_team_member_textview"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/listViewTeamMembers"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/searchViewTeamMembers"/>
+        android:id="@+id/selection"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
 
+    <ListView android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:id="@android:id/list"
+              android:drawSelectorOnTop="false"
+              />
 
-</RelativeLayout>
+</LinearLayout>

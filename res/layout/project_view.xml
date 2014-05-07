@@ -25,7 +25,7 @@
             android:id="@+id/project_description_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_owner"
+            android:layout_below="@id/textview_owner"
             android:layout_alignParentLeft="true"
             android:text="@string/project_description_edit_text"
             android:layout_alignParentStart="true"
@@ -43,6 +43,7 @@
             android:id="@+id/btnAddTeamMember"
             android:layout_marginTop="50dp"
             android:layout_below="@id/project_description_edit_text"
+            android:onClick="onButtonClick"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:clickable="true"
@@ -53,9 +54,12 @@
             android:layout_height="wrap_content"
             android:text="Delete Project"
             android:onClick="onButtonClick"
-            android:layout_marginTop="36dp"
+            android:clickable="true"
             android:layout_below="@id/btnAddTeamMember"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_alignRight="@id/project_name_textview"
+            android:layout_alignEnd="@id/project_name_textview"/>
+
     <ListView
             android:layout_below="@id/btnDeleteProject"
             android:layout_width="wrap_content"

@@ -26,25 +26,31 @@ public class ProjectViewActivity extends Activity {
 
 
     public static int position;
-
-    //Project
+    //Project Attributes
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
     public static ArrayList<String> pids = new ArrayList<String>();
     public static ArrayList<String> pOwner = new ArrayList<String>();
-
-    public static ArrayList<String> project_uids = new ArrayList<String>();///////////////////need to get from DB////NEED TO ADD TO WHEN ADD_USER BUTTON USED
-
+    //User Attributes
+    private ArrayList<String> uids = new ArrayList<String>();
+    private ArrayList<String> name = new ArrayList<String>();
+    private ArrayList<String> email = new ArrayList<String>();
+    private ArrayList<String> phone = new ArrayList<String>();
+    private ArrayList<String> facebook = new ArrayList<String>();
+    private ArrayList<String> google = new ArrayList<String>();
 
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
-    private static String url_get_project_users = "http://group-project-organizer.herokuapp.com/get_project_users.php";
+    private static String url_get_users_in_project = "http://group-project-organizer.herokuapp.com/get_users_in_project.php";
 
+    public static JSONObject selected;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_USER = "user";
+    //private static final String TAG_MESSAGE = "message";
+    private static final String TAG_USERS = "users";
+    private static final String TAG_UID = "uid";
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
     private static final String TAG_PHONE = "phone";
@@ -61,7 +67,7 @@ public class ProjectViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //setContentView(R.layout.project_view);///////Moved to the AsyncTask getProjectUsers
+        setContentView(R.layout.project_view);
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
@@ -71,7 +77,6 @@ public class ProjectViewActivity extends Activity {
             new GetProjectUsers().execute();
         }
 
-        //Need to put this in the AsyncTask?
         TextView proj = (TextView)findViewById(R.id.project_name_textview);
         TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
         TextView own = (TextView)findViewById(R.id.textview_owner);
@@ -82,6 +87,7 @@ public class ProjectViewActivity extends Activity {
             own.setText("*Owner*");
         }
 
+        //store the project's pid
         pid = pids.get(position);
 
         // Only a project owner can delete a project
@@ -101,10 +107,12 @@ public class ProjectViewActivity extends Activity {
 
                     new DeleteProject().execute();
 
+                    //Remove project info from ArrayLists
                     project_desc.remove(position);
                     project_title.remove(position);
                     pids.remove(position);
                     pOwner.remove(position);
+
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
@@ -117,9 +125,10 @@ public class ProjectViewActivity extends Activity {
 
                 if (isOnline()) {
 
-                    Intent i = new Intent (getApplicationContext(), AddTeamMemberActivity.class);
-
+                    Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
+                    i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
+
                     break;
 
                 } else {
@@ -197,9 +206,9 @@ public class ProjectViewActivity extends Activity {
      */
     class GetProjectUsers extends AsyncTask<String, String, String> {
 
-        /**
-         * Before starting background thread Show Progress Dialog
-         * */
+        /*
+        Before starting background thread Show Progress Dialog
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -210,15 +219,19 @@ public class ProjectViewActivity extends Activity {
             pDialog.show();
         }
 
-        protected String doInBackground(String... args) {
-            String uid = userDetails.get(SessionManager.KEY_UID);
+        /*
+        Queries the Database and gathers necesssary information
+         */
+        protected String doInBackground(String... args) {//////////////////////Not always getting the right information
+            //String pid = userDetails.get(SessionManager.KEY_UID);
 
             //Build parameters associated to user
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("uid", uid));
+            params.add(new BasicNameValuePair("pid", pid));
 
             //getting JSON Object
-            JSONObject json = jsonParser.makeHttpRequest(url_get_project_users, "POST", params);///PHP CODE
+            JSONObject json = jsonParser.makeHttpRequest(url_get_users_in_project,
+                    "POST", params);
 
             //check log cat for response
             Log.d("Create Response", json.toString());
@@ -229,30 +242,25 @@ public class ProjectViewActivity extends Activity {
 
                 if (success == 1) {
 
-                    /*
-                        NEED AN ARRAY OF USERS ASSOCIATED WITH THE CURRENT PROJECT
-                        EACH ITEM IN THE LIST WILL HAVE THE USER'S NAME, AND WILL NEED
-                        THE INFORMATION ASSOCIATED WITH THE UID TO FORMAT THE NEXT SCREEN (project_user_view)
+                    //creates array of team members associated with the project
+                    JSONArray projectUsers = json.getJSONArray(TAG_USERS);
+                    uids.clear();
+                    name.clear();
+                    email.clear();
+                    phone.clear();
+                    facebook.clear();
+                    google.clear();
 
-                        NEED TO USE THE USER_TO_PROJECTS TABLE?
-                     */
-
-                    JSONArray projectUsers = json.getJSONArray(TAG_USER);
-                    ViewUserActivity.name.clear();
-                    ViewUserActivity.email.clear();
-                    ViewUserActivity.phone.clear();
-                    ViewUserActivity.facebook.clear();
-                    ViewUserActivity.google.clear();
-
+                    //Goes through each user and stores their information in ArrayLists
                     for (int i = 0; i < projectUsers.length(); i++) {
                         JSONObject temp = projectUsers.getJSONObject(i);
 
-                        project_uids.add(temp.getString(TAG_USER));
-                        ViewUserActivity.name.add(temp.getString(TAG_NAME));
-                        ViewUserActivity.email.add(temp.getString(TAG_EMAIL));
-                        ViewUserActivity.phone.add(temp.getString(TAG_PHONE));
-                        ViewUserActivity.facebook.add(temp.getString(TAG_FACEBOOK));
-                        ViewUserActivity.google.add(temp.getString(TAG_GOOGLE));
+                        uids.add(temp.getString(TAG_UID));
+                        name.add(temp.getString(TAG_NAME));
+                        email.add(temp.getString(TAG_EMAIL));
+                        phone.add(temp.getString(TAG_PHONE));
+                        facebook.add(temp.getString(TAG_FACEBOOK));
+                        google.add(temp.getString(TAG_GOOGLE));
                     }
 
                 } else {
@@ -280,12 +288,11 @@ public class ProjectViewActivity extends Activity {
                 pDialog.dismiss();
             }
 
-            setContentView(R.layout.project_view);
-
             ArrayList<String> items = new ArrayList<String>();
 
-            for (int i = 0; i < project_uids.size(); i++) {
-                items.add(ViewUserActivity.name.get(i));
+
+            for (int i = 0; i < name.size(); i++) {
+                items.add(name.get(i));
             }
 
             //create list of the project members and populate the ListView with them
@@ -300,7 +307,15 @@ public class ProjectViewActivity extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     ViewUserActivity.position = position;
+
                     Intent intent = new Intent(ProjectViewActivity.this, ViewUserActivity.class);
+
+                    intent.putExtra("USER_NAME", name.get(position));
+                    intent.putExtra("USER_EMAIL", email.get(position));
+                    intent.putExtra("USER_PHONE", phone.get(position));
+                    intent.putExtra("USER_FACEBOOK", facebook.get(position));
+                    intent.putExtra("USER_GOOGLE", google.get(position));
+
                     startActivity(intent);
                 }
             });
