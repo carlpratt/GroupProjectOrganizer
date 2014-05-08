@@ -10,20 +10,10 @@ import android.widget.*;
  */
 public class ViewUserActivity extends Activity{
 
-//    public SessionManager session;
-//    private ProgressDialog pDialog;
-//    JSONParser jsonParser = new JSONParser();
-//    HashMap<String, String> userDetails;
-
-    public static int position;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
-//        session =  new SessionManager(getApplicationContext());
-//        userDetails = session.getUserDetails();
-
 
         setContentView(R.layout.project_user_view);
 
@@ -45,19 +35,5 @@ public class ViewUserActivity extends Activity{
         }
 
     }
-//
-//    /**
-//     * Determines if android device has network access
-//     */
-//    private boolean isOnline() {
-//        ConnectivityManager cm =
-//                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-//        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-//            return true;
-//        }
-//        return false;
-//    }
-
 
 }

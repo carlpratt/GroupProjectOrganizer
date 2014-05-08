@@ -24,20 +24,17 @@ public class ProjectViewActivity extends Activity {
 
 
     public static int position;
-    //Project Attributes
 
+    //Project Attributes
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
     public static ArrayList<String> pids = new ArrayList<String>();
     public static ArrayList<String> pOwner = new ArrayList<String>();
 
-    //User Attributes
-    private ArrayList<String> uids = new ArrayList<String>();
     private ArrayList<String> name = new ArrayList<String>();
-    private ArrayList<String> email = new ArrayList<String>();
-    private ArrayList<String> phone = new ArrayList<String>();
-    private ArrayList<String> facebook = new ArrayList<String>();
-    private ArrayList<String> google = new ArrayList<String>();
+
+    //ArrayList of Users to hold each user's attributes
+    private ArrayList<AppUser> users = new ArrayList<AppUser>();
 
 
     private ProgressDialog pDialog;
@@ -45,8 +42,6 @@ public class ProjectViewActivity extends Activity {
     private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
 
     private static String url_get_users_in_project = "http://group-project-organizer.herokuapp.com/get_users_in_project.php";
-
-    public static JSONObject selected;
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -58,11 +53,9 @@ public class ProjectViewActivity extends Activity {
     private static final String TAG_PHONE = "phone";
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
-    //private String pid;
 
     SessionManager session;
 
-    private String u_email;
     private String pid;
 
     HashMap<String, String> userDetails;
@@ -90,18 +83,27 @@ public class ProjectViewActivity extends Activity {
 
         //store the project's pid
         pid = pids.get(position);
-        //store the user's email
-        //u_email = email.get(ViewUserActivity.position);/////////////////////////////////
-
 
         // Only a project owner can delete a project
         if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
-            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
-            deleteProjectButton.setVisibility(View.INVISIBLE);
-
-            Button addTeamMemberButton = (Button) findViewById(R.id.btnAddTeamMember);
-            addTeamMemberButton.setVisibility(View.INVISIBLE);
+//            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
+//            deleteProjectButton.setVisibility(View.INVISIBLE);
+//
+//            Button addTeamMemberButton = (Button) findViewById(R.id.btnAddTeamMember);
+//            addTeamMemberButton.setVisibility(View.INVISIBLE);
+            System.out.println(" ");
+            System.out.println("NO, THIS IS NOT THE PROJECT OWNER- MAKE BUTTON INVISIBLE");
+            System.out.println(" ");
         }
+    }
+
+    /**
+     * Ensures that if the user pushes the 'back' button, the next screen will be ShowProjectsActivity
+     */
+    @Override
+    public void onBackPressed() {//////////////////////////////////NOT WORKING
+        System.out.println("***************onBackPressed() METHOD");
+        super.onBackPressed();
     }
 
     public void onButtonClick(View view){
@@ -135,6 +137,7 @@ public class ProjectViewActivity extends Activity {
                     Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
                     i.putExtra("PID", pid);
+//                    i.putStringArrayListExtra("CURRENT_MEMBERS", users);
                     startActivity(i);
 
 
@@ -232,10 +235,9 @@ public class ProjectViewActivity extends Activity {
         }
 
         /*
-        Queries the Database and gathers necesssary information
+        Queries the Database and gathers necessary information
          */
-        protected String doInBackground(String... args) {//////////////////////Not always getting the right information
-            //String pid = userDetails.get(SessionManager.KEY_UID);
+        protected String doInBackground(String... args) {
 
             //Build parameters associated to user
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -256,23 +258,18 @@ public class ProjectViewActivity extends Activity {
 
                     //creates array of team members associated with the project
                     JSONArray projectUsers = json.getJSONArray(TAG_USERS);
-                    uids.clear();
-                    name.clear();
-                    email.clear();
-                    phone.clear();
-                    facebook.clear();
-                    google.clear();
 
-                    //Goes through each user and stores their information in ArrayLists
+                    //Goes through each JSON-team-member and stores them as 'AppUser' objects
                     for (int i = 0; i < projectUsers.length(); i++) {
                         JSONObject temp = projectUsers.getJSONObject(i);
 
-                        uids.add(temp.getString(TAG_UID));
-                        name.add(temp.getString(TAG_NAME));
-                        email.add(temp.getString(TAG_EMAIL));
-                        phone.add(temp.getString(TAG_PHONE));
-                        facebook.add(temp.getString(TAG_FACEBOOK));
-                        google.add(temp.getString(TAG_GOOGLE));
+                        AppUser tempUser = new AppUser(temp.getString(TAG_UID),temp.getString(TAG_NAME),
+                                temp.getString(TAG_EMAIL), temp.getString(TAG_PHONE),temp.getString(TAG_FACEBOOK),
+                                temp.getString(TAG_GOOGLE), i);
+
+                        //stores all 'AppUser' objects in 'users'
+                        users.add(tempUser);
+
                     }
 
                 } else {
@@ -284,10 +281,6 @@ public class ProjectViewActivity extends Activity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-                    Log.d("hey", pid);
-
-                    String cool = json.getString(TAG_MESSAGE);
-                    Log.d("hey", cool );
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -308,22 +301,20 @@ public class ProjectViewActivity extends Activity {
 
             proj.setText(project_title.get(position));
             desc.setText(project_desc.get(position));
-            if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+            if(pOwner.get(position).equals(userDetails.get(SessionManager.KEY_UID))){////////////not working
                 own.setText("*Owner*");
             }
-            setContentView(R.layout.project_view);
+            //setContentView(R.layout.project_view);
+
+            //ArrayList to hold items that will populate the ListView
             ArrayList<String> items = new ArrayList<String>();
 
-
-            for (int i = 0; i < name.size(); i++) {
-                items.add(name.get(i));
+            //Add all user's names to 'items'
+            for (int i = 0; i < users.size(); i++) {
+                items.add(users.get(i).getName());
             }
 
-            for (int j = 0; j < name.size(); j++) {
-                System.out.println(name.get(j));
-            }
-
-            //create list of the project members and populate the ListView with them
+            //create list of the project members and populate the ListView with 'items'
             ListView usersList = (ListView)findViewById(R.id.list_project_members);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,
@@ -332,23 +323,20 @@ public class ProjectViewActivity extends Activity {
 
             if (pDialog != null) {
                 pDialog.dismiss();
-
             }
 
             //Handle click events on Users
             usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ViewUserActivity.position = position;
 
                     Intent intent = new Intent(ProjectViewActivity.this, ViewUserActivity.class);
 
-                    intent.putExtra("USER_NAME", name.get(position));
-                    intent.putExtra("USER_EMAIL", email.get(position));
-                    intent.putExtra("USER_PHONE", phone.get(position));
-                    intent.putExtra("USER_FACEBOOK", facebook.get(position));
-                    intent.putExtra("USER_GOOGLE", google.get(position));
-
+                    intent.putExtra("USER_NAME", users.get(position).getName());
+                    intent.putExtra("USER_EMAIL", users.get(position).getEmail());
+                    intent.putExtra("USER_PHONE", users.get(position).getPhone());
+                    intent.putExtra("USER_FACEBOOK", users.get(position).getFacebook());
+                    intent.putExtra("USER_GOOGLE", users.get(position).getGoogle());
 
                     startActivity(intent);
                 }

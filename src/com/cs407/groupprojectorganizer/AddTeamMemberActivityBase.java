@@ -51,6 +51,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private ArrayList<String> google = new ArrayList<String>();
 
     private ArrayList<String> prompt = new ArrayList<String>();
+    private ArrayList<String> CURRENT_MEMBERS;
     private String uid;
     private String eee;
     private String pid;
@@ -64,6 +65,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     TextView selection;
     ArrayList<String> items = new ArrayList<String>();
 
+    private ArrayList<AppUser> allUsers = new ArrayList<AppUser>();
+
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -73,7 +76,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             pid = extras.getString("PID");
-
+            CURRENT_MEMBERS = extras.getStringArrayList("CURRENT_MEMBERS");/////////////for preventing adding twice?
         }
 
         session = new SessionManager(getApplicationContext());
@@ -101,8 +104,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         Toast.makeText(this, "Position in this list: " + position, Toast.LENGTH_SHORT).show();//////////
 
         //Find the selected user's position in the entire list
-        for (int i = 0; i < name.size(); i++) {
-            if (thisName == name.get(i)) {
+        for (int i = 0; i < allUsers.size(); i++) {
+            if (thisName == allUsers.get(i).getName()) {
                 pos = i;
             }
         }
@@ -110,14 +113,39 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();/////////////
 
         //store that user's uid
-        uid = uids.get(pos);
-
-        eee = email.get(pos);
+        uid = allUsers.get(pos).getUid();
+        eee = allUsers.get(pos).getEmail();
         new addTeamMember().execute();
 
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
         intent.putExtra("PID",pid);
         startActivity(intent);
+
+//        //Find the selected user's position in the entire list
+//        boolean show = false;
+//        for (int i = 0; i < name.size(); i++) {
+//            if (CURRENT_MEMBERS.contains(thisName)) {
+//                show = true;
+//            }
+////            } else if (thisName == name.get(i)) {
+//            else {
+//                pos = i;
+//
+//                //store that user's uid
+//                uid = uids.get(pos);
+//
+//                eee = email.get(pos);
+//                new addTeamMember().execute();
+//
+//                Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
+//                intent.putExtra("PID",pid);
+//                startActivity(intent);
+//            }
+//
+//
+//        }
+//        if (show)
+//            Toast.makeText(this, "Already a Team Member", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -136,6 +164,15 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                 return(true);
         }
         return(super.onOptionsItemSelected(item));
+    }
+
+    /**
+     * Ensures that if the user pushes the 'back' button, the next screen will be ShowProjectsActivity
+     */
+    @Override////////////////////////////////NOT WORKING
+    public void onBackPressed() {
+        System.out.println("***************onBackPressed() METHOD");
+        super.onBackPressed();
     }
 
     /**
@@ -190,31 +227,31 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
                     //create an array of all users of the app
                     JSONArray allAppUsers = json.getJSONArray(TAG_USERS);
-                    uids.clear();
-                    name.clear();
-                    email.clear();
-                    phone.clear();
-                    facebook.clear();
-                    google.clear();
 
-                    //Goes through each user and stores their information
+                    //Goes through each JSON-app-user and stores them as 'AppUser' objects
                     for (int i = 0; i < allAppUsers.length(); i++) {
 
                         //store the current 'User' object
                         JSONObject temp = allAppUsers.getJSONObject(i);
 
-                        //add the info to the ArrayLists
-                        uids.add(temp.getString(TAG_UID));
-                        name.add(temp.getString(TAG_NAME));
-                        email.add(temp.getString(TAG_EMAIL));
+                        AppUser tempUser = new AppUser(temp.getString(TAG_UID),temp.getString(TAG_NAME),
+                                temp.getString(TAG_EMAIL), temp.getString(TAG_PHONE),temp.getString(TAG_FACEBOOK),
+                                temp.getString(TAG_GOOGLE), i);
 
-                        if (temp.getString(TAG_PHONE) != null)
-                            phone.add(temp.getString(TAG_PHONE));
-                        if (temp.getString(TAG_FACEBOOK) != null)
-                            facebook.add(temp.getString(TAG_FACEBOOK));
-                        if (temp.getString(TAG_GOOGLE) != null)
-                            google.add(temp.getString(TAG_GOOGLE));
+                        //stores all 'AppUser' objecets in 'allUsers'
+                        allUsers.add(tempUser);
 
+//                        //add the info to the ArrayLists
+//                        uids.add(temp.getString(TAG_UID));
+//                        name.add(temp.getString(TAG_NAME));
+//                        email.add(temp.getString(TAG_EMAIL));
+//
+//                        if (temp.getString(TAG_PHONE) != null)
+//                            phone.add(temp.getString(TAG_PHONE));
+//                        if (temp.getString(TAG_FACEBOOK) != null)
+//                            facebook.add(temp.getString(TAG_FACEBOOK));
+//                        if (temp.getString(TAG_GOOGLE) != null)
+//                            google.add(temp.getString(TAG_GOOGLE));
                     }
 
                 } else {
@@ -227,7 +264,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         }
                     });
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -239,19 +275,15 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
          */
         protected void onPostExecute(String file_url) {
 
-            if (pDialog != null)
-                pDialog.dismiss();
-
-            //add the names
-            for (int i = 0; i < name.size(); i++) {
-
-                    items.add(name.get(i));
-
-            }
+            for (int i = 0; i < allUsers.size(); i++)
+                items.add(allUsers.get(i).getName());
 
             selection = (TextView)findViewById(R.id.selection);
             setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
             onNewIntent(getIntent());
+
+            if (pDialog != null)
+                pDialog.dismiss();
         }
     }
 
