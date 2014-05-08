@@ -29,6 +29,8 @@ public class ProjectViewActivity extends Activity {
 
     //ArrayList of Users to hold each user's attributes
     private ArrayList<AppUser> users = new ArrayList<AppUser>();
+    //ArrayList of Users currently in project
+    private ArrayList<String> inProject = new ArrayList<String>();
 
 
     private ProgressDialog pDialog;
@@ -127,11 +129,8 @@ public class ProjectViewActivity extends Activity {
 
                     Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
-                    i.putExtra("PID", pid);
-//                    i.putStringArrayListExtra("CURRENT_MEMBERS", users);
-                    startActivity(i);
 
-
+                    i.putStringArrayListExtra("CURRENT_MEMBERS", inProject);
                     i.putExtra("PID",pid);
                     startActivity(i);
                     break;
@@ -260,6 +259,8 @@ public class ProjectViewActivity extends Activity {
 
                         //stores all 'AppUser' objects in 'users'
                         users.add(tempUser);
+                        //stores all project-users's ID's for AddTeamMemberActivityBase class
+                        inProject.add(temp.getString(TAG_UID));
 
                     }
 
@@ -320,15 +321,18 @@ public class ProjectViewActivity extends Activity {
             //Handle click events on Users
             usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int clickPosition, long id) {
 
                     Intent intent = new Intent(ProjectViewActivity.this, ViewUserActivity.class);
 
-                    intent.putExtra("USER_NAME", users.get(position).getName());
-                    intent.putExtra("USER_EMAIL", users.get(position).getEmail());
-                    intent.putExtra("USER_PHONE", users.get(position).getPhone());
-                    intent.putExtra("USER_FACEBOOK", users.get(position).getFacebook());
-                    intent.putExtra("USER_GOOGLE", users.get(position).getGoogle());
+                    intent.putExtra("USER_NAME", users.get(clickPosition).getName());
+                    intent.putExtra("USER_EMAIL", users.get(clickPosition).getEmail());
+                    intent.putExtra("USER_PHONE", users.get(clickPosition).getPhone());
+                    intent.putExtra("USER_FACEBOOK", users.get(clickPosition).getFacebook());
+                    intent.putExtra("USER_GOOGLE", users.get(clickPosition).getGoogle());
+
+                    intent.putExtra("USER_UID", users.get(clickPosition).getUid());
+                    intent.putExtra("PROJECT_PID", projects.get(position).getPid());
 
                     startActivity(intent);
                 }

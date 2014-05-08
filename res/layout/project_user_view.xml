@@ -103,5 +103,15 @@
               android:textSize="15sp"
               android:layout_alignBottom="@id/googleTextView"
               android:layout_alignLeft="@id/userFacebookTextView"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove Team Member"
+            android:id="@+id/remove_team_member_button"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="50dp"
+            android:singleLine="false"
+            android:textStyle="normal" android:clickable="true" android:onClick="onButtonClick"/>
 
 </RelativeLayout>

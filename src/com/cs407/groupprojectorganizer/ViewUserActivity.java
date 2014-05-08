@@ -1,8 +1,22 @@
 package com.cs407.groupprojectorganizer;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.*;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class populates the User Information of the Team Member that was clicked on
@@ -10,10 +24,18 @@ import android.widget.*;
  */
 public class ViewUserActivity extends Activity{
 
+    private static String url_remove_team_member = "http://group-project-organizer.herokuapp.com/remove_team_member.php";
+
+    JSONParser jsonParser = new JSONParser();
+    private ProgressDialog pDialog;
+
+    private String uid;
+    private String pid;
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
 
         setContentView(R.layout.project_user_view);
 
@@ -32,8 +54,91 @@ public class ViewUserActivity extends Activity{
             textPhone.setText(extras.getString("USER_PHONE"));
             textFacebook.setText(extras.getString("USER_FACEBOOK"));
             textGoogle.setText(extras.getString("USER_GOOGLE"));
+
+            uid = extras.getString("USER_UID");
+            pid = extras.getString("PROJECT_PID");
         }
 
+        System.out.println(" ");
+        System.out.println("In ViewUserActivity class");
+        System.out.println(" ");
+
     }
+
+    public void onButtonClick(View v) {
+        switch (v.getId()) {
+            case R.id.remove_team_member_button:
+
+                System.out.println(" ");
+                System.out.println("BUTTON CLICKED- REMOVE TEAM MEMBER");
+                System.out.println(" ");
+
+                if (isOnline()) {
+                    new RemoveTeamMember().execute();
+                    break;
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Network connection required to do this", Toast.LENGTH_SHORT).show();
+                }
+
+                break;
+        }
+    }
+
+    /**
+     * Determines if android device has network access
+     */
+    private boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
+
+    class RemoveTeamMember extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(ViewUserActivity.this);
+            pDialog.setMessage("Removing team member from project...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+        }
+
+        protected String doInBackground(String... args) {
+
+            //Building parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            params.add(new BasicNameValuePair("pid", pid));
+            params.add(new BasicNameValuePair("uid", uid));
+
+            //getting JSON Object
+            JSONObject json = jsonParser.makeHttpRequest(url_remove_team_member,
+                    "POST", params);
+
+            //check log cat for resonse
+            Log.d("Create Response", json.toString());
+
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
+
+            if (pDialog != null)
+                pDialog.dismiss();
+
+            Intent intent = new Intent(getApplicationContext(), ProjectViewActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+        }
+    }
+
 
 }

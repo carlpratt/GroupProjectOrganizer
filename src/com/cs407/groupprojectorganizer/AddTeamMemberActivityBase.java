@@ -27,6 +27,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
+
     private static String url_get_all_users = "http://group-project-organizer.herokuapp.com/get_all_users.php";
     private static String url_add_team_member = "http://group-project-organizer.herokuapp.com/add_team_member.php";
 
@@ -41,7 +42,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final String TAG_GOOGLE = "google";
     private static final String TAG_PROMPT = "prompt";
 
-    private ArrayList<String> prompt = new ArrayList<String>();
+    private ArrayList<AppUser> allUsers = new ArrayList<AppUser>(); //ArrayList of all <AppUser> in database
+    private ArrayList<AppUser> projectUsers = new ArrayList<AppUser>(); //ArrayList of all <AppUser> in project
     private ArrayList<String> CURRENT_MEMBERS;
     private String uid;
     private String eee;
@@ -56,8 +58,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     TextView selection;
     ArrayList<String> items = new ArrayList<String>();
 
-    private ArrayList<AppUser> allUsers = new ArrayList<AppUser>();
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -67,7 +67,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             pid = extras.getString("PID");
-            CURRENT_MEMBERS = extras.getStringArrayList("CURRENT_MEMBERS");/////////////for preventing adding twice?
+            CURRENT_MEMBERS = extras.getStringArrayList("CURRENT_MEMBERS");
         }
 
         session = new SessionManager(getApplicationContext());
@@ -92,51 +92,24 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         String thisName = parent.getAdapter().getItem(position).toString();
         selection.setText(thisName);
-        Toast.makeText(this, "Position in this list: " + position, Toast.LENGTH_SHORT).show();//////////
 
-        //Find the selected user's position in the entire list
-        for (int i = 0; i < allUsers.size(); i++) {
-            if (thisName == allUsers.get(i).getName()) {
+        //Find selected user's position in list of projectUsers
+        for (int i = 0; i < projectUsers.size(); i++) {
+            if (thisName.equals(allUsers.get(i).getName()))
                 pos = i;
-            }
         }
 
-        Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();/////////////
+        //store user's uid and email
+        uid = projectUsers.get(pos).getUid();
+        eee = projectUsers.get(pos).getEmail();
 
-        //store that user's uid
-        uid = allUsers.get(pos).getUid();
-        eee = allUsers.get(pos).getEmail();
+        //addTeamMember
         new addTeamMember().execute();
 
+        //get back to ProjectViewActivity
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
-        intent.putExtra("PID",pid);
+        intent.putExtra("PID", pid);/////////why?
         startActivity(intent);
-
-//        //Find the selected user's position in the entire list
-//        boolean show = false;
-//        for (int i = 0; i < name.size(); i++) {
-//            if (CURRENT_MEMBERS.contains(thisName)) {
-//                show = true;
-//            }
-////            } else if (thisName == name.get(i)) {
-//            else {
-//                pos = i;
-//
-//                //store that user's uid
-//                uid = uids.get(pos);
-//
-//                eee = email.get(pos);
-//                new addTeamMember().execute();
-//
-//                Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
-//                intent.putExtra("PID",pid);
-//                startActivity(intent);
-//            }
-//
-//
-//        }
-//        if (show)
-//            Toast.makeText(this, "Already a Team Member", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -225,24 +198,14 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                         //store the current 'User' object
                         JSONObject temp = allAppUsers.getJSONObject(i);
 
-                        AppUser tempUser = new AppUser(temp.getString(TAG_UID),temp.getString(TAG_NAME),
-                                temp.getString(TAG_EMAIL), temp.getString(TAG_PHONE),temp.getString(TAG_FACEBOOK),
+                        AppUser tempUser = new AppUser(temp.getString(TAG_UID), temp.getString(TAG_NAME),
+                                temp.getString(TAG_EMAIL), temp.getString(TAG_PHONE), temp.getString(TAG_FACEBOOK),
                                 temp.getString(TAG_GOOGLE), i);
 
-                        //stores all 'AppUser' objecets in 'allUsers'
-                        allUsers.add(tempUser);
+                        if (!CURRENT_MEMBERS.contains(temp.getString(TAG_UID)))
+                            projectUsers.add(tempUser);
 
-//                        //add the info to the ArrayLists
-//                        uids.add(temp.getString(TAG_UID));
-//                        name.add(temp.getString(TAG_NAME));
-//                        email.add(temp.getString(TAG_EMAIL));
-//
-//                        if (temp.getString(TAG_PHONE) != null)
-//                            phone.add(temp.getString(TAG_PHONE));
-//                        if (temp.getString(TAG_FACEBOOK) != null)
-//                            facebook.add(temp.getString(TAG_FACEBOOK));
-//                        if (temp.getString(TAG_GOOGLE) != null)
-//                            google.add(temp.getString(TAG_GOOGLE));
+                        allUsers.add(tempUser);
                     }
 
                 } else {
@@ -266,11 +229,11 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
          */
         protected void onPostExecute(String file_url) {
 
-            for (int i = 0; i < allUsers.size(); i++)
-                items.add(allUsers.get(i).getName());
+            for (int i = 0; i < projectUsers.size(); i++)
+                items.add(projectUsers.get(i).getName());
 
             selection = (TextView)findViewById(R.id.selection);
-            setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
+            setDefaultKeyMode(DEFAULT_KEYS_DISABLE);//was DEFAULT_KEYS_SEARCH_LOCAL
             onNewIntent(getIntent());
 
             if (pDialog != null)
@@ -303,9 +266,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             params.add(new BasicNameValuePair("email",eee));
             params.add(new BasicNameValuePair("pid", pid));
-            params.add(new BasicNameValuePair("uid", uid));
+            //params.add(new BasicNameValuePair("uid", uid));
 
-            Log.d("uid of added user", uid);
+            //Log.d("uid of added user", uid);
 
             //getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_add_team_member,
