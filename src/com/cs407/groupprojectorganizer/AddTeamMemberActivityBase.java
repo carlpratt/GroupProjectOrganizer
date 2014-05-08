@@ -39,16 +39,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
     private static final String TAG_PHONE = "phone";
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
-
     private static final String TAG_PROMPT = "prompt";
-
-    //ArrayLists
-    private ArrayList<String> uids = new ArrayList<String>();
-    private ArrayList<String> name = new ArrayList<String>();
-    private ArrayList<String> email = new ArrayList<String>();
-    private ArrayList<String> phone = new ArrayList<String>();
-    private ArrayList<String> facebook = new ArrayList<String>();
-    private ArrayList<String> google = new ArrayList<String>();
 
     private ArrayList<String> prompt = new ArrayList<String>();
     private ArrayList<String> CURRENT_MEMBERS;

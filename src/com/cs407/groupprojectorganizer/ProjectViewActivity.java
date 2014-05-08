@@ -25,13 +25,7 @@ public class ProjectViewActivity extends Activity {
 
     public static int position;
 
-    //Project Attributes
-    public static ArrayList<String> project_title = new ArrayList<String>();
-    public static ArrayList<String> project_desc = new ArrayList<String>();
-    public static ArrayList<String> pids = new ArrayList<String>();
-    public static ArrayList<String> pOwner = new ArrayList<String>();
-
-    private ArrayList<String> name = new ArrayList<String>();
+    public static ArrayList<Project> projects = new ArrayList<Project>();
 
     //ArrayList of Users to hold each user's attributes
     private ArrayList<AppUser> users = new ArrayList<AppUser>();
@@ -82,10 +76,10 @@ public class ProjectViewActivity extends Activity {
         }
 
         //store the project's pid
-        pid = pids.get(position);
+        pid = projects.get(position).getPid();
 
         // Only a project owner can delete a project
-        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+        if (!projects.get(position).getProjOwner().equals(session.getUserDetails().get(SessionManager.KEY_UID))){
 //            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
 //            deleteProjectButton.setVisibility(View.INVISIBLE);
 //
@@ -117,10 +111,7 @@ public class ProjectViewActivity extends Activity {
 
                 new DeleteProject().execute();
 
-                project_desc.remove(position);
-                project_title.remove(position);
-                pids.remove(position);
-                pOwner.remove(position);
+                projects.remove(position);
 
             } else {
                 Toast.makeText(getApplicationContext(),
@@ -299,9 +290,10 @@ public class ProjectViewActivity extends Activity {
             TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
             TextView own = (TextView)findViewById(R.id.textview_owner);
 
-            proj.setText(project_title.get(position));
-            desc.setText(project_desc.get(position));
-            if(pOwner.get(position).equals(userDetails.get(SessionManager.KEY_UID))){////////////not working
+
+            proj.setText(projects.get(position).getProjTitle());
+            desc.setText(projects.get(position).getProjDescription());
+            if(projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))){////////////not working
                 own.setText("*Owner*");
             }
             //setContentView(R.layout.project_view);
