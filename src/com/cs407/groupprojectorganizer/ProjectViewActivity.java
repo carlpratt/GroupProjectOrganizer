@@ -41,7 +41,6 @@ public class ProjectViewActivity extends Activity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
     private static final String TAG_USERS = "users";
     private static final String TAG_UID = "uid";
     private static final String TAG_NAME = "name";
@@ -60,11 +59,9 @@ public class ProjectViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         Bundle extras = getIntent().getExtras();
         if(extras != null){
               pid = extras.getString("PID");
-
         }
 
         //setContentView(R.layout.project_view);
@@ -97,7 +94,7 @@ public class ProjectViewActivity extends Activity {
      * Ensures that if the user pushes the 'back' button, the next screen will be ShowProjectsActivity
      */
     @Override
-    public void onBackPressed() {//////////////////////////////////NOT WORKING
+    public void onBackPressed() {//NOT WORKING
         System.out.println("***************onBackPressed() METHOD");
         super.onBackPressed();
     }

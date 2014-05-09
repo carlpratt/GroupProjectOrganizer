@@ -70,6 +70,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
             CURRENT_MEMBERS = extras.getStringArrayList("CURRENT_MEMBERS");
         }
 
+//        System.out.println("The size of CURRENT_MEMBERS is: " + CURRENT_MEMBERS.size());
+
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
 
@@ -108,7 +110,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         //get back to ProjectViewActivity
         Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
-        intent.putExtra("PID", pid);/////////why?
+        intent.putExtra("PID", pid);
         startActivity(intent);
 
     }
@@ -164,7 +166,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(AddTeamMemberActivityBase.this);
-            pDialog.setMessage("Gathering app users...");
+            pDialog.setMessage("Gathering users for a quickening...");////////////
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -202,8 +204,15 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                                 temp.getString(TAG_EMAIL), temp.getString(TAG_PHONE), temp.getString(TAG_FACEBOOK),
                                 temp.getString(TAG_GOOGLE), i);
 
-                        if (!CURRENT_MEMBERS.contains(temp.getString(TAG_UID)))
-                            projectUsers.add(tempUser);
+//                        System.out.println("The size of allAppUsers<JSONObjects> is: " + temp.length());
+//                        System.out.println("element of the array is currently: " + i);
+                        try {
+                            if (!CURRENT_MEMBERS.contains(tempUser.getUid()))//THROWING NULLPOINTEREXCEPTION
+                                projectUsers.add(tempUser);
+                        } catch (NullPointerException e) {
+                            System.out.println("NULL POINTER EXCEPTION! NULL POINTER EXCEPTION!");
+                            e.printStackTrace();
+                        }
 
                         allUsers.add(tempUser);
                     }
@@ -233,7 +242,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                 items.add(projectUsers.get(i).getName());
 
             selection = (TextView)findViewById(R.id.selection);
-            setDefaultKeyMode(DEFAULT_KEYS_DISABLE);//was DEFAULT_KEYS_SEARCH_LOCAL
+            setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
             onNewIntent(getIntent());
 
             if (pDialog != null)

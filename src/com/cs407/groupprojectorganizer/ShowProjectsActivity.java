@@ -29,7 +29,6 @@ public class ShowProjectsActivity extends Activity {
 
     public SessionManager session;
 
-
     private ProgressDialog pDialog;
 
     JSONParser jsonParser = new JSONParser();
@@ -128,7 +127,6 @@ public class ShowProjectsActivity extends Activity {
             String uid = userDetails.get(SessionManager.KEY_UID);
 
             // Building Parameters
-            //Puts the user by his 'id' in this list- only has 1 element- the current user
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("uid", uid));
 
@@ -147,9 +145,12 @@ public class ShowProjectsActivity extends Activity {
                 if (success == 1) {
 
                     //creates array of JSON objects representing the user's projects
-
                     JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
 
+                    //clears the 'projects' ArrayList to prevent repeats in ListView
+                    ProjectViewActivity.projects.clear();
+
+                    //create a <Project> for each project, and store it in the ArrayList 'projects'
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 

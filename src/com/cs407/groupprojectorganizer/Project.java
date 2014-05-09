@@ -15,6 +15,7 @@ public class Project {
         this.projTitle = projTitle;
         this.projDescription = projDescription;
         this.projOwner = projOwner;
+        this.position = position;
     }
 
     public String getPid() {
