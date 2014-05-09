@@ -12,6 +12,7 @@ public class SearchInterface extends AddTeamMemberActivityBase {
     @Override
     ListAdapter makeMeAnAdapter(Intent intent) {
         ListAdapter adapter = null;
+        System.out.println("RIGHT NOW I'M IN THE SearchInterface CLASS!!!!!!!!!! - makeMeAnAdapter()");
 
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -25,6 +26,8 @@ public class SearchInterface extends AddTeamMemberActivityBase {
     }
 
     private List<String> searchItems(String query) {
+
+        System.out.println("RIGHT NOW I'M IN THE SearchInterface CLASS!!!!!!!!!!!! - searchItems()");
 
 //        SearchSuggestionProvider
 //                .getBridge(this)

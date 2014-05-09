@@ -105,18 +105,15 @@ public class ProjectViewActivity extends Activity {
 
             case R.id.btnDeleteProject:
 
-
             if (isOnline()) {
 
                 new DeleteProject().execute();
-
                 projects.remove(position);
 
             } else {
                 Toast.makeText(getApplicationContext(),
                         "Network connection required to do this", Toast.LENGTH_SHORT).show();
             }
-
             break;
 
             //Button to add a team member is pressed

@@ -70,8 +70,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
             CURRENT_MEMBERS = extras.getStringArrayList("CURRENT_MEMBERS");
         }
 
-//        System.out.println("The size of CURRENT_MEMBERS is: " + CURRENT_MEMBERS.size());
-
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
 
@@ -95,15 +93,19 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         String thisName = parent.getAdapter().getItem(position).toString();
         selection.setText(thisName);
 
+//        Toast.makeText(this, "Position in this list: " + position, Toast.LENGTH_SHORT).show();
+
         //Find selected user's position in list of projectUsers
         for (int i = 0; i < projectUsers.size(); i++) {
             if (thisName.equals(allUsers.get(i).getName()))
                 pos = i;
         }
 
+//        Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();
+
         //store user's uid and email
-        uid = projectUsers.get(pos).getUid();
-        eee = projectUsers.get(pos).getEmail();
+        uid = projectUsers.get(position).getUid();//WORKS THIS WAY FOR NOW, RECHECK WHEN SEARCH IS WORKING
+        eee = projectUsers.get(position).getEmail();
 
         //addTeamMember
         new addTeamMember().execute();
@@ -194,6 +196,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                     //create an array of all users of the app
                     JSONArray allAppUsers = json.getJSONArray(TAG_USERS);
 
+                    projectUsers.clear();
+
                     //Goes through each JSON-app-user and stores them as 'AppUser' objects
                     for (int i = 0; i < allAppUsers.length(); i++) {
 
@@ -206,14 +210,22 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
 //                        System.out.println("The size of allAppUsers<JSONObjects> is: " + temp.length());
 //                        System.out.println("element of the array is currently: " + i);
-                        try {
-                            if (!CURRENT_MEMBERS.contains(tempUser.getUid()))//THROWING NULLPOINTEREXCEPTION
-                                projectUsers.add(tempUser);
-                        } catch (NullPointerException e) {
-                            System.out.println("NULL POINTER EXCEPTION! NULL POINTER EXCEPTION!");
-                            e.printStackTrace();
+//                        try {
+//                            if (!CURRENT_MEMBERS.contains(tempUser.getUid()))//THROWING NULLPOINTEREXCEPTION
+//                                projectUsers.add(tempUser);
+//                        } catch (NullPointerException e) {
+//                            System.out.println("NULL POINTER EXCEPTION! NULL POINTER EXCEPTION!");
+//                            e.printStackTrace();
+//                        }
+                        boolean noAdd = false;
+                        for (int j = 0; j < CURRENT_MEMBERS.size(); j++) {
+                            if (tempUser.getUid().equals(CURRENT_MEMBERS.get(j))) {
+                                noAdd = true;
+                            }
                         }
-
+                        if (!noAdd) {
+                            projectUsers.add(tempUser);
+                        }
                         allUsers.add(tempUser);
                     }
 
@@ -294,6 +306,8 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
             if(pDialog != null) {
                 pDialog.dismiss();
             }
+
+
         }
     }
 
