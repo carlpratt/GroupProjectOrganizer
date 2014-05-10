@@ -133,7 +133,8 @@
                 android:text="Remove Team Member"
                 android:id="@+id/btnDeleteTeamMember"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:onClick="onButtonClick"/>
 
     </RelativeLayout>
 </ScrollView>

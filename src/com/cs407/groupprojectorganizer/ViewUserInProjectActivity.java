@@ -80,6 +80,9 @@ public class ViewUserInProjectActivity extends Activity {
             Button hide = (Button)findViewById(R.id.btnDeleteTeamMember);
             hide.setVisibility(View.GONE);
         }
+
+        pid = intent.getStringExtra("PID");
+        uid = intent.getStringExtra("UID");
     }
 
     @Override
