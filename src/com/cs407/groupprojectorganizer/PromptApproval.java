@@ -93,6 +93,9 @@ public class PromptApproval extends Activity {
             case R.id.action_projects:
                 Intent in = new Intent(getApplication(),ShowProjectsActivity.class);
                 startActivity(in);
+            case R.id.action_refresh:
+                new GetApproval().execute();
+                return true;
         }
         return false;
     }
