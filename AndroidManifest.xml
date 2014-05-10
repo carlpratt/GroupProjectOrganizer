@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme" >
 
         <activity android:name=".LoginActivity"
-                  android:windowSoftInputMode="stateHidden">
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,7 +28,8 @@
 
         <activity android:name=".AddTeamMemberActivity"
                   android:label="Search Activity"
-                  android:windowSoftInputMode="stateHidden">
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -48,27 +50,28 @@
         </activity>
 
         <activity android:name=".RegisterActivity"
-                  android:windowSoftInputMode="stateHidden"></activity>
-
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
         <activity android:name=".ShowProjectsActivity"
-                  android:windowSoftInputMode="stateHidden"></activity>
-
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
         <activity android:name=".CreateProjectActivity"
-                  android:windowSoftInputMode="stateHidden"></activity>
-
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
         <activity android:name=".EditProfileActivity"
-                  android:windowSoftInputMode="stateHidden"></activity>
-
-        <activity android:name=".SettingsActivity"></activity>
-                  //android:WindowSoftInputMode="stateHidden">
-
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
+        <activity android:name=".SettingsActivity"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
         <activity android:name=".ProjectViewActivity"
-                  android:windowSoftInputMode="stateHidden"></activity>
-
-        <activity android:name=".ViewUserActivity"
-                  android:windowSoftInputMode="stateHidden"></activity>
-
-
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
+        <activity android:name=".ViewUserInProjectActivity"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
+        <activity android:name=".AddTeamMemberActivity"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
     </application>
-
 </manifest>
