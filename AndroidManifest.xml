@@ -31,10 +31,14 @@
                   android:windowSoftInputMode="stateHidden"></activity>
         <activity android:name=".EditProfileActivity"
                   android:windowSoftInputMode="stateHidden"></activity>
-        <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".ProjectViewActivity"></activity>
-        <activity android:name=".ViewUserInProjectActivity"></activity>
-        <activity android:name=".AddTeamMemberActivity"></activity>
+        <activity android:name=".SettingsActivity"
+                  android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".ProjectViewActivity"
+                  android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".ViewUserInProjectActivity"
+                  android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".AddTeamMemberActivity"
+                  android:windowSoftInputMode="stateHidden"></activity>
 
     </application>
 

@@ -226,9 +226,6 @@ public class LoginActivity extends Activity {
                     // Open user's projects list page
                     Intent i = new Intent(getApplicationContext(), ShowProjectsActivity.class);
                     startActivity(i);
-
-                    // closing this screen
-                    finish();
                 } else {
                     // failed to log in user
                     runOnUiThread(new Runnable() {
