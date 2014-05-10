@@ -5,10 +5,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import android.text.util.Linkify;
+
 import android.widget.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,10 +39,7 @@ public class ViewUserActivity extends Activity{
     HashMap<String, String> userDetails;
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
-//    public SessionManager session;
-//    private ProgressDialog pDialog;
-//    JSONParser jsonParser = new JSONParser();
-//    HashMap<String, String> userDetails;
+
 
     public static int position;
     private static String pid;
@@ -79,6 +80,9 @@ public class ViewUserActivity extends Activity{
             hide.setVisibility(View.GONE);
 
         }
+
+        Linkify.addLinks(textFacebook, Linkify.ALL);
+        Linkify.addLinks(textGoogle, Linkify.ALL);
 
     }
 
