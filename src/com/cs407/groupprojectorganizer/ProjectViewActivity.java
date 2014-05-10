@@ -73,7 +73,7 @@ public class ProjectViewActivity extends ListActivity {
         // Only a project owner can delete a project
         if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
             Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
-            deleteProjectButton.setVisibility(View.INVISIBLE);
+            deleteProjectButton.setVisibility(View.GONE);
         }
 
         // Grab all of the users in the project so we can populate the list
