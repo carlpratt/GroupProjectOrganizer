@@ -62,7 +62,7 @@
             android:layout_below="@id/btnDeleteProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/list_project_members"
+            android:id="@android:id/list"
             android:layout_centerHorizontal="true"
             android:layout_margin="15dp"
             />

@@ -1,6 +1,6 @@
 package com.cs407.groupprojectorganizer;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,72 +22,97 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class ProjectViewActivity extends Activity {
+public class ProjectViewActivity extends ListActivity {
 
 
     public static int position;
-    //Project Attributes
-
     public static ArrayList<String> project_title = new ArrayList<String>();
     public static ArrayList<String> project_desc = new ArrayList<String>();
     public static ArrayList<String> pids = new ArrayList<String>();
     public static ArrayList<String> pOwner = new ArrayList<String>();
 
-    //User Attributes
-    private ArrayList<String> uids = new ArrayList<String>();
-    private ArrayList<String> name = new ArrayList<String>();
-    private ArrayList<String> email = new ArrayList<String>();
-    private ArrayList<String> phone = new ArrayList<String>();
-    private ArrayList<String> facebook = new ArrayList<String>();
-    private ArrayList<String> google = new ArrayList<String>();
-    private boolean owner;
-
-    private ProgressDialog pDialog;
-    JSONParser jsonParser = new JSONParser();
-    private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
-
-    private static String url_get_users_in_project = "http://group-project-organizer.herokuapp.com/get_users_in_project.php";
-
-    public static JSONObject selected;
-
-    // JSON Node names
-    private static final String TAG_SUCCESS = "success";
-    private static final String TAG_MESSAGE = "message";
     private static final String TAG_USERS = "users";
     private static final String TAG_UID = "uid";
+    private static final String TAG_PID = "pid";
     private static final String TAG_NAME = "name";
     private static final String TAG_EMAIL = "email";
     private static final String TAG_PHONE = "phone";
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
-    private String pid;
 
+    private ProgressDialog pDialog;
+    JSONParser jsonParser = new JSONParser();
+    private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
+    private static String url_get_users_in_project = "http://group-project-organizer.herokuapp.com/get_users_in_project.php";
+
+    private ArrayList<HashMap<String, String>> usersList = new ArrayList<HashMap<String, String>>(); // Users for adapter
+
+    private ListAdapter adapter; // List adapter
     SessionManager session;
 
-
+    String pid;
     HashMap<String, String> userDetails;
+
+    private boolean owner = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-              pid = extras.getString("PID");
-
-        }
-        //setContentView(R.layout.project_view);
+        setContentView(R.layout.project_view);
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
+        TextView proj = (TextView)findViewById(R.id.project_name_textview);
+        TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
+        TextView own = (TextView)findViewById(R.id.textview_owner);
 
-        //Start the AsyncTask to populate the ListView before showing on screen
-        if (isOnline()) {
-            new GetProjectUsers().execute();
+        proj.setText(project_title.get(position));
+        desc.setText(project_desc.get(position));
+        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+            own.setText("*Owner*");
         }
 
+        pid = pids.get(position);
 
+        // Only a project owner can delete a project
+        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
+            deleteProjectButton.setVisibility(View.GONE);
+            owner = false;
+        }
+
+        // Grab all of the users in the project so we can populate the list
+        if (isOnline()) {
+            new GetUsersInProject().execute();
+        }
     }
+
+    public void onButtonClick(View view){
+
+        switch (view.getId()){
+            case R.id.btnDeleteProject:
+
+                if (isOnline()){
+
+                    new DeleteProject().execute();
+
+                    project_desc.remove(position);
+                    project_title.remove(position);
+                    pids.remove(position);
+                    pOwner.remove(position);
+                }
+                break;
+
+            case R.id.btnAddTeamMember:
+
+                if (isOnline()){
+                    Intent intent = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
+                    intent.putExtra(TAG_PID, pid);
+                    startActivity(intent);
+                }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -122,51 +147,6 @@ public class ProjectViewActivity extends Activity {
         return false;
     }
 
-    public void onButtonClick(View view){
-
-        switch (view.getId()) {
-
-            case R.id.btnDeleteProject:
-
-
-            if (isOnline()) {
-
-                new DeleteProject().execute();
-
-                project_desc.remove(position);
-                project_title.remove(position);
-                pids.remove(position);
-                pOwner.remove(position);
-
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Network connection required to do this", Toast.LENGTH_SHORT).show();
-            }
-
-            break;
-
-            //Button to add a team member is pressed
-            case R.id.btnAddTeamMember:
-
-                if (isOnline()) {
-
-                    Intent i = new Intent(getApplicationContext(), AddTeamMemberActivity.class);
-                    i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
-
-                    i.putExtra("PID",pid);
-                    i.putExtra("UIDS",uids);
-                    startActivity(i);
-                    break;
-
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Network connection required to do this", Toast.LENGTH_SHORT).show();
-
-                }
-                break;
-        }
-    }
-
     /**
      * Determines if android device has network access
      */
@@ -178,6 +158,40 @@ public class ProjectViewActivity extends Activity {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Shows the users in this project in a list
+     */
+    private void setUsersListAdapter(){
+
+        adapter = new SimpleAdapter(ProjectViewActivity.this, usersList, R.layout.user_in_project_list,
+                new String[] {TAG_NAME},
+                new int[] {R.id.userInProjectName});
+
+        setListAdapter(adapter);
+
+        ListView usersInProjectListView = getListView();
+        usersInProjectListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id)
+            {
+                Intent intent = new Intent(getApplicationContext(), ViewUserInProjectActivity.class);
+                intent.putExtra(TAG_NAME, usersList.get(position).get(TAG_NAME));
+                intent.putExtra(TAG_EMAIL, usersList.get(position).get(TAG_EMAIL));
+                intent.putExtra(TAG_PHONE, usersList.get(position).get(TAG_PHONE));
+                intent.putExtra(TAG_FACEBOOK, usersList.get(position).get(TAG_FACEBOOK));
+                intent.putExtra(TAG_GOOGLE, usersList.get(position).get(TAG_GOOGLE));
+
+                intent.putExtra("IS_OWNER",owner);
+                intent.putExtra("PID", pid);
+                //intent.putExtra("UID", uids.get(position));
+
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -202,7 +216,7 @@ public class ProjectViewActivity extends Activity {
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("pid", pid));
+            params.add(new BasicNameValuePair(TAG_PID, pid));
 
             Log.d("pid of deleted project", pid);
 
@@ -228,161 +242,76 @@ public class ProjectViewActivity extends Activity {
         }
     }
 
-    /**
-     * Background Async Task to get all team members associated with the current project in view when the
-     * ProjectViewActivity is started
-     */
-    class GetProjectUsers extends AsyncTask<String, String, String> {
 
-        /*
-        Before starting background thread Show Progress Dialog
-         */
+    /**
+     * Background Async Task to fetch all users in a project
+     * */
+    class GetUsersInProject extends AsyncTask<String, String, String> {
+
+        /**
+         * Before starting background thread Show Progress Dialog
+         * */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog = new ProgressDialog(ProjectViewActivity.this);
-            pDialog.setMessage("Getting Project Team Members...");
+            pDialog.setMessage("Fetching Project Info...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
         }
 
-        /*
-        Queries the Database and gathers necesssary information
-         */
-        protected String doInBackground(String... args) {//////////////////////Not always getting the right information
-            //String pid = userDetails.get(SessionManager.KEY_UID);
+        protected String doInBackground(String... args) {
 
-            //Build parameters associated to user
+            // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("pid", pid));
+            params.add(new BasicNameValuePair(TAG_PID, pid));
 
-            //getting JSON Object
+            // getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_get_users_in_project,
                     "POST", params);
 
-            //check log cat for response
-            Log.d("Create Response", json.toString());
+            Log.d("pid of selected project", pid);
 
-            //check for success tag
-            try {
-                int success = json.getInt(TAG_SUCCESS);
+            try{
+                // check log cat for response
+                Log.d("Create Response", json.toString());
 
-                if (success == 1) {
+                JSONArray userArray = json.getJSONArray(TAG_USERS);
 
-                    //creates array of team members associated with the project
-                    JSONArray projectUsers = json.getJSONArray(TAG_USERS);
-                    uids.clear();
-                    name.clear();
-                    email.clear();
-                    phone.clear();
-                    facebook.clear();
-                    google.clear();
+                for (int i = 0; i < userArray.length(); i++) {
 
-                    //Goes through each user and stores their information in ArrayLists
-                    for (int i = 0; i < projectUsers.length(); i++) {
-                        JSONObject temp = projectUsers.getJSONObject(i);
+                    JSONObject user = userArray.getJSONObject(i);
 
-                        uids.add(temp.getString(TAG_UID));
-                        name.add(temp.getString(TAG_NAME));
-                        email.add(temp.getString(TAG_EMAIL));
-                        phone.add(temp.getString(TAG_PHONE));
-                        facebook.add(temp.getString(TAG_FACEBOOK));
-                        google.add(temp.getString(TAG_GOOGLE));
+                    HashMap<String, String> map = new HashMap<String, String>();
+
+                    // If user is not us, add them to the display list
+                    if (!user.get(TAG_UID).toString().equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+                        map.put(TAG_UID, user.get(TAG_UID).toString());
+                        map.put(TAG_NAME, user.get(TAG_NAME).toString());
+                        map.put(TAG_EMAIL, user.get(TAG_EMAIL).toString());
+                        map.put(TAG_PHONE, user.get(TAG_PHONE).toString());
+                        map.put(TAG_FACEBOOK, user.get(TAG_FACEBOOK).toString());
+                        map.put(TAG_GOOGLE, user.get(TAG_GOOGLE).toString());
+
+                        usersList.add(map);
                     }
-
-                } else {
-                    // Failed to get anything from database
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), "No Team Members were found",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    Log.d("hey", pid);
-
-                    String cool = json.getString(TAG_MESSAGE);
-                    Log.d("hey", cool );
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+            catch (JSONException e){
+
+            }
+
             return null;
         }
 
-        /**
-         * Populate the ListView with the Project's associated users
-         */
         protected void onPostExecute(String file_url) {
-
+            // dismiss the dialog once done
             if (pDialog != null) {
                 pDialog.dismiss();
             }
-            setContentView(R.layout.project_view);
 
-
-            //create list of the project members and populate the ListView with them
-            ListView usersList = (ListView)findViewById(R.id.list_project_members);
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,
-                    R.id.titleLine, name);
-            usersList.setAdapter(adapter);
-
-
-            TextView proj = (TextView)findViewById(R.id.project_name_textview);
-            TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
-            TextView own = (TextView)findViewById(R.id.textview_owner);
-
-            proj.setText(project_title.get(position));
-            if(project_desc.get(position).trim().length() == 0){
-                desc.setVisibility(View.GONE);
-            }else{
-                desc.setText(project_desc.get(position));
-            }
-
-            if(pOwner.get(position).equals(userDetails.get(SessionManager.KEY_UID))){
-                own.setText("*Owner*");
-                owner = true;
-            }else{
-                own.setText("Owner: " + name.get(position));
-                owner = false;
-            }
-
-            //store the project's pid
-
-            //pid = pids.get(position);
-
-            // Only a project owner can delete a project
-            if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
-                Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
-                deleteProjectButton.setVisibility(View.GONE);
-                Button addTeamMember = (Button) findViewById(R.id.btnAddTeamMember);
-                addTeamMember.setVisibility(View.GONE);
-            }
-
-            //Handle click events on Users
-            usersList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ViewUserActivity.position = position;
-
-                    Intent intent = new Intent(ProjectViewActivity.this, ViewUserActivity.class);
-
-                    intent.putExtra("USER_NAME", name.get(position));
-                    intent.putExtra("USER_EMAIL", email.get(position));
-                    intent.putExtra("USER_PHONE", phone.get(position));
-                    intent.putExtra("USER_FACEBOOK", facebook.get(position));
-                    intent.putExtra("USER_GOOGLE", google.get(position));
-                    intent.putExtra("IS_OWNER",owner);
-                    intent.putExtra("PID", pid);
-                    intent.putExtra("UID", uids.get(position));
-
-                    startActivity(intent);
-                }
-            });
-
+            setUsersListAdapter();
         }
     }
 }
-
