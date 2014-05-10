@@ -79,6 +79,19 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         }
     }
 
+    // Makes sure program doesn't crash from pDialog not being dismissed during
+    // the background async task
+    @Override
+    public void onPause(){
+        super.onPause();
+
+        if (pDialog != null){
+            pDialog.dismiss();
+        }
+
+        pDialog = null;
+    }
+
     @Override
     public void onNewIntent(Intent intent) {
         ListAdapter adapter = makeMeAnAdapter(intent);
@@ -125,13 +138,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         return(super.onOptionsItemSelected(item));
     }
 
-    /**
-     * Ensures that if the user pushes the 'back' button, the next screen will be ShowProjectsActivity
-     */
     @Override////////////////////////////////NOT WORKING
     public void onBackPressed() {
-        System.out.println("***************onBackPressed() METHOD");
-        super.onBackPressed();
+        AddTeamMemberActivityBase.this.finish();
     }
 
     /**
@@ -166,9 +175,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         }
 
         protected String doInBackground(String... args) {
-            System.out.println(" - ");
-            System.out.println("IN getAllUsers CLASS- doInBackground METHOD!!!");
-            System.out.println(" - ");
             String uid = userDetails.get(SessionManager.KEY_UID);
 
             //Build parameters associated to user
@@ -203,13 +209,12 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                                 temp.getString(TAG_GOOGLE), i);
 
                         try {
-                            //if (CURRENT_MEMBERS.contains(tempUser.getUid()) && tempUser.getUid() != null) {
-                            if (CURRENT_MEMBERS.isEmpty()) {
-                                System.out.println("CURRENT_MEMBERS IS EMPTY!");
-
-                            } else {
+                            if (!CURRENT_MEMBERS.contains(tempUser.getUid()) && tempUser.getUid() != null) {
                                 projectUsers.add(tempUser);
                             }
+//                            } else {
+//                                projectUsers.add(tempUser);
+//                            }
                         } catch (NullPointerException e) {
                             e.printStackTrace();
                         }

@@ -59,6 +59,9 @@
         <activity android:name=".EditProfileActivity"
                   android:windowSoftInputMode="stateHidden"></activity>
 
+        <activity android:name=".EditProjectActivity"
+                  android:windowSoftInputMode="stateHidden"></activity>
+
         <activity android:name=".SettingsActivity"></activity>
                   //android:WindowSoftInputMode="stateHidden">
 

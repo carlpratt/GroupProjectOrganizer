@@ -55,8 +55,19 @@
             android:onClick="onButtonClick"
             android:clickable="true"
             android:layout_below="@id/btnAddTeamMember"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="50dp"
             />
+
+    <Button android:id="@+id/btnEditProject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Project"
+            android:onClick="onButtonClick"
+            android:clickable="true"
+            android:layout_below="@id/btnAddTeamMember"
+            android:layout_marginLeft="210dp"
+            />
+
 
     <ListView
             android:layout_below="@id/btnDeleteProject"

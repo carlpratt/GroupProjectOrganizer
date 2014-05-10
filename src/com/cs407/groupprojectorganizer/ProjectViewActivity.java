@@ -76,13 +76,22 @@ public class ProjectViewActivity extends Activity {
 
     }
 
-    /**
-     * Ensures that if the user pushes the 'back' button, the next screen will be ShowProjectsActivity
-     */
+    // Makes sure program doesn't crash from pDialog not being dismissed during
+    // the background async task
     @Override
-    public void onBackPressed() {//NOT WORKING
-        System.out.println("***************onBackPressed() METHOD");
-        super.onBackPressed();
+    public void onPause(){
+        super.onPause();
+
+        if (pDialog != null){
+            pDialog.dismiss();
+        }
+
+        pDialog = null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        ProjectViewActivity.this.finish();
     }
 
     public void onButtonClick(View view){
@@ -91,16 +100,16 @@ public class ProjectViewActivity extends Activity {
 
             case R.id.btnDeleteProject:
 
-            if (isOnline()) {
+                if (isOnline()) {
 
-                new DeleteProject().execute();
-                projects.remove(position);
+                    new DeleteProject().execute();
+                    projects.remove(position);
 
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "Network connection required to do this", Toast.LENGTH_SHORT).show();
-            }
-            break;
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Network connection required to do this", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
             //Button to add a team member is pressed
             case R.id.btnAddTeamMember:
@@ -111,9 +120,8 @@ public class ProjectViewActivity extends Activity {
                     i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
 
                     i.putStringArrayListExtra("CURRENT_MEMBERS", inProject);
-                    i.putExtra("PID",pid);
+                    i.putExtra("PID", pid);
                     startActivity(i);
-                    break;
 
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -121,6 +129,17 @@ public class ProjectViewActivity extends Activity {
 
                 }
                 break;
+
+            //Button to edit project
+            case R.id.btnEditProject:
+
+                if (isOnline()) {
+
+                    Intent i = new Intent(getApplicationContext(), EditProjectActivity.class);
+                    i.setFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.putExtra("PID", pid);
+                    startActivity(i);
+                }
         }
     }
 
@@ -274,12 +293,15 @@ public class ProjectViewActivity extends Activity {
 
                 Button addTeamMemberButton = (Button) findViewById(R.id.btnAddTeamMember);
                 addTeamMemberButton.setVisibility(View.GONE);
+
+                Button editProjectButton = (Button) findViewById(R.id.btnEditProject);
+                editProjectButton.setVisibility(View.GONE);
             }
 
+            //Set the project information on the screen
             TextView proj = (TextView)findViewById(R.id.project_name_textview);
             TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
             TextView own = (TextView)findViewById(R.id.textview_owner);
-
 
             proj.setText(projects.get(position).getProjTitle());
             desc.setText(projects.get(position).getProjDescription());
@@ -324,9 +346,6 @@ public class ProjectViewActivity extends Activity {
                     owner = false;
                     if (projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))) {
                         owner = true;
-                        System.out.println(" - ");
-                        System.out.println("OWNER SET TO 'TRUE'");
-                        System.out.println(" - ");
                     }
                     intent.putExtra("PROJECT_OWNER", owner);
 
