@@ -9,6 +9,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import org.apache.http.NameValuePair;
@@ -38,7 +40,7 @@ public class ProjectViewActivity extends Activity {
     private ArrayList<String> phone = new ArrayList<String>();
     private ArrayList<String> facebook = new ArrayList<String>();
     private ArrayList<String> google = new ArrayList<String>();
-
+    private boolean owner;
 
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
@@ -85,6 +87,39 @@ public class ProjectViewActivity extends Activity {
         }
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.projectview, menu);
+        return true;
+    }
+
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+
+            case R.id.action_edit_profile:
+                Intent editProfileIntent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                startActivity(editProfileIntent);
+                return true;
+
+            case R.id.action_logout:
+                session.logoutUser();
+                return true;
+
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+
+            case R.id.action_projects:
+                Intent projectsIntent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
+                startActivity(projectsIntent);
+                return true;
+        }
+        return false;
     }
 
     public void onButtonClick(View view){
@@ -308,8 +343,10 @@ public class ProjectViewActivity extends Activity {
 
             if(pOwner.get(position).equals(userDetails.get(SessionManager.KEY_UID))){
                 own.setText("*Owner*");
+                owner = true;
             }else{
                 own.setText("Owner: " + name.get(position));
+                owner = false;
             }
 
             //store the project's pid
@@ -337,6 +374,9 @@ public class ProjectViewActivity extends Activity {
                     intent.putExtra("USER_PHONE", phone.get(position));
                     intent.putExtra("USER_FACEBOOK", facebook.get(position));
                     intent.putExtra("USER_GOOGLE", google.get(position));
+                    intent.putExtra("IS_OWNER",owner);
+                    intent.putExtra("PID", pid);
+                    intent.putExtra("UID", uids.get(position));
 
                     startActivity(intent);
                 }

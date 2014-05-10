@@ -249,6 +249,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
             for (int i = 0; i < name.size(); i++) {
                boolean addMember = true;
+                System.out.println("hello" + dontShow.size());
                for(int k = 0; k < dontShow.size(); k++) {
                    if(uids.get(i).equals(dontShow.get(k))){
                        addMember = false;
@@ -301,7 +302,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                     "POST", params);
 
             //check log cat for response
-            Log.d("Create Response", json.toString());
+            Log.d("insert", json.toString());
 
             return null;
         }

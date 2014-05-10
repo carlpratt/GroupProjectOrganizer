@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+            android:id="@+id/action_projects"
+            android:showAsAction ="never"
+            android:title="Projects List"
+            />
+    <item
+        android:id = "@+id/action_projectview"
+        android:showAsAction="never"
+        android:title="Project View"
+            />
+    <item
+            android:id="@+id/action_settings"
+            android:showAsAction="never"
+            android:title="Settings"/>
+    <item
+            android:id="@+id/action_edit_profile"
+            android:showAsAction="never"
+            android:title="Edit Profile"/>
+    <item
+            android:id="@+id/action_logout"
+            android:showAsAction="never"
+            android:title="Logout"/>
+</menu>

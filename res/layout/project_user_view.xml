@@ -104,4 +104,14 @@
               android:layout_alignBottom="@id/googleTextView"
               android:layout_alignLeft="@id/userFacebookTextView"/>
 
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnDeleteTeamMember"
+            android:text="Delete Team Member"
+            android:layout_below="@id/userGoogleTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="45dp"
+            android:clickable="true"
+            android:onClick="onButtonClick"/>
+
 </RelativeLayout>
