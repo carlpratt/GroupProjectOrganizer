@@ -189,7 +189,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
                     //create an array of all users of the app
                     JSONArray allAppUsers = json.getJSONArray(TAG_USERS);
-
+                    allUsers.clear();
                     projectUsers.clear();
 
                     //Goes through each JSON-app-user and stores them as 'AppUser' objects

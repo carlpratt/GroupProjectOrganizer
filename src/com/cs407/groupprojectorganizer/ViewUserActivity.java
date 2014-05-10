@@ -31,12 +31,12 @@ public class ViewUserActivity extends Activity{
 
     private String uid;
     private String pid;
+    private boolean owner;
 
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-
         setContentView(R.layout.project_user_view);
 
         TextView userName = (TextView) findViewById(R.id.projectUserTextViewTitle);
@@ -57,11 +57,14 @@ public class ViewUserActivity extends Activity{
 
             uid = extras.getString("USER_UID");
             pid = extras.getString("PROJECT_PID");
+            owner = extras.getBoolean("PROJECT_OWNER");
+        }
+        if (!owner){
+            Button btn = (Button)findViewById(R.id.remove_team_member_button);
+            btn.setVisibility(View.GONE);
         }
 
-        System.out.println(" ");
-        System.out.println("In ViewUserActivity class");
-        System.out.println(" ");
+
 
     }
 
@@ -122,7 +125,7 @@ public class ViewUserActivity extends Activity{
             JSONObject json = jsonParser.makeHttpRequest(url_remove_team_member,
                     "POST", params);
 
-            //check log cat for resonse
+            //check log cat for response
             Log.d("Create Response", json.toString());
 
             return null;

@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.textservice.SpellCheckerService;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -51,6 +52,7 @@ public class ProjectViewActivity extends Activity {
 
     SessionManager session;
 
+    private boolean owner;
     private String pid;
 
     HashMap<String, String> userDetails;
@@ -64,8 +66,6 @@ public class ProjectViewActivity extends Activity {
               pid = extras.getString("PID");
         }
 
-        //setContentView(R.layout.project_view);
-
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
 
@@ -74,20 +74,6 @@ public class ProjectViewActivity extends Activity {
             new GetProjectUsers().execute();
         }
 
-        //store the project's pid
-        pid = projects.get(position).getPid();
-
-        // Only a project owner can delete a project
-        if (!projects.get(position).getProjOwner().equals(session.getUserDetails().get(SessionManager.KEY_UID))){
-//            Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
-//            deleteProjectButton.setVisibility(View.INVISIBLE);
-//
-//            Button addTeamMemberButton = (Button) findViewById(R.id.btnAddTeamMember);
-//            addTeamMemberButton.setVisibility(View.INVISIBLE);
-            System.out.println(" ");
-            System.out.println("NO, THIS IS NOT THE PROJECT OWNER- MAKE BUTTON INVISIBLE");
-            System.out.println(" ");
-        }
     }
 
     /**
@@ -281,6 +267,15 @@ public class ProjectViewActivity extends Activity {
 
             setContentView(R.layout.project_view);
 
+            // Only a project owner can delete a project
+            if (!projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))) {
+                Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
+                deleteProjectButton.setVisibility(View.GONE);
+
+                Button addTeamMemberButton = (Button) findViewById(R.id.btnAddTeamMember);
+                addTeamMemberButton.setVisibility(View.GONE);
+            }
+
             TextView proj = (TextView)findViewById(R.id.project_name_textview);
             TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
             TextView own = (TextView)findViewById(R.id.textview_owner);
@@ -288,10 +283,9 @@ public class ProjectViewActivity extends Activity {
 
             proj.setText(projects.get(position).getProjTitle());
             desc.setText(projects.get(position).getProjDescription());
-            if(projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))){////////////not working
+            if(projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))){
                 own.setText("*Owner*");
             }
-            //setContentView(R.layout.project_view);
 
             //ArrayList to hold items that will populate the ListView
             ArrayList<String> items = new ArrayList<String>();
@@ -302,7 +296,7 @@ public class ProjectViewActivity extends Activity {
             }
 
             //create list of the project members and populate the ListView with 'items'
-            ListView usersList = (ListView)findViewById(R.id.list_project_members);
+            final ListView usersList = (ListView)findViewById(R.id.list_project_members);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,
                     R.id.titleLine, items);
@@ -326,7 +320,15 @@ public class ProjectViewActivity extends Activity {
                     intent.putExtra("USER_GOOGLE", users.get(clickPosition).getGoogle());
 
                     intent.putExtra("USER_UID", users.get(clickPosition).getUid());
-                    intent.putExtra("PROJECT_PID", projects.get(position).getPid());
+                    intent.putExtra("PROJECT_PID", pid);
+                    owner = false;
+                    if (projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))) {
+                        owner = true;
+                        System.out.println(" - ");
+                        System.out.println("OWNER SET TO 'TRUE'");
+                        System.out.println(" - ");
+                    }
+                    intent.putExtra("PROJECT_OWNER", owner);
 
                     startActivity(intent);
                 }
