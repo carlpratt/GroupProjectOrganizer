@@ -26,15 +26,6 @@
             android:textSize="25dp"
             android:onClick="onButtonClick"/>
 
-    <CheckBox
-            android:id="@+id/checkBox2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/checkBox1"
-            android:layout_below="@+id/checkBox1"
-            android:layout_marginTop="16dp"
-            android:text="Prompt for Approval"
-            android:textSize="20dp"
-            android:checked="false"/>
+
 
 </RelativeLayout>

@@ -12,7 +12,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:gravity="center_vertical"
             android:text="Example application"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textColor="@color/BlackColor"
             />
 

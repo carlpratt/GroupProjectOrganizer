@@ -64,13 +64,12 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void settingsSession( String discoverable, String prompt_approval){
+    public void settingsSession( String discoverable){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Storing user information in pref
         editor.putString(KEY_DISCOVER, discoverable);
-        editor.putString(KEY_PROMPT, prompt_approval);
 
         // commit changes
         editor.commit();

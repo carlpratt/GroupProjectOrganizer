@@ -83,8 +83,9 @@ public class ShowProjectsActivity extends Activity {
                 startActivity(settingsIntent);
                 return true;
             case R.id.action_prompt:
-                Intent in = new Intent(getApplicationContext(),PromptApproval.class);
-                startActivity(in);
+                Intent prompt = new Intent(getApplicationContext(), PromptApproval.class);
+                startActivity(prompt);
+                return true;
         }
         return false;
     }

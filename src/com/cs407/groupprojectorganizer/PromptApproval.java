@@ -38,6 +38,12 @@ public class PromptApproval extends Activity {
     private static String url_prompt_projects = "http://group-project-organizer.herokuapp.com/prompt_projects.php";
 
     HashMap<String, String> userDetails;
+    private static ArrayList<String> projectDesc = new ArrayList<String>();
+    private static ArrayList<String> projectTitle = new ArrayList<String>();
+    private static ArrayList<String> projectOwner = new ArrayList<String>();
+    private static ArrayList<String> pids = new ArrayList<String>();
+
+
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -53,9 +59,10 @@ public class PromptApproval extends Activity {
 
         session =  new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
+       // setContentView(R.layout.prompt_list);
 
         if (isOnline()) {
-            new GetApproval().execute();
+           new GetApproval().execute();
         }
     }
 
@@ -144,7 +151,10 @@ public class PromptApproval extends Activity {
                     //creates array of JSON objects representing the user's projects
 
                     JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
-
+                   pids.clear();
+                   projectTitle.clear();
+                   projectDesc.clear();
+                   projectOwner.clear();
 
                     //goes through each project, takes the pieces of information and adds them to the
                     //ArrayLists in the ProjectViewActivity
@@ -152,6 +162,10 @@ public class PromptApproval extends Activity {
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 
+                        projectOwner.add(user.getString(TAG_OWNER));
+                        pids.add(user.getString(TAG_PID));
+                        projectDesc.add(user.getString(TAG_DESC));
+                        projectTitle.add(user.getString(TAG_TITLE));
 
 
                     }
@@ -181,20 +195,15 @@ public class PromptApproval extends Activity {
             if (pDialog != null) {
                 pDialog.dismiss();
             }
-
+            ArrayList<String> items = new ArrayList<String>();
             setContentView(R.layout.prompt_list);
             //TODO
-            for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
-                if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
-                    items.add('*' + ProjectViewActivity.project_title.get(i));
-                }else{
-                    items.add(ProjectViewActivity.project_title.get(i));
-                }
-
+            for(int i = 0; i < projectTitle.size();i++){
+                items.add(projectTitle.get(i));
             }
-
-            ListView projectList = (ListView)findViewById(R.id.listView);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,R.id.titleLine,items);
+            //TODO
+            ListView projectList = (ListView)findViewById(R.id.promptList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.prompt_pop, R.id.promptTitleLine,items);
             projectList.setAdapter(adapter);
 
 
@@ -202,10 +211,14 @@ public class PromptApproval extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                    ProjectViewActivity.position = position;
 
+
+                    //TODO
                     Intent intent = new Intent(PromptApproval.this, PromptView.class);
-                    intent.putExtra("PID",ProjectViewActivity.pids.get(position));
+                    intent.putExtra("PID",pids.get(position));
+                    intent.putExtra("NAME", projectTitle.get(position));
+                    intent.putExtra("DESC", projectDesc.get(position));
+                    intent.putExtra("OWNER", projectOwner.get(position));
                     startActivity(intent);
 
                 }

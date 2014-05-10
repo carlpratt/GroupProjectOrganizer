@@ -55,7 +55,7 @@ public class SettingsActivity extends Activity {
         userDetails = session.getUserDetails();
 
         inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
-        inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
+
 
         if(userDetails.get(SessionManager.KEY_DISCOVER).equals("1")){
             inputDiscover.setChecked(true);
@@ -63,11 +63,7 @@ public class SettingsActivity extends Activity {
             inputDiscover.setChecked(false);
         }
 
-        if(userDetails.get((SessionManager.KEY_PROMPT)).equals("1")){
-            inputPrompt.setChecked(true);
-        }else{
-            inputPrompt.setChecked(false);
-        }
+
 
 
 
@@ -98,20 +94,14 @@ public class SettingsActivity extends Activity {
                 //inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
                 //inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
                 if(isOnline()) {
-                    if (inputPrompt.isChecked()) {
-                        prompt = true;
-                    }
+
                     if (inputDiscover.isChecked()) {
                         discover = true;
                     }
-                    if (discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("1")) {
+                    if (discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1")) {
                         //do nothing
-                    } else if (!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals(("0")) && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0")) {
+                    } else if (!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals(("0"))) {
                         //do nothing
-                    } else if (discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("1") && !prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("0")) {
-                        //do nothing
-                    } else if (!discover && userDetails.get(SessionManager.KEY_DISCOVER).equals("0") && prompt && userDetails.get(SessionManager.KEY_PROMPT).equals("1")) {
-
                     } else {
                         //write to database if there was setting changes
                         new SettingsPush().execute();
@@ -163,29 +153,20 @@ public class SettingsActivity extends Activity {
         protected String doInBackground(String... args) {
             String uid = userDetails.get(SessionManager.KEY_UID);
             String discoverable = "0";
-            String prompt_approval = "0";
+
 
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             if(discover == true){
                 discoverable = "1";
                 params.add(new BasicNameValuePair("discoverable",discoverable));
-                Log.d("discoverable checked",params.toString());
+
             }else{
 
                 params.add(new BasicNameValuePair("discoverable",discoverable));
-                Log.d("discoverable not checked", params.toString());
+
             }
-            if(prompt == true){
-                prompt_approval = "1";
-                params.add(new BasicNameValuePair("prompt_approval",prompt_approval));
-                Log.d("prompt_approval is checked", params.toString());
-            }else{
-                params.add(new BasicNameValuePair("prompt_approval", prompt_approval));
-                Log.d("prompt_approval is not checked", params.toString());
-            }
-            params.add(new BasicNameValuePair("uid", uid));
-            Log.d("uid",params.toString());
+
 
             // getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_settings_push,
@@ -199,7 +180,7 @@ public class SettingsActivity extends Activity {
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-                    session.settingsSession(discoverable, prompt_approval);
+                    session.settingsSession(discoverable);
                     // Update the session information
 
                 } else {

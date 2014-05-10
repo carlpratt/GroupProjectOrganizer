@@ -57,5 +57,11 @@
         <activity android:name=".ViewUserActivity"
                   android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="portrait"></activity>
+        <activity android:name=".PromptApproval"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
+       <activity android:name=".PromptView"
+                 android:windowSoftInputMode="stateHidden"
+                 android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

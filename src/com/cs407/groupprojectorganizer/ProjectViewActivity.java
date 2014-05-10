@@ -187,7 +187,7 @@ public class ProjectViewActivity extends ListActivity {
 
                 intent.putExtra("IS_OWNER",owner);
                 intent.putExtra("PID", pid);
-                //intent.putExtra("UID", uids.get(position));
+                intent.putExtra("UID", usersList.get(position).get(TAG_UID));
 
                 startActivity(intent);
             }
