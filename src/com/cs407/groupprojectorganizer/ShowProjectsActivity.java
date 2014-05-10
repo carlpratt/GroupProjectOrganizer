@@ -196,13 +196,11 @@ public class ShowProjectsActivity extends Activity {
                 }else{
                     items.add(ProjectViewActivity.projects.get(i).getProjTitle());
                 }
-
             }
 
             ListView projectList = (ListView)findViewById(R.id.listView);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,R.id.titleLine,items);
             projectList.setAdapter(adapter);
-
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

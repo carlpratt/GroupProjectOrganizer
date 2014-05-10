@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import java.util.List;
 public class ViewUserActivity extends Activity{
 
     private static String url_remove_team_member = "http://group-project-organizer.herokuapp.com/remove_team_member.php";
+
+    private static final String TAG_SUCCESS = "success";
 
     JSONParser jsonParser = new JSONParser();
     private ProgressDialog pDialog;
@@ -72,13 +75,8 @@ public class ViewUserActivity extends Activity{
         switch (v.getId()) {
             case R.id.remove_team_member_button:
 
-                System.out.println(" ");
-                System.out.println("BUTTON CLICKED- REMOVE TEAM MEMBER");
-                System.out.println(" ");
-
                 if (isOnline()) {
                     new RemoveTeamMember().execute();
-                    break;
                 } else {
                     Toast.makeText(getApplicationContext(),
                             "Network connection required to do this", Toast.LENGTH_SHORT).show();
@@ -128,6 +126,16 @@ public class ViewUserActivity extends Activity{
             //check log cat for response
             Log.d("Create Response", json.toString());
 
+            try {
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success != 1)
+                    Toast.makeText(getApplicationContext(), "Team Member removal- unsuccessful",
+                            Toast.LENGTH_SHORT).show();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
@@ -138,6 +146,7 @@ public class ViewUserActivity extends Activity{
 
             Intent intent = new Intent(getApplicationContext(), ProjectViewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ViewUserActivity.this.finishActivity(0);
             startActivity(intent);
 
         }
