@@ -35,9 +35,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
                 android:ems="10"
-                android:layout_alignBottom="@+id/nameTextView"
-                android:layout_alignStart="@+id/editProfileTextView"
-                android:layout_marginLeft="30dp"/>
+                android:layout_alignBottom="@+id/nameTextView" android:layout_alignLeft="@+id/btnUpdateProfile"
+                android:layout_alignStart="@+id/btnUpdateProfile"/>
         <TextView
                 android:id="@+id/emailTextView"
                 android:layout_width="wrap_content"
