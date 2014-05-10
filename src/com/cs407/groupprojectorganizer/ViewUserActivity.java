@@ -2,6 +2,7 @@ package com.cs407.groupprojectorganizer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.widget.*;
 
 /**
@@ -43,6 +44,9 @@ public class ViewUserActivity extends Activity{
             textFacebook.setText(extras.getString("USER_FACEBOOK"));
             textGoogle.setText(extras.getString("USER_GOOGLE"));
         }
+
+        Linkify.addLinks(textFacebook, Linkify.ALL);
+        Linkify.addLinks(textGoogle, Linkify.ALL);
 
     }
 //
