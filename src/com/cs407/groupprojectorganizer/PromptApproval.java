@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class ShowProjectsActivity extends Activity {
+public class PromptApproval extends Activity {
 
     public SessionManager session;
 
@@ -34,7 +34,8 @@ public class ShowProjectsActivity extends Activity {
 
     JSONParser jsonParser = new JSONParser();
 
-    private static String url_get_projects = "http://group-project-organizer.herokuapp.com/get_projects.php";
+
+    private static String url_prompt_projects = "http://group-project-organizer.herokuapp.com/prompt_projects.php";
 
     HashMap<String, String> userDetails;
 
@@ -54,14 +55,14 @@ public class ShowProjectsActivity extends Activity {
         userDetails = session.getUserDetails();
 
         if (isOnline()) {
-            new GetProjects().execute();
+            new GetApproval().execute();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.projectview, menu);
         return true;
     }
 
@@ -82,20 +83,11 @@ public class ShowProjectsActivity extends Activity {
                 Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
-            case R.id.action_prompt:
-                Intent in = new Intent(getApplicationContext(),PromptApproval.class);
+            case R.id.action_projects:
+                Intent in = new Intent(getApplication(),ShowProjectsActivity.class);
                 startActivity(in);
         }
         return false;
-    }
-
-    public void onButtonClick(View v){
-        switch (v.getId()){
-            case R.id.btnAddNewProject:
-                Intent i = new Intent(getApplicationContext(), CreateProjectActivity.class);
-                startActivity(i);
-                break;
-        }
     }
 
     /**
@@ -115,13 +107,13 @@ public class ShowProjectsActivity extends Activity {
      * This AsyncTask gets all projects associated with the current user when
      *  the ShowProjectsActivity is started
      */
-    class GetProjects extends AsyncTask<String, String, String> {
+    class GetApproval extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(ShowProjectsActivity.this);
-            pDialog.setMessage("Getting your projects...");
+            pDialog = new ProgressDialog(PromptApproval.this);
+            pDialog.setMessage("Getting projects to review...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
             pDialog.show();
@@ -137,7 +129,7 @@ public class ShowProjectsActivity extends Activity {
 
             // getting JSON Object
             //php request for database
-            JSONObject json = jsonParser.makeHttpRequest(url_get_projects,
+            JSONObject json = jsonParser.makeHttpRequest(url_prompt_projects,
                     "POST", params);
 
             // check log cat for response
@@ -152,10 +144,7 @@ public class ShowProjectsActivity extends Activity {
                     //creates array of JSON objects representing the user's projects
 
                     JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
-                    ProjectViewActivity.pids.clear();
-                    ProjectViewActivity.project_title.clear();
-                    ProjectViewActivity.project_desc.clear();
-                    ProjectViewActivity.pOwner.clear();
+
 
                     //goes through each project, takes the pieces of information and adds them to the
                     //ArrayLists in the ProjectViewActivity
@@ -163,10 +152,7 @@ public class ShowProjectsActivity extends Activity {
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 
-                        ProjectViewActivity.pOwner.add(user.getString(TAG_OWNER));
-                        ProjectViewActivity.pids.add(user.getString(TAG_PID));
-                        ProjectViewActivity.project_desc.add(user.getString(TAG_DESC));
-                        ProjectViewActivity.project_title.add(user.getString(TAG_TITLE));
+
 
                     }
                 } else {
@@ -196,9 +182,8 @@ public class ShowProjectsActivity extends Activity {
                 pDialog.dismiss();
             }
 
-            setContentView(R.layout.projects_list);
-            ArrayList<String> items = new ArrayList<String>();
-
+            setContentView(R.layout.prompt_list);
+            //TODO
             for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
                 if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
                     items.add('*' + ProjectViewActivity.project_title.get(i));
@@ -219,7 +204,7 @@ public class ShowProjectsActivity extends Activity {
                                         long id) {
                     ProjectViewActivity.position = position;
 
-                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
+                    Intent intent = new Intent(PromptApproval.this, PromptView.class);
                     intent.putExtra("PID",ProjectViewActivity.pids.get(position));
                     startActivity(intent);
 
