@@ -65,7 +65,7 @@
             android:onClick="onButtonClick"
             android:clickable="true"
             android:layout_below="@id/btnAddTeamMember"
-            android:layout_marginLeft="210dp"
+            android:layout_marginLeft="170dp"
             />
 
 
