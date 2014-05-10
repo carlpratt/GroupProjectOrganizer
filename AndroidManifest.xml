@@ -26,28 +26,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddTeamMemberActivity"
-                  android:label="Search Activity"
-                  android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.default_searchable"
-                       android:value=".SearchInterface" />
-        </activity>
 
-        <activity android:label="Search"
-                  android:launchMode="singleTop"
-                  android:name=".SearchInterface">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                       android:resource="@xml/searchable" />
-        </activity>
+
+
 
         <activity android:name=".RegisterActivity"
                   android:windowSoftInputMode="stateHidden"
@@ -71,6 +52,9 @@
                   android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="portrait"></activity>
         <activity android:name=".AddTeamMemberActivity"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
+        <activity android:name=".ViewUserActivity"
                   android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="portrait"></activity>
     </application>
