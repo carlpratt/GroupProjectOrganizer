@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -79,6 +80,7 @@ public class AddTeamMemberActivity extends Activity {
      * */
     class AddPersonToProject extends AsyncTask<String, String, String> {
 
+        int success;
         /**
          * Before starting background thread Show Progress Dialog
          * */
@@ -106,6 +108,12 @@ public class AddTeamMemberActivity extends Activity {
 
             Log.d("Create Response", json.toString());
 
+            try {
+                success = json.getInt("success");
+            } catch (JSONException e){
+
+            }
+
             return null;
         }
 
@@ -115,9 +123,19 @@ public class AddTeamMemberActivity extends Activity {
                 pDialog.dismiss();
             }
 
-            Intent intent = new Intent(getApplicationContext(), ProjectViewActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+            if (success == 1) {
+                Toast.makeText(getApplicationContext(),
+                        "User successfully added to project",
+                        Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(getApplicationContext(), ProjectViewActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(),
+                        "No users with email " + email.getText().toString() + " found",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
