@@ -86,6 +86,9 @@ public class ShowProjectsActivity extends Activity {
                 Intent prompt = new Intent(getApplicationContext(), PromptApproval.class);
                 startActivity(prompt);
                 return true;
+            case R.id.action_refresh:
+                new GetProjects().execute();
+                return true;
         }
         return false;
     }

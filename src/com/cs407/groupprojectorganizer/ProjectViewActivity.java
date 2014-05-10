@@ -143,6 +143,9 @@ public class ProjectViewActivity extends ListActivity {
                 Intent projectsIntent = new Intent(getApplicationContext(),ShowProjectsActivity.class);
                 startActivity(projectsIntent);
                 return true;
+            case R.id.action_refresh:
+                new GetUsersInProject().execute();
+                return true;
         }
         return false;
     }

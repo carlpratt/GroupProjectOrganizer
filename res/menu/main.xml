@@ -16,6 +16,10 @@
         android:showAsAction="never"
         android:title="Edit Profile"/>
     <item
+        android:id="@+id/action_refresh"
+        android:showAsAction="never"
+        android:title="Refresh"></item>
+    <item
         android:id="@+id/action_logout"
         android:showAsAction="never"
         android:title="Logout"/>
