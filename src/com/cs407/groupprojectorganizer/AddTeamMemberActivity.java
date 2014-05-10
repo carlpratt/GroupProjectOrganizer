@@ -125,7 +125,7 @@ public class AddTeamMemberActivity extends Activity {
 
             if (success == 1) {
                 Toast.makeText(getApplicationContext(),
-                        "User successfully added to project",
+                        "User successfully prompted for add",
                         Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(getApplicationContext(), ProjectViewActivity.class);
