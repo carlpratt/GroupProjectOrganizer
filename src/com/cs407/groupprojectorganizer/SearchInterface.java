@@ -16,16 +16,16 @@ public class SearchInterface extends AddTeamMemberActivityBase {
 
         if (intent.getAction().equals(Intent.ACTION_SEARCH)) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            List<String> results = searchItems(query);
+            ArrayList<String> results = searchItems(query);
 
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, results);//Creating the new ListView of the searched item
             setTitle("Search : " + query);
         }
 
         return(adapter);
     }
 
-    private List<String> searchItems(String query) {
+    private ArrayList<String> searchItems(String query) {
 
         System.out.println("RIGHT NOW I'M IN THE SearchInterface CLASS!!!!!!!!!!!! - searchItems()");
 
@@ -33,7 +33,7 @@ public class SearchInterface extends AddTeamMemberActivityBase {
 //                .getBridge(this)
 //                .saveRecentQuery(query, null);
 
-        List<String> results = new ArrayList<String>();
+        ArrayList<String> results = new ArrayList<String>();
 
         for (String item : items) {
             if (item.indexOf(query) > -1) {

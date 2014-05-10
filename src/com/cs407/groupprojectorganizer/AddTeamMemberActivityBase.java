@@ -44,7 +44,7 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
     private ArrayList<AppUser> allUsers = new ArrayList<AppUser>(); //ArrayList of all <AppUser> in database
     private ArrayList<AppUser> projectUsers = new ArrayList<AppUser>(); //ArrayList of all <AppUser> in project
-    private ArrayList<String> CURRENT_MEMBERS;
+    private ArrayList<String> CURRENT_MEMBERS = new ArrayList<String>();
     private String uid;
     private String eee;
     private String pid;
@@ -93,15 +93,11 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         String thisName = parent.getAdapter().getItem(position).toString();
         selection.setText(thisName);
 
-//        Toast.makeText(this, "Position in this list: " + position, Toast.LENGTH_SHORT).show();
-
         //Find selected user's position in list of projectUsers
         for (int i = 0; i < projectUsers.size(); i++) {
             if (thisName.equals(allUsers.get(i).getName()))
                 pos = i;
         }
-
-//        Toast.makeText(this, "Position in entire list: " + pos, Toast.LENGTH_SHORT).show();
 
         //store user's uid and email
         uid = projectUsers.get(position).getUid();//WORKS THIS WAY FOR NOW, RECHECK WHEN SEARCH IS WORKING
@@ -109,11 +105,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
 
         //addTeamMember
         new addTeamMember().execute();
-
-        //get back to ProjectViewActivity
-        Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
-        intent.putExtra("PID", pid);
-        startActivity(intent);
 
     }
 
@@ -175,6 +166,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
         }
 
         protected String doInBackground(String... args) {
+            System.out.println(" - ");
+            System.out.println("IN getAllUsers CLASS- doInBackground METHOD!!!");
+            System.out.println(" - ");
             String uid = userDetails.get(SessionManager.KEY_UID);
 
             //Build parameters associated to user
@@ -208,23 +202,16 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                                 temp.getString(TAG_EMAIL), temp.getString(TAG_PHONE), temp.getString(TAG_FACEBOOK),
                                 temp.getString(TAG_GOOGLE), i);
 
-//                        System.out.println("The size of allAppUsers<JSONObjects> is: " + temp.length());
-//                        System.out.println("element of the array is currently: " + i);
-//                        try {
-//                            if (!CURRENT_MEMBERS.contains(tempUser.getUid()))//THROWING NULLPOINTEREXCEPTION
-//                                projectUsers.add(tempUser);
-//                        } catch (NullPointerException e) {
-//                            System.out.println("NULL POINTER EXCEPTION! NULL POINTER EXCEPTION!");
-//                            e.printStackTrace();
-//                        }
-                        boolean noAdd = false;
-                        for (int j = 0; j < CURRENT_MEMBERS.size(); j++) {
-                            if (tempUser.getUid().equals(CURRENT_MEMBERS.get(j))) {
-                                noAdd = true;
+                        try {
+                            //if (CURRENT_MEMBERS.contains(tempUser.getUid()) && tempUser.getUid() != null) {
+                            if (CURRENT_MEMBERS.isEmpty()) {
+                                System.out.println("CURRENT_MEMBERS IS EMPTY!");
+
+                            } else {
+                                projectUsers.add(tempUser);
                             }
-                        }
-                        if (!noAdd) {
-                            projectUsers.add(tempUser);
+                        } catch (NullPointerException e) {
+                            e.printStackTrace();
                         }
                         allUsers.add(tempUser);
                     }
@@ -242,6 +229,9 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            System.out.println(" - ");
+            System.out.println("END OF THE getAllUsers- doInBackground METHOD!!!!!!!");
+            System.out.println(" - ");
             return null;
         }
 
@@ -289,8 +279,6 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
             params.add(new BasicNameValuePair("pid", pid));
             //params.add(new BasicNameValuePair("uid", uid));
 
-            //Log.d("uid of added user", uid);
-
             //getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_add_team_member,
                     "POST", params);
@@ -307,6 +295,10 @@ abstract public class AddTeamMemberActivityBase extends ListActivity {
                 pDialog.dismiss();
             }
 
+            //get back to ProjectViewActivity
+            Intent intent = new Intent(AddTeamMemberActivityBase.this, ProjectViewActivity.class);
+            intent.putExtra("PID", pid);
+            startActivity(intent);
 
         }
     }

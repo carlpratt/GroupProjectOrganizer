@@ -12,7 +12,6 @@ public class AddTeamMemberActivity extends AddTeamMemberActivityBase {
 
     @Override
     ListAdapter makeMeAnAdapter(Intent intent) {
-        System.out.println("RIGHT NOW I'M IN THE AddTeamMemberActivity CLASS!!!!!!! - makeMeAnAdapter()");
         return(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
     }
 
