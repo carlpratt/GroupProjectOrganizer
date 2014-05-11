@@ -29,7 +29,7 @@ public class ShowProjectsActivity extends Activity {
 
     public SessionManager session;
 
-
+    boolean cool = false;
     private ProgressDialog pDialog;
 
     JSONParser jsonParser = new JSONParser();
@@ -123,12 +123,14 @@ public class ShowProjectsActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(ShowProjectsActivity.this);
-            pDialog.setMessage("Getting your projects...");
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(true);
-            pDialog.show();
+            if(cool == false) {
+                super.onPreExecute();
+                pDialog = new ProgressDialog(ShowProjectsActivity.this);
+                pDialog.setMessage("Getting your projects...");
+                pDialog.setIndeterminate(false);
+                pDialog.setCancelable(true);
+                pDialog.show();
+            }
         }
 
         protected String doInBackground(String... args) {
@@ -215,7 +217,12 @@ public class ShowProjectsActivity extends Activity {
             ListView projectList = (ListView)findViewById(R.id.listView);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.listpop,R.id.titleLine,items);
             projectList.setAdapter(adapter);
+            cool = true;
 
+            //Log.d("hello","yayaya");
+
+            //TODO
+           // new GetProjects().execute();
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -223,9 +230,10 @@ public class ShowProjectsActivity extends Activity {
                                         long id) {
                     ProjectViewActivity.position = position;
 
-                    Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
-                    intent.putExtra("PID",ProjectViewActivity.pids.get(position));
-                    startActivity(intent);
+                        Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
+                        intent.putExtra("PID", ProjectViewActivity.pids.get(position));
+                        startActivity(intent);
+
 
                 }
             });
