@@ -1,8 +1,10 @@
 package com.cs407.groupprojectorganizer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -101,6 +103,20 @@ public class ShowProjectsActivity extends Activity {
                 break;
         }
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        new AlertDialog.Builder(this)
+//                .setTitle("Really Exit?")
+//                .setMessage("Are you sure you want to exit?")
+//                .setNegativeButton(android.R.string.no, null)
+//                .setPositiveButton(android.R.string.yes, new onClickListener() {
+//
+//                    public void onClick(DialogInterface arg0, int arg1) {
+//                        ShowProjectsActivity.super.onBackPressed();
+//                    }
+//                }).create().show();
+//    }
 
     /**
      * Determines if android device has network access
