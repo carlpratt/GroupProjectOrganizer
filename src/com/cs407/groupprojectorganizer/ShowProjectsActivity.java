@@ -247,7 +247,7 @@ public class ShowProjectsActivity extends Activity {
             projectList.setAdapter(adapter);
             cool = true;
 
-           
+
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

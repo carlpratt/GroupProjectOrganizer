@@ -155,8 +155,10 @@ public class SettingsActivity extends Activity {
             String discoverable = "0";
 
 
+
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("uid", uid));
             if(discover == true){
                 discoverable = "1";
                 params.add(new BasicNameValuePair("discoverable",discoverable));
