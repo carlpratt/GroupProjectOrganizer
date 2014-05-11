@@ -71,7 +71,8 @@
                 android:text="Update"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="70dp"
+                android:layout_below="@id/descriptionEditText"
+                android:layout_marginTop="20dp"
                 android:onClick="onButtonClick"></Button>
 
 </RelativeLayout>

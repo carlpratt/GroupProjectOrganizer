@@ -59,7 +59,8 @@ public class EditProjectActivity extends Activity {
         inputDescription = (EditText) findViewById(R.id.descriptionEditText);
 
         //Set Text Fields
-
+        inputTitle.setText(ProjectViewActivity.projects.get(pos).getProjTitle());
+        inputDescription.setText(ProjectViewActivity.projects.get(pos).getProjDescription());
     }
 
     // Makes sure program doesn't crash from pDialog not being dismissed during
@@ -127,13 +128,16 @@ public class EditProjectActivity extends Activity {
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("pid", pid));
-            params.add(new BasicNameValuePair("title", title));
-            params.add(new BasicNameValuePair("description", description));
+            params.add(new BasicNameValuePair("project_title", title));
+            params.add(new BasicNameValuePair("project_description", description));
+
+            System.out.println("The Project pid is: " + pid);
+            System.out.println("The Project title is: " + ProjectViewActivity.projects.get(pos).getProjTitle());
+            System.out.println("The Project description is: " + ProjectViewActivity.projects.get(pos).getProjDescription());
 
             //getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_edit_project,
                     "POST", params);
-
             //check log cat for response
             Log.d("Create Response", json.toString());
 
@@ -144,11 +148,6 @@ public class EditProjectActivity extends Activity {
                 if (success == 1) {
 
                     //update the project info
-//                    ProjectViewActivity.projects.get(ProjectViewActivity.position)
-//                            .setProjTitle(title);
-//                    ProjectViewActivity.projects.get(ProjectViewActivity.position)
-//                            .setProjDescription(description);
-//                    ProjectViewActivity.project_title.get(pos) = title;
                     ProjectViewActivity.projects.get(pos).setProjTitle(title);
                     ProjectViewActivity.projects.get(pos).setProjDescription(description);
                 }
