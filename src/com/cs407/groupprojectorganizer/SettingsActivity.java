@@ -43,7 +43,7 @@ public class SettingsActivity extends Activity {
 
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
-    // private static final String TAG_USER = "user";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class SettingsActivity extends Activity {
 
 
                 //Edit the integer fields
-                //inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
+                inputDiscover = (CheckBox)findViewById(R.id.checkBox1);
                 //inputPrompt = (CheckBox)findViewById(R.id.checkBox2);
                 if(isOnline()) {
 
