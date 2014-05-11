@@ -30,6 +30,12 @@ public class EditProjectActivity extends Activity {
     EditText inputTitle;
     EditText inputDescription;
 
+    //JSON Nodes
+    private static final String TAG_PID = "pid";
+    private static final String TAG_TITLE = "project_title";
+    private static final String TAG_DESCRIPTION = "project_description";
+
+
     //url to edit the project
     private static String url_edit_project = "http://group-project-organizer.herokuapp.com/edit_project.php";
 
@@ -127,13 +133,9 @@ public class EditProjectActivity extends Activity {
             String description = inputDescription.getText().toString();
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("pid", pid));
-            params.add(new BasicNameValuePair("project_title", title));
-            params.add(new BasicNameValuePair("project_description", description));
-
-            System.out.println("The Project pid is: " + pid);
-            System.out.println("The Project title is: " + ProjectViewActivity.projects.get(pos).getProjTitle());
-            System.out.println("The Project description is: " + ProjectViewActivity.projects.get(pos).getProjDescription());
+            params.add(new BasicNameValuePair(TAG_PID, pid));
+            params.add(new BasicNameValuePair(TAG_TITLE, title));
+            params.add(new BasicNameValuePair(TAG_DESCRIPTION, description));
 
             //getting JSON Object
             JSONObject json = jsonParser.makeHttpRequest(url_edit_project,
