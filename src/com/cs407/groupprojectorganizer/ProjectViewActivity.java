@@ -43,6 +43,8 @@ public class ProjectViewActivity extends ListActivity {
     private static final String TAG_FACEBOOK = "facebook";
     private static final String TAG_GOOGLE = "google";
 
+    private String name;
+
     private ProgressDialog pDialog;
     JSONParser jsonParser = new JSONParser();
     private static String url_delete_project = "http://group-project-organizer.herokuapp.com/delete_project.php";
@@ -95,6 +97,8 @@ public class ProjectViewActivity extends ListActivity {
             deleteProjectButton.setVisibility(View.GONE);
             Button editProjectButton = (Button) findViewById(R.id.btnEditProject);
             editProjectButton.setVisibility(View.GONE);
+            TextView t = (TextView) findViewById(R.id.textview_owner);
+            t.setVisibility(View.INVISIBLE);
             owner = false;
         }
 
