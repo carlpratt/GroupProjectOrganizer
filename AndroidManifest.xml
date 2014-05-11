@@ -27,44 +27,102 @@
         </activity>
 
 
-
-
-
         <activity android:name=".RegisterActivity"
                   android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="portrait"></activity>
+
         <activity android:name=".ShowProjectsActivity"
                   android:windowSoftInputMode="stateHidden"
                   android:screenOrientation="portrait"></activity>
+
         <activity android:name=".CreateProjectActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.cs407.groupprojectorganizer.ShowProjectsActivity"/>
+         </activity>
+
         <activity android:name=".EditProfileActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ShowProjectsActivity"/>
+        </activity>
+
         <activity android:name=".SettingsActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ShowProjectsActivity"/>
+        </activity>
+
         <activity android:name=".ProjectViewActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ShowProjectsActivity"/>
+        </activity>
+
         <activity android:name=".ViewUserInProjectActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ProjectViewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ProjectViewActivity"/>
+        </activity>
+
         <activity android:name=".AddTeamMemberActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ProjectViewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ProjectViewActivity"/>
+        </activity>
+
         <activity android:name=".ViewUserActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ProjectViewActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ProjectViewActivity"/>
+        </activity>
+
         <activity android:name=".PromptApproval"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
-       <activity android:name=".PromptView"
-                 android:windowSoftInputMode="stateHidden"
-                 android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ShowProjectsActivity"/>
+        </activity>
+
+        <activity android:name=".PromptView"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ShowProjectsActivity"/>
+        </activity>
+
         <activity android:name=".EditProjectActivity"
                   android:windowSoftInputMode="stateHidden"
-                  android:screenOrientation="portrait"></activity>
+                  android:screenOrientation="portrait"
+                  android:parentActivityName=".ShowProjectsActivity">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.cs407.groupprojectorganizer.ProjectViewActivity"/>
+        </activity>
     </application>
 </manifest>
