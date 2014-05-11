@@ -63,5 +63,8 @@
        <activity android:name=".PromptView"
                  android:windowSoftInputMode="stateHidden"
                  android:screenOrientation="portrait"></activity>
+        <activity android:name=".EditProjectActivity"
+                  android:windowSoftInputMode="stateHidden"
+                  android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

@@ -26,10 +26,13 @@ public class ProjectViewActivity extends ListActivity {
 
 
     public static int position;
-    public static ArrayList<String> project_title = new ArrayList<String>();
-    public static ArrayList<String> project_desc = new ArrayList<String>();
-    public static ArrayList<String> pids = new ArrayList<String>();
-    public static ArrayList<String> pOwner = new ArrayList<String>();
+
+    public static ArrayList<Project> projects = new ArrayList<Project>();
+
+//    public static ArrayList<String> project_title = new ArrayList<String>();
+//    public static ArrayList<String> project_desc = new ArrayList<String>();
+//    public static ArrayList<String> pids = new ArrayList<String>();
+//    public static ArrayList<String> pOwner = new ArrayList<String>();
 
     private static final String TAG_USERS = "users";
     private static final String TAG_UID = "uid";
@@ -60,24 +63,38 @@ public class ProjectViewActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_view);
 
+//        for (int i = 0; i < project_title.size(); i++) {
+//            System.out.println(project_title.get(i));
+//        }
+
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
         TextView proj = (TextView)findViewById(R.id.project_name_textview);
         TextView desc = (TextView)findViewById(R.id.project_description_edit_text);
         TextView own = (TextView)findViewById(R.id.textview_owner);
 
-        proj.setText(project_title.get(position));
-        desc.setText(project_desc.get(position));
-        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+
+//        proj.setText(project_title.get(position));
+//        desc.setText(project_desc.get(position));
+        proj.setText(projects.get(position).getProjTitle());
+        desc.setText(projects.get(position).getProjDescription());
+//        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
+//            own.setText("*Owner*");
+//        }
+        if(projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))) {
             own.setText("*Owner*");
         }
 
-        pid = pids.get(position);
+//        pid = pids.get(position);
+        pid = projects.get(position).getPid();
 
         // Only a project owner can delete a project
-        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+//        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+        if (!projects.get(position).getProjOwner().equals(session.getUserDetails().get(SessionManager.KEY_UID))) {
             Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
             deleteProjectButton.setVisibility(View.GONE);
+            Button editProjectButton = (Button) findViewById(R.id.btnEditProject);
+            editProjectButton.setVisibility(View.GONE);
             owner = false;
         }
 
@@ -96,10 +113,11 @@ public class ProjectViewActivity extends ListActivity {
 
                     new DeleteProject().execute();
 
-                    project_desc.remove(position);
-                    project_title.remove(position);
-                    pids.remove(position);
-                    pOwner.remove(position);
+//                    project_desc.remove(position);
+//                    project_title.remove(position);
+//                    pids.remove(position);
+//                    pOwner.remove(position);
+                    projects.remove(position);
                 }
                 break;
 
@@ -110,6 +128,16 @@ public class ProjectViewActivity extends ListActivity {
                     intent.putExtra(TAG_PID, pid);
                     startActivity(intent);
                 }
+                break;
+
+            case R.id.btnEditProject:
+
+                if (isOnline()) {
+                    Intent i = new Intent(getApplicationContext(), EditProjectActivity.class);
+                    i.putExtra("PID", pid);
+                    startActivity(i);
+                }
+                break;
         }
     }
 

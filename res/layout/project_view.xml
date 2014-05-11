@@ -14,59 +14,68 @@
             android:text="@string/project_name_textview"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="15dp"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textview_owner"
-            android:layout_below="@id/project_name_textview"
-            android:textSize="14sp"
-            android:layout_centerHorizontal="true"
-            android:text="project owner"/>
-    <TextView
-            android:id="@+id/project_description_edit_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textview_owner"
-            android:layout_alignParentLeft="true"
-            android:text="@string/project_description_edit_text"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="20sp"
-            android:typeface="sans"
-            android:layout_margin="10dp"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btnAddTeamMember"
-            android:id="@+id/btnAddTeamMember"
-            android:layout_below="@id/project_description_edit_text"
-            android:onClick="onButtonClick"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="15dp"
-            android:clickable="true"
-            android:typeface="sans"/>
+            android:layout_margin="5dp"/>
 
-    <Button android:id="@+id/btnDeleteProject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Delete Project"
-            android:onClick="onButtonClick"
-            android:clickable="true"
-            android:layout_below="@id/btnAddTeamMember"
-            android:layout_centerHorizontal="true"
-            />
+    <TextView
+        android:id="@+id/textview_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/project_name_textview"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:text="Project Owner"/>
+
+    <TextView
+        android:id="@+id/project_description_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_owner"
+        android:layout_alignParentLeft="true"
+        android:text="@string/project_description_edit_text"
+        android:textSize="18sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnAddTeamMember"
+        android:id="@+id/btnAddTeamMember"
+        android:onClick="onButtonClick"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/project_description_edit_text"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:typeface="sans"/>
+
+    <Button
+        android:id="@+id/btnDeleteProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Project"
+        android:onClick="onButtonClick"
+        android:clickable="true"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/btnAddTeamMember"
+        android:layout_marginLeft="50dp"/>
+
+    <Button
+        android:id="@+id/btnEditProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=" Edit Project "
+        android:onClick="onButtonClick"
+        android:clickable="true"
+        android:layout_below="@id/btnAddTeamMember"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="5dp"/>
 
     <ListView
-            android:layout_below="@id/btnDeleteProject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@android:id/list"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="15dp"
-            />
-
-
+        android:layout_below="@id/btnAddTeamMember"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@android:id/list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"/>
 
 </RelativeLayout>

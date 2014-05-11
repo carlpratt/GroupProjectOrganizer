@@ -174,10 +174,11 @@ public class ShowProjectsActivity extends Activity {
                     //creates array of JSON objects representing the user's projects
 
                     JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
-                    ProjectViewActivity.pids.clear();
-                    ProjectViewActivity.project_title.clear();
-                    ProjectViewActivity.project_desc.clear();
-                    ProjectViewActivity.pOwner.clear();
+//                    ProjectViewActivity.pids.clear();
+//                    ProjectViewActivity.project_title.clear();
+//                    ProjectViewActivity.project_desc.clear();
+//                    ProjectViewActivity.pOwner.clear();
+                    ProjectViewActivity.projects.clear();
 
                     //goes through each project, takes the pieces of information and adds them to the
                     //ArrayLists in the ProjectViewActivity
@@ -185,10 +186,15 @@ public class ShowProjectsActivity extends Activity {
                     for (int i = 0; i < userArray.length(); i++) {
                         JSONObject user = userArray.getJSONObject(i);
 
-                        ProjectViewActivity.pOwner.add(user.getString(TAG_OWNER));
-                        ProjectViewActivity.pids.add(user.getString(TAG_PID));
-                        ProjectViewActivity.project_desc.add(user.getString(TAG_DESC));
-                        ProjectViewActivity.project_title.add(user.getString(TAG_TITLE));
+                        Project temp = new Project(user.getString(TAG_PID), user.getString(TAG_TITLE),
+                                user.getString(TAG_DESC), user.getString(TAG_OWNER), i);
+
+                        ProjectViewActivity.projects.add(temp);
+
+//                        ProjectViewActivity.pOwner.add(user.getString(TAG_OWNER));
+//                        ProjectViewActivity.pids.add(user.getString(TAG_PID));
+//                        ProjectViewActivity.project_desc.add(user.getString(TAG_DESC));
+//                        ProjectViewActivity.project_title.add(user.getString(TAG_TITLE));
 
                     }
                 } else {
@@ -221,13 +227,19 @@ public class ShowProjectsActivity extends Activity {
             setContentView(R.layout.projects_list);
             ArrayList<String> items = new ArrayList<String>();
 
-            for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
-                if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
-                    items.add('*' + ProjectViewActivity.project_title.get(i));
-                }else{
-                    items.add(ProjectViewActivity.project_title.get(i));
+//            for(int i = 0; i < ProjectViewActivity.pOwner.size();i++){
+//                if(userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.pOwner.get(i))){
+//                    items.add('*' + ProjectViewActivity.project_title.get(i));
+//                }else{
+//                    items.add(ProjectViewActivity.project_title.get(i));
+//                }
+//        }
+            for (int i = 0; i < ProjectViewActivity.projects.size(); i++) {
+                if (userDetails.get(SessionManager.KEY_UID).equals(ProjectViewActivity.projects.get(i).getProjOwner())) {
+                    items.add('*' + ProjectViewActivity.projects.get(i).getProjTitle());
+                } else {
+                    items.add(ProjectViewActivity.projects.get(i).getProjTitle());
                 }
-
             }
 
             ListView projectList = (ListView)findViewById(R.id.listView);
@@ -247,7 +259,8 @@ public class ShowProjectsActivity extends Activity {
                     ProjectViewActivity.position = position;
 
                         Intent intent = new Intent(ShowProjectsActivity.this, ProjectViewActivity.class);
-                        intent.putExtra("PID", ProjectViewActivity.pids.get(position));
+//                        intent.putExtra("PID", ProjectViewActivity.pids.get(position));
+                        intent.putExtra("PID", ProjectViewActivity.projects.get(position).getPid());
                         startActivity(intent);
 
 
