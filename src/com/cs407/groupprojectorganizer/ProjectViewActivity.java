@@ -64,9 +64,7 @@ public class ProjectViewActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.project_view);
 
-//        for (int i = 0; i < project_title.size(); i++) {
-//            System.out.println(project_title.get(i));
-//        }
+
 
         session = new SessionManager(getApplicationContext());
         userDetails = session.getUserDetails();
@@ -75,27 +73,13 @@ public class ProjectViewActivity extends ListActivity {
         own = (TextView)findViewById(R.id.textview_owner);
 
 
-//        proj.setText(project_title.get(position));
-//        desc.setText(project_desc.get(position));
         proj.setText(projects.get(position).getProjTitle());
         desc.setText(projects.get(position).getProjDescription());
-//        if(pOwner.get(position) == userDetails.get(SessionManager.KEY_UID)){
-//            own.setText("*Owner*");
-//        }
 
-/*
-        if(projects.get(position).getProjOwner().equals(userDetails.get(SessionManager.KEY_UID))) {
-            own.setText("*Owner*");
-        }else{
-             own.setText("Project Owner: " + usersList.get(0).get(TAG_NAME));
-
-        }
-*/
-//        pid = pids.get(position);
         pid = projects.get(position).getPid();
 
         // Only a project owner can delete a project
-//        if (!pOwner.get(position).equals(session.getUserDetails().get(SessionManager.KEY_UID))){
+
         if (!projects.get(position).getProjOwner().equals(session.getUserDetails().get(SessionManager.KEY_UID))) {
             Button deleteProjectButton = (Button) findViewById(R.id.btnDeleteProject);
             deleteProjectButton.setVisibility(View.GONE);
@@ -119,10 +103,7 @@ public class ProjectViewActivity extends ListActivity {
 
                     new DeleteProject().execute();
 
-//                    project_desc.remove(position);
-//                    project_title.remove(position);
-//                    pids.remove(position);
-//                    pOwner.remove(position);
+
                     projects.remove(position);
                 }
                 break;
