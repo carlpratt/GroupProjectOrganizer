@@ -174,10 +174,7 @@ public class ShowProjectsActivity extends Activity {
                     //creates array of JSON objects representing the user's projects
 
                     JSONArray userArray = json.getJSONArray(TAG_PROJECTS);
-//                    ProjectViewActivity.pids.clear();
-//                    ProjectViewActivity.project_title.clear();
-//                    ProjectViewActivity.project_desc.clear();
-//                    ProjectViewActivity.pOwner.clear();
+
                     ProjectViewActivity.projects.clear();
 
                     //goes through each project, takes the pieces of information and adds them to the
