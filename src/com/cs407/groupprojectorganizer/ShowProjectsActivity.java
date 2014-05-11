@@ -139,14 +139,14 @@ public class ShowProjectsActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            if(cool == false) {
+
                 super.onPreExecute();
                 pDialog = new ProgressDialog(ShowProjectsActivity.this);
                 pDialog.setMessage("Getting your projects...");
                 pDialog.setIndeterminate(false);
                 pDialog.setCancelable(true);
                 pDialog.show();
-            }
+
         }
 
         protected String doInBackground(String... args) {
@@ -247,10 +247,7 @@ public class ShowProjectsActivity extends Activity {
             projectList.setAdapter(adapter);
             cool = true;
 
-            //Log.d("hello","yayaya");
-
-            //TODO
-           // new GetProjects().execute();
+           
 
             projectList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
